@@ -53,11 +53,11 @@ public class B4_8_WoDeYuYueActivity extends BaseActivity {
 		lv_yuyue.setAdapter(gzadapter);
 		lv_yuyue.setPullLoadEnable(true);
 		lv_yuyue.setPullRefreshEnable(true);
-		SimpleDateFormat formatter = new SimpleDateFormat(
-				"yyyy年MM月dd日   HH:mm:ss     ");
-		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-		String str = formatter.format(curDate);
-		lv_yuyue.setRefreshTime(str + "刷新");
+//		SimpleDateFormat formatter = new SimpleDateFormat(
+//				"yyyy年MM月dd日   HH:mm:ss     ");
+//		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+//		String str = formatter.format(curDate);
+//		lv_yuyue.setRefreshTime(str + "刷新");
 	}
 
 	@Override

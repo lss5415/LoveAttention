@@ -9,6 +9,8 @@ package com.zykj.loveattention.view;
  * 		Implement IXListViewListener, and see stopRefresh() / stopLoadMore().
  */
 
+import java.util.Date;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -185,8 +187,8 @@ public class XListView extends ListView implements OnScrollListener {
 	 * 
 	 * @param time
 	 */
-	public void setRefreshTime(String time) {
-		mHeaderTimeView.setText(time);
+	public void setRefreshTime() {
+		mHeaderTimeView.setText(new Date().toLocaleString());
 	}
 
 	private void invokeOnScrolling() {

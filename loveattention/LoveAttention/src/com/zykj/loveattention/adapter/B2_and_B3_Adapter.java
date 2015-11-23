@@ -69,14 +69,14 @@ public class B2_and_B3_Adapter  extends BaseAdapter {
 		}else{
 			ViewHolder=(ViewHolder) convertView.getTag();
 		}
-		ImageLoader.getInstance().displayImage((String)faxiandata.get(position).get("icon"), ViewHolder.d2_img_layout);
-		ViewHolder.d2_tv_title.setText(faxiandata.get(position).get("aname"));
-		ViewHolder.tv_jiage.setText(faxiandata.get(position).get("perperson"));
-		ViewHolder.d2_tv_neirong.setText(faxiandata.get(position).get("remark"));
-		ViewHolder.tv_xianjia.setText(faxiandata.get(position).get("price"));
-		ViewHolder.tv_yuanjia.setText(faxiandata.get(position).get("oldprice"));
+//		ImageLoader.getInstance().displayImage((String)faxiandata.get(position).get("icon"), ViewHolder.d2_img_layout);
+		ViewHolder.d2_tv_title.setText(faxiandata.get(position).get("couponname"));
+//		ViewHolder.tv_jiage.setText(faxiandata.get(position).get("perperson"));
+		ViewHolder.d2_tv_neirong.setText(faxiandata.get(position).get("coupondetail"));
+		ViewHolder.tv_xianjia.setText("￥"+faxiandata.get(position).get("couponsellprice"));
+		ViewHolder.tv_yuanjia.setText("￥"+faxiandata.get(position).get("couponprice"));
 //		ViewHolder.comment_rating_bar.setRating(Float.parseFloat(faxiandata.get(position).get("price")));
-//		ViewHolder.tv_juli.setText(faxiandata.get(position).get("price"));
+		ViewHolder.tv_juli.setText("距离"+faxiandata.get(position).get("distance")+"km");
 		return convertView;
 	}
 	

@@ -116,11 +116,11 @@
                 android:visibility="invisible" />
         </LinearLayout>
     </RelativeLayout>
-	<ListView 
+	
+    <com.zykj.loveattention.view.MyListView
         android:id="@+id/list_huodong"
         android:layout_width="match_parent"
         android:dividerHeight="-1dp"
-        android:layout_height="wrap_content">
-	</ListView>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
