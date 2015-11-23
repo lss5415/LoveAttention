@@ -1,33 +1,53 @@
 package com.zykj.loveattention.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.zykj.loveattention.R;
-import com.zykj.loveattention.base.BaseActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import com.zykj.loveattention.R;
+import com.zykj.loveattention.adapter.CommonAdapter;
+import com.zykj.loveattention.adapter.ViewHolder;
+import com.zykj.loveattention.base.BaseActivity;
+import com.zykj.loveattention.utils.HttpUtils;
+import com.zykj.loveattention.utils.Tools;
+import com.zykj.loveattention.view.RequestDailog;
 
 public class B1_6_JinBiShangChengActivity extends BaseActivity {
 	private ImageView im_b16_back_btn;//返回
 	private RadioGroup category_list;//分类左侧
     private RadioGroup.LayoutParams mRadioParams;
 	private GridView product_grid;//分类右侧
+	private RequestQueue mRequestQueue;
 	TextView tv_ceshi;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ui_b1_6_jinbishangcheng);
+		mRequestQueue = Volley.newRequestQueue(this);
+		
 		initView();
 		requestData();
 	}
@@ -35,11 +55,17 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity {
 
 	public void initView() {
 		im_b16_back_btn = (ImageView) findViewById(R.id.im_b16_back_btn);
-		category_list = (RadioGroup)findViewById(R.id.category_list);
+		category_list = (RadioGroup)findViewById(R.id.category_list);//父分类
 		mRadioParams = new RadioGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		product_grid = (GridView)findViewById(R.id.product_grid);
+		product_grid = (GridView)findViewById(R.id.product_grid);//子分类
 		tv_ceshi = (TextView)findViewById(R.id.tv_ceshi);
-
+		category_list.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+//                oneid = String.valueOf(checkedId);
+                getChildCateByPid(String.valueOf(checkedId));
+            }
+        });
 		
 		setListener(im_b16_back_btn,tv_ceshi);
 	}
@@ -62,29 +88,74 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity {
 	}
 	
 	/**
+	 * 请求服务器数据----二级分类
+	 */
+	private void getChildCateByPid(String parentId) {
+		JsonObject requsetParams = new JsonObject();
+		requsetParams.addProperty("parentId", parentId);
+		mRequestQueue.add(new StringRequest(Request.Method.GET, HttpUtils.url_mallChildMenu(requsetParams.getAsString()), 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
+						JsonObject status = jsonObject.get("status").getAsJsonObject();
+						Gson gson = new Gson();
+						if(status.get("succeed").getAsInt() == 1){
+							String data = jsonObject.get("data").getAsString();
+							ArrayList<HashMap<String, Object>> childs = gson.fromJson(data, new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
+							product_grid.setAdapter(new CommonAdapter<HashMap<String, Object>>(B1_6_JinBiShangChengActivity.this, R.layout.ui_b1_6_item_classify, childs) {
+								@Override
+								public void convert(ViewHolder holder, HashMap<String, Object> children) {
+									
+								}
+							});
+						}
+					}
+				}, new Response.ErrorListener(){
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						RequestDailog.closeDialog();
+						Tools.Log("B1_6_JinBiShangCheng.ErrorResponse=" + error.getMessage());
+						Toast.makeText(B1_6_JinBiShangChengActivity.this, "网络连接失败，请重试", Toast.LENGTH_LONG).show();
+					}
+				}));
+	}
+	
+	/**
 	 * 请求服务器数据----一级分类
 	 */
 	private void requestData(){
-//		HttpUtils.getGoodsClass(new JsonHttpResponseHandler(){.....
-		String[] yiji = new String[] { "美食", "电影", "酒店","休闲娱乐", "生活服务", "旅游" , "购物", "丽人",  "生活"};
-		for (int i = 0; i < 9; i++) {
-            RadioButton radioButton = new RadioButton(B1_6_JinBiShangChengActivity.this);
-            radioButton.setText(yiji[i]);
-            radioButton.setTextSize(18f);
-            radioButton.setPadding(20, 35, 20, 35);
-            radioButton.setTextColor(getResources().getColorStateList(R.drawable.classify_text));
-            radioButton.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
-            radioButton.setBackgroundResource(R.drawable.checked_classify);
-            radioButton.setChecked(i==0?true:false);
-            category_list.addView(radioButton,mRadioParams);
-        }
-		category_list.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                //oneid = String.valueOf(checkedId);
-//                getTwoCateByOne(String.valueOf(checkedId));
-            }
-        });
+		mRequestQueue.add(new StringRequest(Request.Method.GET, HttpUtils.url_mallParentMenu(), 
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String response) {
+						JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
+						JsonObject status = jsonObject.get("status").getAsJsonObject();
+						if(status.get("succeed").getAsInt() == 1){
+							JsonArray data = jsonObject.get("data").getAsJsonArray();
+							for (int i = 0; i < data.size(); i++) {
+								JsonObject parent = data.get(i).getAsJsonObject();
+					            RadioButton radioButton = new RadioButton(B1_6_JinBiShangChengActivity.this);
+					            radioButton.setId(parent.get("cateid").getAsInt());
+					            radioButton.setText(parent.get("cateid").getAsString());
+					            radioButton.setTextSize(18f);
+					            radioButton.setPadding(20, 35, 20, 35);
+					            radioButton.setTextColor(getResources().getColorStateList(R.drawable.classify_text));
+					            radioButton.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
+					            radioButton.setBackgroundResource(R.drawable.checked_classify);
+					            radioButton.setChecked(i==0);
+					            category_list.addView(radioButton,mRadioParams);
+					        }
+						}
+					}
+				}, new Response.ErrorListener(){
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						RequestDailog.closeDialog();
+						Tools.Log("B1_6_JinBiShangCheng.ErrorResponse=" + error.getMessage());
+						Toast.makeText(B1_6_JinBiShangChengActivity.this, "网络连接失败，请重试", Toast.LENGTH_LONG).show();
+					}
+				}));
 	}
 	
 	/**
