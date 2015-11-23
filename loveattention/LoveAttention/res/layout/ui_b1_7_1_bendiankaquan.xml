@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#EDEDF7"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#F3F5F5"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/img_b171back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="#F3F5F5"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/fanhuihui" />
+
+        <TextView
+            android:id="@+id/coupon_title"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:text="我在本店的卡券"/>
+    </LinearLayout>
+
+	<ListView
+        android:id="@+id/list_kaquan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:dividerHeight="-1dp" >
+    </ListView>	
+</LinearLayout>

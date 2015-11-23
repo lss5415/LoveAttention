@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+   		android:layout_height="match_parent"
+   		android:orientation="vertical">
+   		
+   		<!-- 第一横排 -->
+		 <LinearLayout 
+		    android:layout_marginTop="5dp"
+		    android:layout_width="match_parent"
+	   		android:layout_height="wrap_content"
+	   		android:orientation="horizontal">
+	   		<!-- 美食 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_meishi"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/meishi"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/meishi"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		
+	   		<!-- 购物 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_gouwu"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/gouwu"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/gouwu"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		<!-- 酒店-->
+		     <LinearLayout 
+		         android:id="@+id/ll_jiudian"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/jiudian"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/jiudian"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+		     <!--丽人 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_liren"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/liren"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/liren"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+		     
+		 </LinearLayout>   
+   		<!-- 第二横排 -->
+		 <LinearLayout 
+		    android:layout_marginTop="5dp"
+		    android:layout_width="match_parent"
+	   		android:layout_height="wrap_content"
+	   		android:orientation="horizontal">
+	   		<!-- 亲子 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_qinzi"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/qinzi"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/qinzi"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		<!--休闲娱乐 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_xiuxianyule"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/xiuxianyule"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/xiuxianyule"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		<!-- 手艺人上门 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_shouyirenshangmen"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/shouyirenshangmen"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/shouyirenshangmen"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		<!-- 外卖外送 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_waimaiwaisong"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/waimaiwaisong"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/waimaiwaisong"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+		     
+		 </LinearLayout>   
+		 <!-- 下方小点 -->
+	     <!--  <LinearLayout 
+	          android:layout_width="50dp"
+		      android:layout_height="wrap_content"
+	          android:orientation="horizontal"
+	          android:layout_gravity="center_horizontal"
+	          android:layout_marginTop="5dp">
+		         <ImageView 
+	               android:layout_width="wrap_content"
+		      	   android:layout_height="wrap_content"
+		      	   android:layout_weight="1"
+		      	   android:src="@drawable/dot1" />
+		         <ImageView 
+	               android:layout_width="wrap_content"
+		      	   android:layout_height="wrap_content"
+		      	   android:layout_weight="1"
+		      	   android:src="@drawable/dot0" />
+	      </LinearLayout> -->
+	      
+	      
+	      
+	</LinearLayout>
+</RelativeLayout>

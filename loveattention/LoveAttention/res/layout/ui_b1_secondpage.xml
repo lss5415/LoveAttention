@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+   		android:layout_height="match_parent"
+   		android:orientation="vertical">
+   		
+   		<!-- 第一横排 -->
+		 <LinearLayout 
+		    android:layout_marginTop="5dp"
+		    android:layout_width="match_parent"
+	   		android:layout_height="wrap_content"
+	   		android:orientation="horizontal">
+	   		<!-- 生活服务 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_shenghuofuwu"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/shenghoufuwu"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/shenghuofuwu"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		<!--写点评 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_xiedianping"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/xiedianping"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/xiedianping"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		<!-- 我的订单 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_wodedingdan"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/wodedingdan"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/wodedingdan"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		<!-- 我的卡券 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_wodekaquan"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/wodekaquan"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/wodekaquan"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+		     
+		 </LinearLayout>   
+   		<!-- 第二横排 -->
+		 <LinearLayout 
+		    android:layout_marginTop="5dp"
+		    android:layout_width="match_parent"
+	   		android:layout_height="wrap_content"
+	   		android:orientation="horizontal">
+	   		<!-- 我的钱包 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_wodeqianbao"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/wodeqianbao"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/wodeqianbao"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		<!--我的邀请 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_wodeyaoqing"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/wodeyaoqing"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/wodeyaoqing"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		<!-- 我是商户 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_woshishanghu"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/woshishanghu"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/woshishanghu"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+	   		<!-- 全部分类 -->
+		     <LinearLayout 
+		         android:id="@+id/ll_quanbufenlei"
+		         android:layout_width="wrap_content"
+		   		 android:layout_height="wrap_content"
+		   		 android:orientation="vertical"
+		   		 android:layout_weight="1">
+		         <ImageView 
+		            android:layout_width="wrap_content"
+		   		 	android:layout_height="wrap_content"
+		   		 	android:layout_gravity="center_horizontal"
+		            android:src="@drawable/quanbufenlei"/>
+		         <TextView
+		             android:layout_width="wrap_content"
+		             android:layout_height="wrap_content"
+		             android:layout_gravity="center_horizontal"
+		             android:layout_marginTop="2dp"
+		             android:text="@string/quanbufenlei"
+		             android:textColor="@color/black" />
+		     </LinearLayout>
+		     
+		 </LinearLayout>   
+	     <!-- 下方小点 -->
+	     <!--  <LinearLayout 
+	          android:layout_width="50dp"
+		      android:layout_height="wrap_content"
+	          android:orientation="horizontal"
+	          android:layout_gravity="center_horizontal"
+	          android:layout_marginTop="5dp">
+		         <ImageView 
+	               android:layout_width="wrap_content"
+		      	   android:layout_height="wrap_content"
+		      	   android:layout_weight="1"
+		      	   android:src="@drawable/dot0" />
+		         <ImageView 
+	               android:layout_width="wrap_content"
+		      	   android:layout_height="wrap_content"
+		      	   android:layout_weight="1"
+		      	   android:src="@drawable/dot1" />
+	      </LinearLayout> -->
+	</LinearLayout>
+</RelativeLayout>

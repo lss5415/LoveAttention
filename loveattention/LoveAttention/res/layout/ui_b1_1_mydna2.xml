@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dna_background"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/im_back_btn2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/fanhuihui" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/im_back_btn1"
+            android:layout_centerHorizontal="true"
+            android:text="选择你的生活状态"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+<LinearLayout 
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+　<LinearLayout 
+    android:layout_weight="1"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="10dp"
+	android:layout_marginBottom="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <Button 
+        android:id="@+id/btn_danshen"
+        android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_marginLeft="5dp"
+    		android:layout_marginRight="5dp"
+        android:background="@drawable/btn_before"
+        android:textSize="22sp"
+        android:text="单身"/>
+    <Button 
+        android:id="@+id/btn_relian"
+        android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_marginLeft="5dp"
+    		android:layout_marginRight="5dp"
+        android:background="@drawable/btn_before"
+        android:textSize="22sp"
+        android:text="热恋"/>
+   
+　</LinearLayout>
+　<LinearLayout 
+    android:layout_weight="1"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="10dp"
+	android:layout_marginBottom="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <Button 
+        android:id="@+id/btn_jiehun"
+        android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_marginLeft="5dp"
+    		android:layout_marginRight="5dp"
+        android:background="@drawable/btn_before"
+        android:textSize="22sp"
+        android:text="结婚"/>
+    <Button 
+        android:id="@+id/btn_youbaobao"
+        android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_marginLeft="5dp"
+    		android:layout_marginRight="5dp"
+        android:background="@drawable/btn_before"
+        android:textSize="22sp"
+        android:text="有宝宝"/>
+   
+　</LinearLayout>
+    
+</LinearLayout>
+
+<Button 
+    android:id="@+id/btn_next2"
+    android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="20dp"
+    android:background="@drawable/btn_next_background"
+    android:text="开启我的爱关注之旅"
+    android:textColor="@color/yellow"/>
+
+</LinearLayout>

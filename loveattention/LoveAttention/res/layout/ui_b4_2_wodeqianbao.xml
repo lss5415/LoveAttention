@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#F3F5F5" >
+
+        <ImageView
+            android:id="@+id/im_b42_qbback_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/fanhuihui" />
+
+        <RadioGroup
+            android:id="@+id/f2_radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="35dip"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_backgroundradio"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rb_wodejifen"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="我的积分" />
+
+            <RadioButton
+                android:id="@+id/rb_wodejinbi"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="我的金币" />
+        </RadioGroup>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="35dip"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_backgroundradio" >
+
+            <TextView
+                android:id="@+id/tv_wodejifen"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="#ED6D00"
+                android:gravity="center"
+                android:text="我的积分"
+                android:textColor="#FFF" />
+
+            <TextView
+                android:id="@+id/tv_wodejinbi"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@id/tv_wodejifen"
+                android:gravity="center"
+                android:text="我的金币"
+                android:textColor="#ED6D00" />
+            <TextView
+                android:id="@+id/tv_wodejifen1"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#ED6D00" 
+            	android:background="@drawable/shape_backgroundradio" 
+                android:text="我的积分"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_wodejinbi1"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@id/tv_wodejifen1"
+                android:gravity="center"
+                android:background="#ED6D00"
+                android:text="我的金币"
+                android:visibility="gone"
+                android:textColor="#FFF" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_qianbaofragment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF" >
+    </FrameLayout>
+
+</LinearLayout>

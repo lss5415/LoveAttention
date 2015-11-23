@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF"
+    android:orientation="vertical" >
+    <RelativeLayout
+        
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="#F3F5F5" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" >
+
+            <TextView
+                android:id="@+id/tv_daodian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_b47"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="到店消费" />
+
+            <TextView
+                android:id="@+id/tv_songhuo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_b47_white"
+                android:gravity="center"
+                android:textColor="@color/yellow"
+                android:text="送货上门" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/im_b47_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/fanhuihui" />
+
+    </RelativeLayout>
+    <!--  全部订单 +未付款 +未消费+待评价 -->
+<RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal" >
+            <LinearLayout
+                android:id="@+id/ll_quanbudingdan"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="全部订单" 
+                    android:textColor="@color/black"/>
+
+                <View
+                    android:id="@+id/v101"
+                    android:layout_width="70dp"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="invisible"
+                    android:background="@color/yellow" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_weifukuan"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_fukuan"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="未付款" 
+                    android:textColor="@color/black"/>
+
+                <View
+                    android:id="@+id/v102"
+                    android:layout_width="70dp"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="invisible"
+                    android:background="@color/yellow" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_weixiaofei"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_xiaofei"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="未消费" 
+                    android:textColor="@color/black"/>
+
+                <View
+                    android:id="@+id/v103"
+                    android:layout_width="70dp"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_horizontal"
+                     android:visibility="invisible"
+                    android:background="@color/yellow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_daipingjia"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="待评价" 
+                    android:textColor="@color/black"/>
+
+                <View
+                    android:id="@+id/v104"
+                    android:layout_width="70dp"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/yellow"
+                    android:visibility="invisible" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+<com.zykj.loveattention.view.MyListView
+        android:id="@+id/listview_orderlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+</com.zykj.loveattention.view.MyListView>
+    
+</LinearLayout>

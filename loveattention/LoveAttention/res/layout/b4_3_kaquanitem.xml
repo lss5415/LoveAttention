@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:background="#E8E8E8"
+    android:orientation="vertical" >
+    <View 
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#EEE"/>
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="140dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/shape_background"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_shang"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:background="#FA861F" >
+			<ImageView 
+			    android:layout_width="10dp"
+			    android:layout_height="10dp"
+			    android:src="@drawable/zsj"/>
+			<ImageView 
+			    android:layout_width="10dp"
+			    android:layout_height="10dp"
+			    android:layout_alignParentRight="true"
+			    android:src="@drawable/ysj"/>
+            <ImageView
+                android:id="@+id/im_touxiang"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/quantouxiang" />
+
+            <TextView
+                android:id="@+id/tv_diyongquan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/im_touxiang"
+                android:text="180现金抵用劵"
+                android:textColor="#FFF"
+                android:textSize="26sp" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="95dp"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/huabian" />
+
+        </RelativeLayout>
+
+        <RelativeLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFF">
+            
+			<ImageView 
+			    android:layout_width="10dp"
+			    android:layout_height="10dp"
+			    android:layout_alignParentBottom="true"
+			    android:src="@drawable/zxj"/>
+			<ImageView 
+			    android:layout_width="10dp"
+			    android:layout_height="10dp"
+			    android:layout_alignParentBottom="true"
+			    android:layout_alignParentRight="true"
+			    android:src="@drawable/yxj"/>
+
+            <TextView
+                android:id="@+id/tv_temai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="唯品会特卖" />
+		<TextView
+		    android:id="@+id/tv_youxiaoqi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="有效期：2015.08.12" />
+        </RelativeLayout>
+        
+    </LinearLayout>
+
+</LinearLayout>

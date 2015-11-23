@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">爱关注</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- 下拉刷新相关 -->
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_last_time">最后更新时间：</string>
+    <string name="xlistview_header_hint_ready">释放刷新</string>
+    <string name="xlistview_header_hint_loading">正在加载…</string>
+
+    <string name="str_red">#ff0000</string>
+    <string name="basic_action_1">删除</string>
+    <string name="basic_action_2">Action_2</string>
+    
+    <string name="allseller">全部商家</string>
+    <string name="someseller">返佣商家</string>
+    
+    <string name="sellertype">商户类型</string>
+    <string name="allcity">全城</string>
+    <string name="smartsort">智能排序</string>
+    <string name="sift">筛选</string>
+    
+    <string name="meishi">美食</string>
+    <string name="gouwu">购物</string>
+    <string name="jiudian">酒店</string>
+    <string name="liren">丽人</string>
+    <string name="qinzi">亲子</string>
+    <string name="xiuxianyule">休闲娱乐</string>
+    <string name="shouyirenshangmen">手艺人上门</string>
+    <string name="waimaiwaisong">外卖外送</string>
+    
+    
+    <string name="shenghuofuwu">生活服务</string>
+    <string name="xiedianping">写点评</string>
+    <string name="wodedingdan">我的订单</string>
+    <string name="wodekaquan">我的卡券</string>
+    <string name="wodeqianbao">我的钱包</string>
+    <string name="wodeyaoqing">我的邀请</string>
+    <string name="woshishanghu">我是商户</string>
+    <string name="quanbufenlei">全部分类</string>
+    
+	<string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+    <string name="cannot_find_location">无法获取当前位</string>
+    
+    <string name="no">取消</string>
+    
+</resources>
