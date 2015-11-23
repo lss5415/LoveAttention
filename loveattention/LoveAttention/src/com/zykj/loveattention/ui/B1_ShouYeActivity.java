@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONException;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,13 +34,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qr_codescan.MipcaActivityCapture;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.B1_ShouYeAdapter;
 import com.zykj.loveattention.base.BaseActivity;
-import com.zykj.loveattention.utils.AnimateFirstDisplayListener;
 import com.zykj.loveattention.utils.HttpUtils;
-import com.zykj.loveattention.utils.ImageOptions;
+import com.zykj.loveattention.utils.JsonUtils;
 import com.zykj.loveattention.utils.Tools;
 import com.zykj.loveattention.utils.isTopURL;
 import com.zykj.loveattention.view.AutoListView;
@@ -118,7 +117,6 @@ public class B1_ShouYeActivity extends BaseActivity {
 //	private Adapter 
 
 	public String ErweimaUrl = null;
-	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -598,20 +596,19 @@ public class B1_ShouYeActivity extends BaseActivity {
 								org.json.JSONArray array1 = job.getJSONArray("advertList");
 								net_title1.setText(array1.getJSONObject(0).getString("aname"));
 								net_subtitle1.setText(array1.getJSONObject(0).getString("adesc"));
-//								ImageLoader.getInstance().displayImage(array1.getJSONObject(0).getString("imgpath"), net_img1);
-								ImageLoader.getInstance().displayImage(array1.getJSONObject(0).getString("imgpath"), net_img1, ImageOptions.getOpstion(), animateFirstListener);
+								ImageLoader.getInstance().displayImage(array1.getJSONObject(0).getString("imgpath"), net_img1);
 								
 								mobileshop_title2.setText(array1.getJSONObject(1).getString("aname"));
 								mobileshop_subtitle2.setText(array1.getJSONObject(1).getString("adesc"));
-								ImageLoader.getInstance().displayImage(array1.getJSONObject(1).getString("imgpath"), mobileshop_img2, ImageOptions.getOpstion(), animateFirstListener);
+								ImageLoader.getInstance().displayImage(array1.getJSONObject(1).getString("imgpath"), mobileshop_img2);
 								
 								net_title2.setText(array1.getJSONObject(2).getString("aname"));
 								net_subtitle2.setText(array1.getJSONObject(2).getString("adesc"));
-								ImageLoader.getInstance().displayImage(array1.getJSONObject(2).getString("imgpath"), net_img2, ImageOptions.getOpstion(), animateFirstListener);
+								ImageLoader.getInstance().displayImage(array1.getJSONObject(2).getString("imgpath"), net_img2);
 								
 								mobileshop_title3.setText(array1.getJSONObject(3).getString("aname"));
 								mobileshop_subtitle3.setText(array1.getJSONObject(3).getString("adesc"));
-								ImageLoader.getInstance().displayImage(array1.getJSONObject(3).getString("imgpath"), mobileshop_img3, ImageOptions.getOpstion(), animateFirstListener);
+								ImageLoader.getInstance().displayImage(array1.getJSONObject(3).getString("imgpath"), mobileshop_img3);
 								
 								
 							} else {// 失败,提示失败信息
