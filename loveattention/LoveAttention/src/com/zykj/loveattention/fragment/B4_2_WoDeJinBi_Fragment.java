@@ -54,11 +54,11 @@ IXListViewListener {
 		lv_jifen.setPullLoadEnable(true);
 		lv_jifen.setPullRefreshEnable(true);
 		lv_jifen.setXListViewListener(this);
-		SimpleDateFormat formatter = new SimpleDateFormat(
-				"yyyy年MM月dd日   HH:mm:ss     ");
-		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-		String str = formatter.format(curDate);
-		lv_jifen.setRefreshTime(str + "刷新");
+//		SimpleDateFormat formatter = new SimpleDateFormat(
+//				"yyyy年MM月dd日   HH:mm:ss     ");
+//		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+//		String str = formatter.format(curDate);
+//		lv_jifen.setRefreshTime(str + "刷新");
 		return v;
 	}
 

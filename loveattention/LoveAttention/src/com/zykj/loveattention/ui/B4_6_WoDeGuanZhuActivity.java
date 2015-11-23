@@ -55,11 +55,11 @@ public class B4_6_WoDeGuanZhuActivity extends BaseActivity {
 		lv_guanzhu.setAdapter(gzadapter);
 		lv_guanzhu.setPullLoadEnable(true);
 		lv_guanzhu.setPullRefreshEnable(true);
-		SimpleDateFormat formatter = new SimpleDateFormat(
-				"yyyy年MM月dd日   HH:mm:ss     ");
-		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-		String str = formatter.format(curDate);
-		lv_guanzhu.setRefreshTime(str + "刷新");
+//		SimpleDateFormat formatter = new SimpleDateFormat(
+//				"yyyy年MM月dd日   HH:mm:ss     ");
+//		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+//		String str = formatter.format(curDate);
+//		lv_guanzhu.setRefreshTime(str + "刷新");
 	}
 
 	@Override

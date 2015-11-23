@@ -156,7 +156,6 @@ public class B1_5_JinRiXinDanActivity extends BaseActivity implements IXListView
 	private void onLoad() {
 		list_jinri.stopRefresh();
 		list_jinri.stopLoadMore();
-		list_jinri.setRefreshTime("刚刚");
 	}
 
 }

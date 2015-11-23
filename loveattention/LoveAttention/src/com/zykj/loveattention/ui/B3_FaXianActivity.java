@@ -9,9 +9,11 @@ import org.json.JSONObject;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,22 +29,26 @@ import com.zykj.loveattention.base.BaseActivity;
 import com.zykj.loveattention.utils.HttpUtils;
 import com.zykj.loveattention.utils.JsonUtils;
 import com.zykj.loveattention.utils.Tools;
+import com.zykj.loveattention.view.MyListView;
 import com.zykj.loveattention.view.RequestDailog;
+import com.zykj.loveattention.view.XListView.IXListViewListener;
 
 /**
  * @author lss 2015年8月8日	发现
  *
  */
-public class B3_FaXianActivity extends BaseActivity {
+public class B3_FaXianActivity extends BaseActivity implements IXListViewListener{
 	//热门活动，最新活动，近期活动
 	private TextView tv_remen,tv_zuixin,tv_jinqi;
 	private ImageView b3_hongdi_remen,b3_hongdi_zuixin,b3_hongdi_jinqi;
-	private ListView list_huodong;
+	private MyListView list_huodong;
 	private B2_and_B3_Adapter faxianadapter;
 	private RequestQueue mRequestQueue;
 	private String json;
 	private List<Map<String, String>> faxiandata = new ArrayList<Map<String, String>>();
 	String lng="",lat="";
+	int curpage=1;
+	private Handler mHandler = new Handler();//异步加载或刷新
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,7 +73,26 @@ public class B3_FaXianActivity extends BaseActivity {
 		b3_hongdi_remen = (ImageView) findViewById(R.id.b3_hongdi_remen);//热门活动 --下方黄条
 		b3_hongdi_zuixin = (ImageView) findViewById(R.id.b3_hongdi_zuixin);//最新活动 --下方黄条
 		b3_hongdi_jinqi = (ImageView) findViewById(R.id.b3_hongdi_jinqi);//近期活动 --下方黄条
-		list_huodong = (ListView) findViewById(R.id.list_huodong);
+		list_huodong = (MyListView) findViewById(R.id.list_huodong);
+		faxianadapter = new B2_and_B3_Adapter(B3_FaXianActivity.this,faxiandata);
+		list_huodong.setAdapter(faxianadapter);
+		list_huodong.setPullLoadEnable(true);
+		list_huodong.setPullRefreshEnable(true);
+//		list_huodong.setXListViewListener(this, 0);
+		list_huodong.setRefreshTime();
+		RequestDailog.showDialog(this, "正在加载数据，请稍后");
+		list_huodong.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+//				String goodsid = data.get(arg2-1).get("goods_id");	
+//				Intent intent = new Intent();
+//				intent.putExtra("goods_id", goodsid);
+//				intent.setClass(B5_10_MyCollection.this,Sp_GoodsInfoActivity.class);
+//				startActivity(intent);				
+			}
+		});
 		lng = getSharedPreferenceValue("lng");
 		lat = getSharedPreferenceValue("lat");
 		
@@ -164,21 +189,27 @@ public class B3_FaXianActivity extends BaseActivity {
 									for (int i = 0; i < array1.length(); i++) {
 										JSONObject jsonItem1 = array1.getJSONObject(i);
 										Map<String, String> map1 = new HashMap<String, String>();
-										map1.put("perperson", jsonItem1.getString("perperson"));
+										map1.put("couponzhekou", jsonItem1.getString("couponzhekou"));
+										map1.put("couponname", jsonItem1.getString("couponname"));
+										map1.put("linkcode", jsonItem1.getString("linkcode"));
+										map1.put("couponclassify", jsonItem1.getString("couponclassify"));
+										map1.put("couponcate", jsonItem1.getString("couponcate"));
+										map1.put("coupondetail", jsonItem1.getString("coupondetail"));
 										map1.put("merchantid", jsonItem1.getString("merchantid"));
-										map1.put("aname", jsonItem1.getString("aname"));
-										map1.put("icon", jsonItem1.getString("icon"));
-										map1.put("remark", jsonItem1.getString("remark"));
-										map1.put("stars", jsonItem1.getString("stars"));
-										map1.put("goodid", jsonItem1.getString("goodid"));	
-										map1.put("type", jsonItem1.getString("type"));
-										map1.put("aid", jsonItem1.getString("aid"));
-										map1.put("price", jsonItem1.getString("price"));
-										map1.put("oldprice", jsonItem1.getString("oldprice"));
+										map1.put("createtime", jsonItem1.getString("createtime"));	
+										map1.put("usednum", jsonItem1.getString("usednum"));
+										map1.put("distance", jsonItem1.getString("distance"));
+										map1.put("createuser", jsonItem1.getString("createuser"));
+										map1.put("couponstate", jsonItem1.getString("couponstate"));
+										map1.put("couponid", jsonItem1.getString("couponid"));
+										map1.put("couponcondition", jsonItem1.getString("couponcondition"));
+										map1.put("couponprice", jsonItem1.getString("couponprice"));
+										map1.put("couponintroduct", jsonItem1.getString("couponintroduct"));
+										map1.put("couponsellprice", jsonItem1.getString("couponsellprice"));
+										map1.put("effecttime", jsonItem1.getString("effecttime"));
 										faxiandata.add(map1);
 									}
-									faxianadapter = new B2_and_B3_Adapter(B3_FaXianActivity.this,faxiandata);
-									list_huodong.setAdapter(faxianadapter);
+									faxianadapter.notifyDataSetChanged();
 									
 								} else {// 失败,提示失败信息
 									String errdesc = status.getString("errdesc");
@@ -200,5 +231,54 @@ public class B3_FaXianActivity extends BaseActivity {
 						}
 					});
 			mRequestQueue.add(jr);
+		}
+
+		@Override
+		public void onRefresh() {
+			/**下拉刷新 重建*/
+			mHandler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					curpage = 1;	
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("type", "0");
+					map.put("pagenumber", String.valueOf(curpage));
+					map.put("pagesize", "5");
+					map.put("longitude", lng);
+					map.put("latitude", lat);
+					json = JsonUtils.toJson(map);
+					// 发现中活动
+					HuoDong();
+					onLoad();
+				}
+			}, 1000);
+
+		}
+
+		@Override
+		public void onLoadMore() {
+			/**上拉加载分页*/
+			mHandler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					curpage += 1;
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("type", "0");
+					map.put("pagenumber", String.valueOf(curpage));
+					map.put("pagesize", "5");
+					map.put("longitude", lng);
+					map.put("latitude", lat);
+					json = JsonUtils.toJson(map);
+					// 发现中活动
+					HuoDong();
+					onLoad();
+				}
+			}, 1000);		
+		}
+
+		private void onLoad() {
+			list_huodong.stopRefresh();
+			list_huodong.stopLoadMore();
+			list_huodong.setRefreshTime();
 		}
 }

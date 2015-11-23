@@ -51,17 +51,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
+                        android:visibility="gone"
                         android:text="人均"/>
 					<TextView
 					    android:id="@+id/tv_jiage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
+                        android:visibility="gone"
                         android:text="30"/>
 					<TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
+                        android:visibility="gone"
                         android:text="元"/>
                         
                     </LinearLayout>
