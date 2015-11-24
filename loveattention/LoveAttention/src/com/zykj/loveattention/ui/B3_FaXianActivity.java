@@ -207,6 +207,7 @@ public class B3_FaXianActivity extends BaseActivity implements IXListViewListene
 										map1.put("couponintroduct", jsonItem1.getString("couponintroduct"));
 										map1.put("couponsellprice", jsonItem1.getString("couponsellprice"));
 										map1.put("effecttime", jsonItem1.getString("effecttime"));
+										map1.put("couponimage", jsonItem1.getString("couponimage"));
 										faxiandata.add(map1);
 									}
 									faxianadapter.notifyDataSetChanged();

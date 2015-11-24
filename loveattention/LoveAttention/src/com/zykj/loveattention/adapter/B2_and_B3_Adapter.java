@@ -69,7 +69,7 @@ public class B2_and_B3_Adapter  extends BaseAdapter {
 		}else{
 			ViewHolder=(ViewHolder) convertView.getTag();
 		}
-//		ImageLoader.getInstance().displayImage((String)faxiandata.get(position).get("icon"), ViewHolder.d2_img_layout);
+		ImageLoader.getInstance().displayImage("http://115.28.208.196:8080/aigz/"+(String)faxiandata.get(position).get("couponimage"), ViewHolder.d2_img_layout);
 		ViewHolder.d2_tv_title.setText(faxiandata.get(position).get("couponname"));
 //		ViewHolder.tv_jiage.setText(faxiandata.get(position).get("perperson"));
 		ViewHolder.d2_tv_neirong.setText(faxiandata.get(position).get("coupondetail"));
