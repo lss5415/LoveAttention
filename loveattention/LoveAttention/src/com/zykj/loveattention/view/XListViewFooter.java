@@ -1,11 +1,10 @@
-package com.zykj.loveattention.view;
-
 /**
  * @file XFooterView.java
  * @create Mar 31, 2012 9:33:43 PM
  * @author Maxwin
  * @description XListView's footer
  */
+package com.zykj.loveattention.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
