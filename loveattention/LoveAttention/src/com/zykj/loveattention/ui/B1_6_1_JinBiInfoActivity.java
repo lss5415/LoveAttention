@@ -1,6 +1,7 @@
 package com.zykj.loveattention.ui;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.zykj.loveattention.adapter.ViewHolder;
 import com.zykj.loveattention.base.BaseActivity;
 import com.zykj.loveattention.data.Coupon;
 import com.zykj.loveattention.utils.AnimateFirstDisplayListener;
+import com.zykj.loveattention.utils.DateUtil;
 import com.zykj.loveattention.utils.HttpUtils;
 import com.zykj.loveattention.utils.ImageOptions;
 import com.zykj.loveattention.utils.StringUtil;
@@ -227,6 +229,6 @@ public class B1_6_1_JinBiInfoActivity extends BaseActivity implements OnItemClic
 	private void onLoad() {
 		list_jinbi.stopRefresh();
 		list_jinbi.stopLoadMore();
-		list_jinbi.setRefreshTime();
+		list_jinbi.setRefreshTime(DateUtil.dateToString(new Date(), "HH:mm:ss"));
 	}
 }

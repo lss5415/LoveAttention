@@ -1,5 +1,3 @@
-package com.zykj.loveattention.view;
-
 /**
  * @file XListView.java
  * @package me.maxwin.view
@@ -8,8 +6,7 @@ package com.zykj.loveattention.view;
  * @description An ListView support (a) Pull down to refresh, (b) Pull up to load more.
  * 		Implement IXListViewListener, and see stopRefresh() / stopLoadMore().
  */
-
-import java.util.Date;
+package com.zykj.loveattention.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -187,8 +184,8 @@ public class XListView extends ListView implements OnScrollListener {
 	 * 
 	 * @param time
 	 */
-	public void setRefreshTime() {
-		mHeaderTimeView.setText(new Date().toLocaleString());
+	public void setRefreshTime(String time) {
+		mHeaderTimeView.setText(time);
 	}
 
 	private void invokeOnScrolling() {
@@ -377,4 +374,6 @@ public class XListView extends ListView implements OnScrollListener {
 
 		public void onLoadMore();
 	}
+
+	
 }

@@ -1,6 +1,7 @@
 package com.zykj.loveattention.ui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.B2_and_B3_Adapter;
 import com.zykj.loveattention.base.BaseActivity;
+import com.zykj.loveattention.utils.DateUtil;
 import com.zykj.loveattention.utils.HttpUtils;
 import com.zykj.loveattention.utils.JsonUtils;
 import com.zykj.loveattention.utils.Tools;
@@ -79,7 +81,7 @@ public class B3_FaXianActivity extends BaseActivity implements IXListViewListene
 		list_huodong.setPullLoadEnable(true);
 		list_huodong.setPullRefreshEnable(true);
 //		list_huodong.setXListViewListener(this, 0);
-		list_huodong.setRefreshTime();
+		list_huodong.setRefreshTime(DateUtil.dateToString(new Date(), "HH:mm:ss"));
 		RequestDailog.showDialog(this, "正在加载数据，请稍后");
 		list_huodong.setOnItemClickListener(new OnItemClickListener() {
 
@@ -279,6 +281,6 @@ public class B3_FaXianActivity extends BaseActivity implements IXListViewListene
 		private void onLoad() {
 			list_huodong.stopRefresh();
 			list_huodong.stopLoadMore();
-			list_huodong.setRefreshTime();
+			list_huodong.setRefreshTime(DateUtil.dateToString(new Date(), "HH:mm:ss"));
 		}
 }

@@ -1,11 +1,10 @@
-package com.zykj.loveattention.view;
-
 /**
  * @file XListViewHeader.java
  * @create Apr 18, 2012 5:22:27 PM
  * @author Maxwin
  * @description XListView's header
  */
+package com.zykj.loveattention.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
