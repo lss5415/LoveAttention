@@ -36,6 +36,7 @@
                     android:layout_weight="3" >
 
                     <TextView
+                        android:id="@+id/aci_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -64,6 +65,7 @@
                     android:layout_weight="3" >
 
                     <TextView
+                        android:id="@+id/aci_price"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_centerVertical="true"
@@ -72,6 +74,7 @@
                     </TextView>
 
                     <TextView
+                        android:id="@+id/aci_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"

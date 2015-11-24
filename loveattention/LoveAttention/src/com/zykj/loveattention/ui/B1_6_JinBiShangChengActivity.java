@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,16 +37,18 @@ import com.zykj.loveattention.base.BaseActivity;
 import com.zykj.loveattention.utils.AnimateFirstDisplayListener;
 import com.zykj.loveattention.utils.HttpUtils;
 import com.zykj.loveattention.utils.ImageOptions;
+import com.zykj.loveattention.utils.StringUtil;
 import com.zykj.loveattention.utils.Tools;
 import com.zykj.loveattention.view.RequestDailog;
 
-public class B1_6_JinBiShangChengActivity extends BaseActivity {
+public class B1_6_JinBiShangChengActivity extends BaseActivity implements OnItemClickListener{
 	private ImageView im_b16_back_btn;//返回
 	private RadioGroup category_list;//分类左侧
     private RadioGroup.LayoutParams mRadioParams;
 	private GridView product_grid;//分类右侧
 	private RequestQueue mRequestQueue;
 	private ImageLoader imageLoader;
+	private ArrayList<HashMap<String, Object>> childs;
 	TextView tv_ceshi;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +67,14 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity {
 		category_list = (RadioGroup)findViewById(R.id.category_list);//父分类
 		mRadioParams = new RadioGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		product_grid = (GridView)findViewById(R.id.product_grid);//子分类
-		tv_ceshi = (TextView)findViewById(R.id.tv_ceshi);
+		product_grid.setOnItemClickListener(this);
 		category_list.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 getChildCateByPid(String.valueOf(checkedId));
             }
         });
-		
-		setListener(im_b16_back_btn,tv_ceshi);
+		setListener(im_b16_back_btn);
 	}
 
 	@Override
@@ -80,11 +83,6 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity {
 		switch (v.getId()) {
 		case R.id.im_b16_back_btn:
 			this.finish();
-			break;
-		case R.id.tv_ceshi:
-			Intent jinbi = new Intent();
-			jinbi.setClass(B1_6_JinBiShangChengActivity.this, B1_6_1_JinBiInfoActivity.class);
-			startActivity(jinbi);
 			break;
 		default:
 			break;
@@ -107,7 +105,7 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity {
 							JsonObject parent = data.get(i).getAsJsonObject();
 				            RadioButton radioButton = new RadioButton(B1_6_JinBiShangChengActivity.this);
 				            radioButton.setId(parent.get("cateid").getAsInt());
-				            radioButton.setText(parent.get("cateid").getAsString());
+				            radioButton.setText(parent.get("name").getAsString());
 				            radioButton.setTextSize(18f);
 				            radioButton.setPadding(20, 35, 20, 35);
 				            radioButton.setTextColor(getResources().getColorStateList(R.drawable.classify_text));
@@ -115,9 +113,6 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity {
 				            radioButton.setBackgroundResource(R.drawable.checked_classify);
 				            radioButton.setChecked(i==0);
 				            category_list.addView(radioButton,mRadioParams);
-				            if(i==0){
-				                getChildCateByPid(String.valueOf(parent.get("cateid").getAsInt()));
-				            }
 				        }
 					}
 				}
@@ -135,9 +130,9 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity {
 	/**
 	 * 请求服务器数据----二级分类
 	 */
-	private void getChildCateByPid(String parentId) {
+	private void getChildCateByPid(String parentid) {
 		JsonObject requsetParams = new JsonObject();
-		requsetParams.addProperty("parentId", parentId);
+		requsetParams.addProperty("parentid", parentid);
 		mRequestQueue.add(new StringRequest(Request.Method.GET, HttpUtils.url_mallChildMenu(requsetParams.toString()), 
 			new Response.Listener<String>() {
 				@Override
@@ -146,15 +141,17 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity {
 					JsonObject status = jsonObject.get("status").getAsJsonObject();
 					Gson gson = new Gson();
 					if(status.get("succeed").getAsInt() == 1){
-						String data = jsonObject.get("data").getAsString();
-						ArrayList<HashMap<String, Object>> childs = gson.fromJson(data, new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
+						String data = jsonObject.get("data").getAsJsonArray().toString();
+						childs = gson.fromJson(data, new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
 						product_grid.setAdapter(new CommonAdapter<HashMap<String, Object>>(B1_6_JinBiShangChengActivity.this, R.layout.ui_b1_6_item_classify, childs) {
 							@Override
 							public void convert(ViewHolder holder, HashMap<String, Object> children) {
-								ImageView imageView = holder.getView(R.id.classify_image);
 								holder.setText(R.id.classify_name, (String)children.get("name"));
-								imageLoader.displayImage((String)children.get("imgpath"), imageView, 
-										ImageOptions.getOpstion(), new AnimateFirstDisplayListener());
+								if(!StringUtil.isEmpty((String)children.get("imgpath"))){
+									ImageView imageView = holder.getView(R.id.classify_image);
+									imageLoader.displayImage((String)children.get("imgpath"), imageView, 
+											ImageOptions.getOpstion(), new AnimateFirstDisplayListener());
+								}
 							}
 						});
 					}
@@ -168,5 +165,12 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity {
 				}
 			})
 		);
+	}
+
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View converView, int position, long id) {
+		HashMap<String, Object> map = childs.get(position);
+		startActivity(new Intent(B1_6_JinBiShangChengActivity.this, B1_6_1_JinBiInfoActivity.class).putExtra("cateId", map.get("cid")+""));
 	}
 }
