@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+   >
+    
+    <TextView 
+        android:id="@+id/sousuojieguolistview_listview_txt_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="￥30.3"
+        android:textColor="#ED6D00"
+        android:textSize="18sp"
+        />
+     <TextView 
+        android:id="@+id/sousuojieguolistview_listview_txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/sousuojieguolistview_listview_txt_price"
+        android:text="黄金场任唱3小时，欢乐尽享"
+        android:textSize="15sp"
+        android:layout_marginLeft="5dp"
+        />
+     
+     <TextView 
+        android:id="@+id/sousuojieguolistview_listview_txt_sellnum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:text="已售1000"
+        android:textSize="10sp"
+        />
+     
+     
+</RelativeLayout>

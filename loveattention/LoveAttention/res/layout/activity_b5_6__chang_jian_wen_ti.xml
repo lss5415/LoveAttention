@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".B5_6_ChangJianWenTiActivity" >
+
+   <RelativeLayout
+        android:id="@+id/topLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/home_title_bg" >
+
+        <ImageView
+            android:id="@+id/im_b131_back_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/fanhui" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="常见问题指南"
+            android:textColor="#FFF"
+            android:textSize="18sp" />
+    </RelativeLayout>
+    
+   <com.zykj.loveattention.view.MyListView
+        android:id="@+id/list_quetion"
+        android:layout_width="match_parent"
+        android:dividerHeight="-1dp"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

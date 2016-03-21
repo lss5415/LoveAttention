@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    >
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:padding="5dp">
+        
+    <ImageView 
+        android:id="@+id/sousuojieguolistview_img_head"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_image_default"/>
+    
+    <TextView 
+        android:id="@+id/sousuojieguolistview_txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/sousuojieguolistview_img_head"
+        android:layout_marginLeft="5dp"
+        android:text="橙果chengguo(阿米果)"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
+    
+    <TextView 
+        android:id="@+id/sousuojieguolistview_txt_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/sousuojieguolistview_txt_name"
+        android:layout_below="@id/sousuojieguolistview_txt_name"
+        android:layout_marginTop="5dp"
+        android:text="标签:价格实惠，方便服务态度好，景点多"
+        android:textColor="#949494"
+        android:textSize="9sp"/>
+    
+    <RatingBar
+	    android:id="@+id/sousuojieguolistview_ratingBar"
+	    android:numStars="5" 
+	    android:rating="1.5" 
+	    style="@style/MyRatingBar" 
+	    android:layout_width="wrap_content"
+	    android:layout_height="20dp"
+	    android:layout_alignLeft="@id/sousuojieguolistview_txt_name"
+	    android:layout_alignParentBottom="true">
+	</RatingBar>
+    
+    <TextView 
+        android:id="@+id/sousuojieguolistview_txt_perperson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="人均20元"
+        android:textColor="#949494"
+        android:textSize="12sp"
+        android:layout_marginTop="3dp"
+        />
+    
+    <TextView 
+        android:id="@+id/sousuojieguolistview_txt_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="距离500米"
+        android:textColor="#949494"
+        android:textSize="12sp"
+        android:layout_marginTop="3dp"
+        />
+    </RelativeLayout>
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightgray"/>
+    
+    <ListView 
+        android:id="@+id/sousuojieguolistview_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        />
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/lightgray"/>
+
+</LinearLayout>
