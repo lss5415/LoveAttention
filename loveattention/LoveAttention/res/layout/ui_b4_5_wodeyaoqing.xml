@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="#F3F5F5" >
+        android:background="#ED6D00" >
 
         <ImageView
             android:id="@+id/im_b45_back_btn"
@@ -16,7 +16,7 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/fanhuihui" />
+            android:background="@drawable/fanhui" />
 
         <TextView
             android:id="@+id/top_title"
@@ -24,10 +24,10 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="我的邀请"
-            android:textColor="#000"
+            android:textColor="#FFF"
             android:textSize="18sp" />
 
-        <ImageView
+        <ImageView 
             android:id="@+id/iv_invite"
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -48,11 +48,12 @@
             android:layout_gravity="center"
             android:orientation="horizontal" >
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+        	<com.zykj.loveattention.view.CircularImage 
+        	    android:id="@+id/touxiang"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/tx" />
+                android:background="@drawable/head1" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -107,6 +108,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/tv_zhijieyaoqing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10"
@@ -133,6 +135,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/tv_jianjieyaoqing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10"

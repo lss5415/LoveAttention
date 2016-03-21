@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
-import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zykj.loveattention.R;
+import com.zykj.loveattention.data.AppValue;
 
 public class B2_FuJin_Adapter extends BaseAdapter {
 	private Activity context;
@@ -61,11 +61,15 @@ public class B2_FuJin_Adapter extends BaseAdapter {
 		}else{
 			ViewHolder=(ViewHolder) convertView.getTag();
 		}
-		ImageLoader.getInstance().displayImage((String)fujindata.get(position).get("imgpath"), ViewHolder.d2_img_layout);
+		ImageLoader.getInstance().displayImage(AppValue.ImgUrl+(String)fujindata.get(position).get("imgpath"), ViewHolder.d2_img_layout);
 		ViewHolder.d2_tv_title.setText(fujindata.get(position).get("name"));
 //		ViewHolder.tv_jiage.setText(fujindata.get(position).get("perperson"));
 		ViewHolder.d2_tv_neirong.setText(fujindata.get(position).get("remark"));
-		ViewHolder.comment_rating_bar.setRating(Float.parseFloat(fujindata.get(position).get("stars")));
+		try {
+			ViewHolder.comment_rating_bar.setRating(Float.parseFloat(fujindata.get(position).get("stars")));
+		} catch (Exception e) {
+			
+		}
 //		ViewHolder.tv_juli.setText(fujindata.get(position).get("price"));
 		return convertView;
 	}

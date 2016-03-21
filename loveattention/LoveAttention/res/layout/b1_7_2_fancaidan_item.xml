@@ -14,11 +14,9 @@
         android:text="蛋糕系列"
         android:textColor="#000"
         android:textSize="16sp" />
-	<ListView 
+	<com.zykj.loveattention.view.AutoListView
 	    android:id="@+id/lv_chanpin"
 	    android:layout_width="fill_parent"
-	    android:layout_height="240dp"
-	    android:dividerHeight="-1dp">
-	    
-	</ListView>
+	    android:layout_height="wrap_content"
+	    android:dividerHeight="-1dp"/>
 </LinearLayout>

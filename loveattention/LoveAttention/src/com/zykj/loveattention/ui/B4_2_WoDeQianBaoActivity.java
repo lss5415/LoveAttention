@@ -6,7 +6,6 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -25,7 +24,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zykj.loveattention.R;
+import com.zykj.loveattention.data.AppValue;
 import com.zykj.loveattention.fragment.B4_2_WoDeJiFen_Fragment;
 import com.zykj.loveattention.fragment.B4_2_WoDeJinBi_Fragment;
 import com.zykj.loveattention.utils.HttpUtils;
@@ -46,6 +47,11 @@ public class B4_2_WoDeQianBaoActivity extends FragmentActivity implements OnClic
 	private RequestQueue mRequestQueue; 
 	private String id = null;
 	private String name = null;
+	private org.json.JSONArray myIntegralDetaildata,myCoinDetaildata;
+	private org.json.JSONObject myIntegraldata,myCoindata;
+	private String touxianga="";
+	private int curpage=1,curpage1=1;
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -53,6 +59,14 @@ public class B4_2_WoDeQianBaoActivity extends FragmentActivity implements OnClic
 		setContentView(R.layout.ui_b4_2_wodeqianbao);
 		id = getIntent().getStringExtra("id");
 		name = getIntent().getStringExtra("name");
+		mRequestQueue =  Volley.newRequestQueue(this);
+		View();
+		getJiFen();
+		getJinBi();
+		
+	}
+	
+	public void View(){
 		tv_wodejifen = (TextView) findViewById(R.id.tv_wodejifen);
 		tv_wodejinbi = (TextView) findViewById(R.id.tv_wodejinbi);
 		tv_wodejifen1 = (TextView) findViewById(R.id.tv_wodejifen1);
@@ -60,55 +74,21 @@ public class B4_2_WoDeQianBaoActivity extends FragmentActivity implements OnClic
 		im_b42_qbback_btn = (ImageView) findViewById(R.id.im_b42_qbback_btn);
 		rb_wodejifen = (RadioButton) findViewById(R.id.rb_wodejifen);
 		rb_wodejinbi = (RadioButton) findViewById(R.id.rb_wodejinbi);
+		try {
+			touxianga = (getIntent().getStringExtra("touxianga"));
+		} catch (Exception e) {
+			
+		}
+//		try {
+//			
+//			ImageLoader.getInstance().displayImage(AppValue.ImgUrl+touxianga, touxiang);
+//		}catch (Exception e) {
+//			// TODO: handle exception
+//		}		
 		rb_wodejifen.setOnClickListener(this);
 		rb_wodejinbi.setOnClickListener(this);
 		im_b42_qbback_btn.setOnClickListener(this);
 		rb_wodejifen.setChecked(true);
-		if(rb_wodejifen.isChecked())
-		{
-			fm=getSupportFragmentManager();
-			FragmentTransaction ft=fm.beginTransaction();
-			B4_2_WoDeJiFen_Fragment f2_NewActivity_IngFragment=new B4_2_WoDeJiFen_Fragment();
-			Bundle bundle = new Bundle();
-			bundle.putString("name",name);
-			f2_NewActivity_IngFragment.setArguments(bundle);
-			ft.add(R.id.fl_qianbaofragment, f2_NewActivity_IngFragment,"one");
-			ft.commit();
-		}
-		mRequestQueue =  Volley.newRequestQueue(this); 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("memberid", id);
-		String json = JsonUtils.toJson(map);
-		Tools.Log(json);
-		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,HttpUtils.url_wallet(json),null,new Response.Listener<JSONObject>() {  
-            @Override  
-            public void onResponse(JSONObject response) {  
-	            	RequestDailog.closeDialog();
-					try {
-						JSONObject status = response.getJSONObject("status");
-						String succeed = status.getString("succeed");
-						if (succeed.equals("1")) //成功
-						{
-							JSONObject data = response.getJSONObject("data");
-							Log.e("data", data+"");
-						}else {//失败,提示失败信息
-							String errdesc = status.getString("errdesc");
-							Toast.makeText(getApplicationContext(), errdesc, Toast.LENGTH_LONG).show();
-						}
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-            }  
-        },new Response.ErrorListener() {  
-            @Override  
-            public void onErrorResponse(VolleyError error) {  
-            	RequestDailog.closeDialog();
-                Tools.Log("ErrorResponse="+error.getMessage());
-                Toast.makeText(getApplicationContext(), "网络连接失败，请重试", Toast.LENGTH_LONG).show();
-            }  
-        });  
-        mRequestQueue.add(jr);  
 	}
 
 	@Override
@@ -135,6 +115,9 @@ public class B4_2_WoDeQianBaoActivity extends FragmentActivity implements OnClic
 				B4_2_WoDeJiFen_Fragment news=new B4_2_WoDeJiFen_Fragment();
 				Bundle bundle = new Bundle();
 				bundle.putString("name",name);
+				bundle.putString("myIntegralDetaildata",myIntegralDetaildata.toString());
+				bundle.putString("myIntegraldata",myIntegraldata.toString());
+				bundle.putString("touxianga", touxianga);
 				news.setArguments(bundle);
 				ft.add(R.id.fl_qianbaofragment, news,"one");
 			}
@@ -150,6 +133,9 @@ public class B4_2_WoDeQianBaoActivity extends FragmentActivity implements OnClic
 				B4_2_WoDeJinBi_Fragment news=new B4_2_WoDeJinBi_Fragment();
 				Bundle bundle = new Bundle();
 				bundle.putString("name",name);
+				bundle.putString("myCoinDetaildata",myCoinDetaildata.toString());
+				bundle.putString("myCoindata",myCoindata.toString());
+				bundle.putString("touxianga", touxianga);
 				news.setArguments(bundle);
 				ft.add(R.id.fl_qianbaofragment, news,"two");
 			}
@@ -164,5 +150,103 @@ public class B4_2_WoDeQianBaoActivity extends FragmentActivity implements OnClic
 		}
 		ft.commit();
 	}
-
+	
+	//获取积分数据列表
+	public void getJiFen(){
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("memberid", id);
+		map.put("pagenumber", String.valueOf(curpage));
+		map.put("pagesize", "10");
+		String json = JsonUtils.toJson(map);
+		Tools.Log(json);
+		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,HttpUtils.url_myIntegral(json),null,new Response.Listener<JSONObject>() {  
+            @Override  
+            public void onResponse(JSONObject response) {  
+	            	RequestDailog.closeDialog();
+					try {
+						JSONObject status = response.getJSONObject("status");
+						String succeed = status.getString("succeed");
+						if (succeed.equals("1")) //成功
+						{
+							JSONObject data = response.getJSONObject("data");
+							Log.e("data", data+"");	
+							myIntegralDetaildata = data.getJSONArray("myIntegralDetail");
+//							myCoinDetaildata = data.getJSONArray("myCoinDetail");
+							myIntegraldata = data.getJSONObject("myIntegral");
+//							myCoindata = data.getJSONObject("myCoin");
+							if(rb_wodejifen.isChecked())
+							{
+								fm=getSupportFragmentManager();
+								FragmentTransaction ft=fm.beginTransaction();
+								B4_2_WoDeJiFen_Fragment f2_NewActivity_IngFragment=new B4_2_WoDeJiFen_Fragment();
+								Bundle bundle = new Bundle();
+								bundle.putString("name",name);
+								bundle.putString("myIntegralDetaildata",myIntegralDetaildata.toString());
+								bundle.putString("myIntegraldata",myIntegraldata.toString());
+								bundle.putString("touxianga", touxianga);
+								f2_NewActivity_IngFragment.setArguments(bundle);
+								ft.add(R.id.fl_qianbaofragment, f2_NewActivity_IngFragment,"one");
+								ft.commit();
+							}
+						}else {//失败,提示失败信息
+							String errdesc = status.getString("errdesc");
+							Toast.makeText(getApplicationContext(), errdesc, Toast.LENGTH_LONG).show();
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+            }  
+        },new Response.ErrorListener() {
+            @Override  
+            public void onErrorResponse(VolleyError error) {  
+            	RequestDailog.closeDialog();
+                Tools.Log("ErrorResponse="+error.getMessage());
+                Toast.makeText(getApplicationContext(), "网络连接失败，请重试", Toast.LENGTH_LONG).show();
+            }  
+        });  
+        mRequestQueue.add(jr);
+	}
+	
+	//获取金币数据列表
+	public void getJinBi(){
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("memberid", id);
+		map.put("pagenumber", String.valueOf(curpage));
+		map.put("pagesize", "10");
+		String json = JsonUtils.toJson(map);
+		Tools.Log(json);
+		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,HttpUtils.url_myCoin(json),null,new Response.Listener<JSONObject>() {  
+            @Override  
+            public void onResponse(JSONObject response) {  
+	            	RequestDailog.closeDialog();
+					try {
+						JSONObject status = response.getJSONObject("status");
+						String succeed = status.getString("succeed");
+						if (succeed.equals("1")) //成功
+						{
+							JSONObject data = response.getJSONObject("data");
+							Log.e("data", data+"");	
+//							myIntegralDetaildata = data.getJSONArray("myIntegralDetail");
+							myCoinDetaildata = data.getJSONArray("myCoinDetail");
+//							myIntegraldata = data.getJSONObject("myIntegral");
+							myCoindata = data.getJSONObject("myCoin");
+						}else {//失败,提示失败信息
+							String errdesc = status.getString("errdesc");
+							Toast.makeText(getApplicationContext(), errdesc, Toast.LENGTH_LONG).show();
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+            }  
+        },new Response.ErrorListener() {
+            @Override  
+            public void onErrorResponse(VolleyError error) {  
+            	RequestDailog.closeDialog();
+                Tools.Log("ErrorResponse="+error.getMessage());
+                Toast.makeText(getApplicationContext(), "网络连接失败，请重试", Toast.LENGTH_LONG).show();
+            }  
+        });  
+        mRequestQueue.add(jr);
+	}
+	
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zykj.loveattention.R;
+import com.zykj.loveattention.data.AppValue;
 
 public class B1_3_GuangGaoDingZhiAdapter  extends BaseAdapter {
 	private Activity context;
@@ -55,7 +56,7 @@ public class B1_3_GuangGaoDingZhiAdapter  extends BaseAdapter {
 		}else{
 			ViewHolder=(ViewHolder) convertView.getTag();
 		}
-		ImageLoader.getInstance().displayImage((String)data.get(position).get("mainimgpath"), ViewHolder.im_tu);
+		ImageLoader.getInstance().displayImage(AppValue.ImgUrl+(String)data.get(position).get("mainimgpath"), ViewHolder.im_tu);
 		ViewHolder.tv_name.setText(data.get(position).get("name"));
 		return convertView;
 	}

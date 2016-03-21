@@ -1,9 +1,7 @@
 package com.zykj.loveattention.ui;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -16,7 +14,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -48,7 +45,7 @@ public class B1_01_MapActivity extends BaseActivity{
 	private SideBar sideBar;
 	private SortAdapter adapter;
 	private ImageView im_b101_back;
-	private TextView tv_findcityname,tv_dangqiancity;
+	private TextView tv_findcityname,tv_dangqiancity,tv_zj1,tv_zj2,tv_zj3;
 	
 	/**
 	 * 汉字转换成拼音的类
@@ -82,10 +79,24 @@ public class B1_01_MapActivity extends BaseActivity{
 		pinyinComparator = new PinyinComparator();
 		tv_findcityname = (TextView)findViewById(R.id.tv_findcityname);
 		tv_dangqiancity = (TextView)findViewById(R.id.tv_dangqiancity);
+		tv_zj1 = (TextView)findViewById(R.id.tv_zj1);
+		tv_zj2 = (TextView)findViewById(R.id.tv_zj2);
+		tv_zj3 = (TextView)findViewById(R.id.tv_zj3);
 		sideBar = (SideBar) findViewById(R.id.sidrbar);
 		dialog = (TextView) findViewById(R.id.dialog);
 		im_b101_back = (ImageView)findViewById(R.id.im_b101_back);
-
+		if (!getSharedPreferenceValue("tv_zj1").equals("")){
+			tv_zj1.setVisibility(View.VISIBLE);
+			tv_zj1.setText(getSharedPreferenceValue("tv_zj1").toString());
+		}
+		if (!getSharedPreferenceValue("tv_zj2").equals("")){
+			tv_zj2.setVisibility(View.VISIBLE);
+			tv_zj2.setText(getSharedPreferenceValue("tv_zj2").toString());
+		}
+		if (!getSharedPreferenceValue("tv_zj3").equals("")){
+			tv_zj3.setVisibility(View.VISIBLE);
+			tv_zj3.setText(getSharedPreferenceValue("tv_zj3").toString());
+		}
 		mObs = new DiaryLocationObsever();	
 		mLocationUtil = new LocationUtil();
 		mLocationUtil.initiLocationUtil(this, this.mObs);
@@ -113,19 +124,19 @@ public class B1_01_MapActivity extends BaseActivity{
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				//这里要利用adapter.getItem(position)来获取当前position所对应的对象
-				Intent mapit = new Intent();
-				mapit.putExtra("cityname",((SortModel)adapter.getItem(position)).getArea_name());
-				mapit.putExtra("cityid",((SortModel)adapter.getItem(position)).getArea_id());
+				Intent mapit = new Intent(B1_01_MapActivity.this,B1_ShouYeActivity.class);
+				mapit.putExtra("cityname",((SortModel)adapter.getItem(position)).getCityname());
+				mapit.putExtra("cityid",((SortModel)adapter.getItem(position)).getCitynum());
 				mapit.putExtra("lng",lng);
 				mapit.putExtra("lat",lat);
-				mapit.setClass(B1_01_MapActivity.this, B1_ShouYeActivity.class);
-				startActivity(mapit);
+				B1_01_MapActivity.this.setResult(0, mapit);
+				B1_01_MapActivity.this.finish();
 //				Toast.makeText(getApplication(), ((SortModel)adapter.getItem(position)).getName(), Toast.LENGTH_SHORT).show();
 			}
 		});
 		
 		HttpUtils.getCityList(res_getCityList);
-		setListener(im_b101_back,tv_findcityname);
+		setListener(im_b101_back,tv_findcityname,tv_zj1,tv_zj2,tv_zj3);
 	}
 
 
@@ -141,7 +152,7 @@ public class B1_01_MapActivity extends BaseActivity{
 			SortModel sortModel = date.get(i);
 //			sortModel.setArea_name(date[i]);
 			//汉字转换成拼音
-			String pinyin = characterParser.getSelling(date.get(i).getArea_name());
+			String pinyin = characterParser.getSelling(date.get(i).getCityname());
 			String sortString = pinyin.substring(0, 1).toUpperCase();
 			// 正则表达式，判断首字母是否是英文字母
 			if(sortString.matches("[A-Z]")){
@@ -167,6 +178,45 @@ public class B1_01_MapActivity extends BaseActivity{
 		case R.id.tv_findcityname:
 			HttpUtils.getCityName(res_getCityName1,lng,lat);
 			break;
+		case R.id.tv_zj1:
+			citynamex = getSharedPreferenceValue("tv_zj1");
+			area_idx = getSharedPreferenceValue("tv_zj11");
+			tv_findcityname.setText(citynamex);
+			tv_dangqiancity.setText(citynamex);					
+			Intent mapit1 = new Intent(B1_01_MapActivity.this,B1_ShouYeActivity.class);
+			mapit1.putExtra("lng",lng);
+			mapit1.putExtra("lat",lat);
+			mapit1.putExtra("cityname",citynamex);
+			mapit1.putExtra("cityid",area_idx);
+			B1_01_MapActivity.this.setResult(0, mapit1);
+			B1_01_MapActivity.this.finish();
+			break;
+		case R.id.tv_zj2:
+			citynamex = getSharedPreferenceValue("tv_zj2");
+			area_idx = getSharedPreferenceValue("tv_zj22");
+			tv_findcityname.setText(citynamex);
+			tv_dangqiancity.setText(citynamex);					
+			Intent mapit2 = new Intent(B1_01_MapActivity.this,B1_ShouYeActivity.class);
+			mapit2.putExtra("lng",lng);
+			mapit2.putExtra("lat",lat);
+			mapit2.putExtra("cityname",citynamex);
+			mapit2.putExtra("cityid",area_idx);
+			B1_01_MapActivity.this.setResult(0, mapit2);
+			B1_01_MapActivity.this.finish();
+			break;
+		case R.id.tv_zj3:
+			citynamex = getSharedPreferenceValue("tv_zj3");
+			area_idx = getSharedPreferenceValue("tv_zj33");
+			tv_findcityname.setText(citynamex);
+			tv_dangqiancity.setText(citynamex);					
+			Intent mapit3 = new Intent(B1_01_MapActivity.this,B1_ShouYeActivity.class);
+			mapit3.putExtra("lng",lng);
+			mapit3.putExtra("lat",lat);
+			mapit3.putExtra("cityname",citynamex);
+			mapit3.putExtra("cityid",area_idx);
+			B1_01_MapActivity.this.setResult(0, mapit3);
+			B1_01_MapActivity.this.finish();
+			break;
 		default:
 			break;
 		}
@@ -182,8 +232,8 @@ public class B1_01_MapActivity extends BaseActivity{
 			Tools.Log("res_getAddress="+response);
 			try {
 				com.alibaba.fastjson.JSONObject jsonObject = (com.alibaba.fastjson.JSONObject)JSON.parse(response.toString());
-				com.alibaba.fastjson.JSONObject jsonArray = jsonObject.getJSONObject("datas");
-				JSONArray area_list = jsonArray.getJSONArray("area_list");
+				com.alibaba.fastjson.JSONObject jsonArray = jsonObject.getJSONObject("data");
+				JSONArray area_list = jsonArray.getJSONArray("citylist");
 				SourceDateList = JSONArray.parseArray(area_list.toString(), SortModel.class);
 				SourceDateList1= filledData(SourceDateList);
 //				SourceDateList = filledData(getResources().getStringArray(R.array.date));
@@ -263,14 +313,14 @@ public class B1_01_MapActivity extends BaseActivity{
 					area_idx = datas.getString("area_id");
 					tv_findcityname.setText(citynamex);
 					tv_dangqiancity.setText(citynamex);
-					Intent mapit = new Intent();
+					Intent mapit = new Intent(B1_01_MapActivity.this, B1_ShouYeActivity.class);
 					mapit.putExtra("cityname",tv_findcityname.getText().toString());
 					mapit.putExtra("lng",lng);
 					mapit.putExtra("lat",lat);
 					mapit.putExtra("cityname",citynamex);
 					mapit.putExtra("cityid",area_idx);
-					mapit.setClass(B1_01_MapActivity.this, B1_ShouYeActivity.class);
-					startActivity(mapit);
+					B1_01_MapActivity.this.setResult(0, mapit);
+					B1_01_MapActivity.this.finish();
 				} 
 				catch (org.json.JSONException e) {
 					// TODO Auto-generated catch block

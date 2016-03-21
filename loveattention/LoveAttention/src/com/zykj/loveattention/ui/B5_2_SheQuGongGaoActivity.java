@@ -2,14 +2,16 @@ package com.zykj.loveattention.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,17 +24,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.socialize.utils.Log;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.base.BaseActivity;
 import com.zykj.loveattention.utils.HttpUtils;
+import com.zykj.loveattention.utils.JsonUtils;
 import com.zykj.loveattention.utils.ListViewSwipeGesture;
 import com.zykj.loveattention.utils.Tools;
 import com.zykj.loveattention.view.RequestDailog;
 
 /**
  * @author lss 2015年8月10日 社区公告
- *
+ * @author lc 后续 2016-1-16 上午10:00:48
  */
 public class B5_2_SheQuGongGaoActivity extends BaseActivity {
     private ArrayList<HashMap<String,String>> data=new ArrayList<HashMap<String, String>>();
@@ -47,7 +50,7 @@ public class B5_2_SheQuGongGaoActivity extends BaseActivity {
 		initView();
 		mRequestQueue = Volley.newRequestQueue(this);
 		GongGaoList();
-        AdapterInfo();
+        
     }
     
     /*
@@ -86,7 +89,44 @@ public class B5_2_SheQuGongGaoActivity extends BaseActivity {
 //            System.out.println("<<<<<<<" + position);
             data.remove(position);
             baseAdapter.notifyDataSetChanged();
-            Toast.makeText(B5_2_SheQuGongGaoActivity.this,"删除", Toast.LENGTH_SHORT).show();
+            
+            HashMap<String,String> map = new HashMap<String, String>();
+    		map.put("announceids", data.get(position).get("aid"));
+    		String json = JsonUtils.toJson(map);
+    		JsonObjectRequest jr1 = new JsonObjectRequest(Request.Method.GET,
+    				HttpUtils.url_announceBatchDel(json), null,
+    				new Response.Listener<JSONObject>() {
+    					@Override
+    					public void onResponse(JSONObject response) {
+    						RequestDailog.closeDialog();
+    						JSONObject status;
+    						try {
+    							status = response.getJSONObject("status");
+    							String succeed = status.getString("succeed");
+    							if (succeed.equals("1")) // 成功
+    							{
+    								
+    								
+    							} else {// 失败,提示失败信息
+    								String errdesc = status.getString("errdesc");
+    								Toast.makeText(B5_2_SheQuGongGaoActivity.this,errdesc, Toast.LENGTH_LONG).show();
+    							}
+    						} catch (org.json.JSONException e) {
+    							// TODO Auto-generated catch block
+    							e.printStackTrace();
+    						}
+
+    					}
+    				}, new Response.ErrorListener() {
+    					@Override
+    					public void onErrorResponse(VolleyError error) {
+    						RequestDailog.closeDialog();
+    						Tools.Log("ErrorResponse=" + error.getMessage());
+    						Toast.makeText(B5_2_SheQuGongGaoActivity.this, "网络连接失败，请重试",
+    								Toast.LENGTH_LONG).show();
+    					}
+    				});
+    		mRequestQueue.add(jr1);
         }
 
         @Override
@@ -107,17 +147,22 @@ public class B5_2_SheQuGongGaoActivity extends BaseActivity {
 
         @Override
         public void OnClickListView(int position) {
-            // TODO Auto-generated method stub
-
+//        	lv_gonggao.setVisibility(View.GONE);
+        	Intent intent = new Intent();
+        	intent.setClass(B5_2_SheQuGongGaoActivity.this,B5_2_SheQuGongGaoDetailActivity.class);
+        	startActivity(intent);
         }
-
 
     };
 
     //公告列表数据
 	public void GongGaoList() {
+		HashMap<String,String> map = new HashMap<String, String>();
+		map.put("pagenumber", "1");
+		map.put("pagesize", "10");
+		String json = JsonUtils.toJson(map);
 		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
-				HttpUtils.url_gonggaolist(), null,
+				HttpUtils.url_gonggaolist(json), null,
 				new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
@@ -133,10 +178,14 @@ public class B5_2_SheQuGongGaoActivity extends BaseActivity {
 									JSONObject job = array1.getJSONObject(i);
 									HashMap<String,String> map = new HashMap<String, String>();
 									map.put("content", job.getString("content"));
+									map.put("title", job.getString("title"));
 									map.put("objid", job.getString("objid"));
 									map.put("objtype", job.getString("objtype"));
 									map.put("aid", job.getString("aid"));
 									data.add(map);
+									
+									Log.d("----", "map data = " + data);
+									AdapterInfo();
 								}
 								
 								
@@ -182,6 +231,7 @@ public class B5_2_SheQuGongGaoActivity extends BaseActivity {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
+            	Log.d("----", "adapter data = " + data);
                 if (convertView==null){
                     LayoutInflater layoutInflater=getLayoutInflater();
                     convertView=layoutInflater.inflate(R.layout.manager_group_list_item_parent,parent,false);
@@ -189,7 +239,7 @@ public class B5_2_SheQuGongGaoActivity extends BaseActivity {
                 HashMap<String, String> itemData = data.get(position);
 //                Map<String,String> itemData= (Map<String,String>)getItem(position);
                 TextView tv_gonggao=(TextView)convertView.findViewById(R.id.tv_gonggao);
-                tv_gonggao.setText(itemData.get("content").toString());
+                tv_gonggao.setText(itemData.get("title").toString());
                 return convertView;
             }
         };
@@ -198,6 +248,7 @@ public class B5_2_SheQuGongGaoActivity extends BaseActivity {
                 lv_gonggao, swipeListener, this);
         touchListener.SwipeType	=	ListViewSwipeGesture.Double;    //设置两个选项列表项的背景
         lv_gonggao.setOnTouchListener(touchListener);
+       
 	}
 }
 

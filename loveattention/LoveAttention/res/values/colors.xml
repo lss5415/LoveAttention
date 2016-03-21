@@ -28,6 +28,20 @@
     <color name="blend_item_divider_color">#ffededed</color>
     <color name="blend_item_pressed_color_transparent">#19000000</color>
     <color name="blend_item_theme_color_black">#ff393d43</color>
-    <color name="youhuihuodong">#EA461D</color>
 
+    <color name="anniuhuang">#FF8700</color>
+    <color name="youhuihuodong">#EA461D</color>
+    
+    <color name="theme_colorx">#CBC1DC</color> 
+    <color name="blue">#35b7fe</color>
+    <color name="theme_grey">#f5f5f5</color> 
+    
+     <color name="dark_bg">#8000</color>
+
+    <color name="popup_left_bg">#eee</color>
+    <color name="popup_right_bg">#ddd</color>
+    <color name="popup_right_bg_selected">#ccc</color>
+
+    <color name="div_gray">#ccc</color>
+    
 </resources>

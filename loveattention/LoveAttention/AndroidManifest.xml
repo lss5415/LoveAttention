@@ -1,152 +1,447 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.zykj.loveattention">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zykj.loveattention"
+    android:versionCode="2"
+    android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19"/>
-	<uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-	<uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
-	<uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-	<uses-permission android:name="android.permission.READ_CONTACTS"/>
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-	<uses-permission android:name="android.permission.RECEIVE_SMS"/>
-	<uses-permission android:name="android.permission.GET_TASKS"/>
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-	<uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:name="com.zykj.loveattention.base.BaseApp" android:theme="@style/AppTheme">
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="735283441482c64b387eefed984755b8"/>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.A0_Welcome" android:theme="@android:style/Theme.NoTitleBar">
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.SEND_SMS" />
+	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+	<uses-permission android:name="android.permission.READ_SMS" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <application
+        android:name="com.zykj.loveattention.base.BaseApp"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="735283441482c64b387eefed984755b8" />
+
+        <activity
+            android:name="com.zykj.loveattention.ui.A0_Welcome"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.A1_IntroActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <!-- Ping++ SDK 注册 -->
+        <activity
+            android:name="com.pingplusplus.android.PaymentActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- 微信支付注册 -->
+        <activity-alias
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:targetActivity="com.pingplusplus.android.PaymentActivity" />
+        <!-- 支付宝注册 -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+
+        <activity
+            android:name="com.zykj.loveattention.ui.A1_IntroActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B0_MainActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B0_MainActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_ShouYeActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_ShouYeActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B2_FuJinActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B2_FuJinActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B3_FaXianActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B3_FaXianActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_WoDeActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_WoDeActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B5_GengDuoActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B5_GengDuoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B5_2_SheQuGongGaoActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B5_2_SheQuGongGaoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_1_DengLuActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_1_DengLuActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_1_1_ZhuCeActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_1_1_ZhuCeActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_1_2_WangJiMiMaActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_1_2_WangJiMiMaActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_2_WoDeQianBaoActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_2_WoDeQianBaoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_2_DuiHuanActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_2_DuiHuanActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_3_WoDeKaQuanActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_3_WoDeKaQuanActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_3_KaQuanInfoActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_3_KaQuanInfoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_4_WoDeXiaoXiActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_4_WoDeXiaoXiActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_5_WoDeYaoQingActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_5_WoDeYaoQingActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_5_1_MyYaoQingRenActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_5_1_MyYaoQingRenActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_6_WoDeGuanZhuActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_6_WoDeGuanZhuActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_8_WoDeYuYueActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_8_WoDeYuYueActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_9_WoDeShouCangActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_9_WoDeShouCangActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_10_WoDeZiLiaoActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_10_WoDeZiLiaoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_10_1_ZhangHuXinXiActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_10_1_ZhangHuXinXiActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_10_2_ShouHuoDiZhiActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_10_2_ShouHuoDiZhiActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_10_2_1_XinZengDiZhiActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_10_2_1_XinZengDiZhiActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B2_Map0fFaxian" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B2_Map0fFaxian"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_1_MyDNA" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_1_MyDNA"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_2_MyWork" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_2_MyWork"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_2_MyLifeState" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_2_MyLifeState"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B5_Feedback" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B5_Feedback"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.example.qr_codescan.MipcaActivityCapture" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.example.qr_codescan.MipcaActivityCapture"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.example.qr_codescan.StartScanErweima" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.example.qr_codescan.StartScanErweima"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_3_GuangGaoDingZhiActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_3_GuangGaoDingZhiActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_4_TuanGouActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_4_TuanGouActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_5_JinRiXinDanActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_5_JinRiXinDanActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_6_JinBiShangChengActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_6_JinBiShangChengActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_3_1_GuangGaoInfoActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_3_1_GuangGaoInfoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_6_1_JinBiInfoActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_6_1_JinBiInfoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_6_2_YouHuiHuoDongActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_6_2_YouHuiHuoDongActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_7_ShangJiaXiangQingActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_7_ShangJiaXiangQingActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_7_1_BenDianKaQuan" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_7_1_BenDianKaQuan"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B4_7_WoDeDingdan" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_7_WoDeDingdan"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_01_MapActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_01_MapActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_7_2_FanCaiDanActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_7_2_FanCaiDanActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_7_3_XiangQingActivity" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_7_3_XiangQingActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:label="@string/app_name" android:name="com.zykj.loveattention.ui.B1_sousuo" android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_sousuo"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        
+        <activity
+            android:name="com.zykj.loveattention.ui.QueRenDingDanActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.zykj.loveattention.ui.ShangPinInfoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.zykj.loveattention.ui.XianJinZhiFuActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_SousuoJieguoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.zykj.loveattention.SousuoJieguoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_AllCategoryActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+
+        <activity
+            android:name="com.zykj.loveattention.ui.LiJiYuYueActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+
+        <activity
+            android:name="com.zykj.loveattention.ui.B4_11_ShoppingCartActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+
+        <activity
+            android:name="com.zykj.loveattention.ui.DaoDianDingDanXiangQing"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+
+        <activity
+            android:name="com.zykj.loveattention.ui.WaiSongDingDanXiangQing"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+
         <!-- ###################注册SDK使用的Activity###################### -->
-        <!--分享编辑页-->
-        <activity android:configChanges="orientation|keyboard" android:launchMode="singleTask" android:name="com.umeng.socialize.view.ShareActivity" android:noHistory="true" android:theme="@style/Theme.UMDialog" android:windowSoftInputMode="stateVisible|adjustResize">
+        <!-- 分享编辑页 -->
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
 
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
-        <activity android:launchMode="singleTask" android:name="com.tencent.tauth.AuthActivity" android:noHistory="true">
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID-->
-                <data android:scheme="tencent100424468"/> 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID -->
+                <data android:scheme="tencent100424468" />
             </intent-filter>
         </activity>
-        <activity android:name="com.tencent.connect.common.AssistActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
-    <!-- ###################添加UmengAppkey###################### -->
-        <meta-data android:name="UMENG_APPKEY" android:value="55dd0c4c67e58e5a990053f6">
+        <!-- ###################添加UmengAppkey###################### -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="55dd0c4c67e58e5a990053f6" >
         </meta-data>
-        <activity android:configChanges="keyboardHidden|orientation|screenSize" android:exported="true" android:name="com.zykj.loveattention.utils.WXEntryActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
-    <activity android:configChanges="keyboardHidden|orientation|screenSize" android:exported="true" android:name=".wxapi.WXEntryActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-</application>
+        <activity
+            android:name="com.zykj.loveattention.utils.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+     <!--    <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> -->
+        <!-- <activity android:name="com.zykj.loveattention.ui.B1_SousuoJieguoActivity" >
+        </activity>
+        <activity android:name="com.zykj.loveattention.SousuoJieguoActivity" >
+        </activity>
+        <activity
+            android:name="com.zykj.loveattention.ui.B1_AllCategoryActivity"
+            android:label="@string/title_activity_all_category" >
+        </activity> -->
+        <activity
+            android:name="com.zykj.loveattention.ui.B5_1_XinShouZhiNanActivity"
+            android:label="@string/title_activity_b5_1__xin_shou_zhi_nan"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.zykj.loveattention.ui.B5_2_SheQuGongGaoDetailActivity"
+            android:label="@string/title_activity_b5_2__she_qu_gong_gao_detail"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.zykj.loveattention.ui.B5_4_AboutUsActivity"
+            android:label="@string/title_activity_b5_4__about_us"
+             >
+        </activity>
+        <activity
+            android:name="com.zykj.loveattention.ui.B5_6_ChangJianWenTiActivity"
+            android:label="@string/title_activity_b5_6__chang_jian_wen_ti"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.zykj.loveattention.ui.B5_9_WoShiShangJiaActivity"
+            android:label="@string/title_activity_b5_9__wo_shi_shang_jia"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+    </application>
 
 </manifest>

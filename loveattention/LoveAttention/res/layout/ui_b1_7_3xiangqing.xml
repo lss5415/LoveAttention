@@ -6,10 +6,10 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/rl_title"
+        android:id="@+id/rl_t0itle"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="#F3F5F5"
+        android:background="#ED6D00"
         android:gravity="center" >
 
         <TextView
@@ -18,7 +18,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="商家详情"
-            android:textColor="#000000"
+            android:textColor="#FFF"
             android:textSize="18sp" />
 
         <ImageView
@@ -27,7 +27,7 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/fanhuihui" />
+            android:src="@drawable/fanhui" />
 
         <ImageView
             android:id="@+id/suggest_share"
@@ -36,13 +36,15 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/share" />
+            android:visibility="invisible"
+            android:src="@drawable/sharebai" />
 
         <ImageView
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
+            android:visibility="invisible"
             android:layout_toLeftOf="@+id/suggest_share"
             android:src="@drawable/focus" />
     </RelativeLayout>
@@ -151,145 +153,25 @@
         android:layout_height="fill_parent"
         android:visibility="gone" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFF"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/goods_cake" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="草莓奶油巧克力"
-                android:textColor="#000" />
-        </LinearLayout>
+        <com.zykj.loveattention.view.MyListView
+            android:id="@+id/lv_tuwen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:dividerHeight="-1dp"/>
     </RelativeLayout>
 
-    
-    <LinearLayout 
+    <LinearLayout
         android:id="@+id/ll_pingjia"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:visibility="gone">
-        <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:background="#FFFFFF" >
+        android:visibility="gone" >
 
-                    <ImageView
-                        android:id="@+id/imageViewx"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="5dp"
-                        android:src="@drawable/coffe" />
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/imageViewx"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/imageViewx"
-                        android:textColor="#000"
-                        android:text="美**女" />
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@id/imageViewx"
-                        android:layout_below="@id/textView2"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="3dp"
-                        android:paddingBottom="3dp"
-                        android:text="2015-3-18    草莓奶油蛋糕18寸1个"
-                        android:textColor="#ADADAD" />
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@id/imageViewx"
-                        android:layout_below="@id/imageViewx"
-                        android:text="很不错，很喜欢，下次再买"/>
-
-                    <ImageButton
-                        android:id="@+id/score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/textView3"
-                        android:layout_alignParentRight="true"
-                        android:background="#FFF"
-                        android:src="@drawable/score" >
-                    </ImageButton>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:background="#FFFFFF" >
-
-                    <ImageView
-                        android:id="@+id/imageViewi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="5dp"
-                        android:src="@drawable/coffe" />
-
-                    <TextView
-                        android:id="@+id/textViewu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/imageViewi"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/imageViewi"
-                        android:textColor="#000"
-                        android:text="美**女" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@id/imageViewi"
-                        android:layout_below="@id/textView2"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="3dp"
-                        android:paddingBottom="3dp"
-                        android:text="2015-3-18    草莓奶油蛋糕18寸1个"
-                        android:textColor="#ADADAD" />
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@id/imageViewi"
-                        android:layout_below="@id/imageViewi"
-                        android:text="很不错，很喜欢，下次再买"/>
-
-                    <ImageButton
-                        android:id="@+id/score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/textViewu"
-                        android:layout_alignParentRight="true"
-                        android:background="#FFF"
-                        android:src="@drawable/score" >
-                    </ImageButton>
-                </RelativeLayout>
+        <com.zykj.loveattention.view.MyListView
+            android:id="@+id/lv_pingjia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:dividerHeight="-1dp"/>
     </LinearLayout>
-    
+
 </LinearLayout>

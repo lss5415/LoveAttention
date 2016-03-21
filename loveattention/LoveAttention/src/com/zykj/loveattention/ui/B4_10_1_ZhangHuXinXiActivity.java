@@ -1,10 +1,8 @@
 package com.zykj.loveattention.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.base.BaseActivity;

@@ -2,14 +2,15 @@ package com.zykj.loveattention.data;
 
 public class SortModel {
 
-	private String area_name;   //显示的数据
+	private String cityname;   //显示的数据
 	private String sortLetters;  //显示数据拼音的首字母
-	private String area_id;  //城市id
-	public String getArea_name() {
-		return area_name;
+	private String id;  //城市id
+	private String citynum;
+	public String getCityname() {
+		return cityname;
 	}
-	public void setArea_name(String area_name) {
-		this.area_name = area_name;
+	public void setCityname(String cityname) {
+		this.cityname = cityname;
 	}
 	public String getSortLetters() {
 		return sortLetters;
@@ -17,11 +18,17 @@ public class SortModel {
 	public void setSortLetters(String sortLetters) {
 		this.sortLetters = sortLetters;
 	}
-	public String getArea_id() {
-		return area_id;
+	public String getId() {
+		return id;
 	}
-	public void setArea_id(String area_id) {
-		this.area_id = area_id;
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getCitynum() {
+		return citynum;
+	}
+	public void setCitynum(String citynum) {
+		this.citynum = citynum;
 	}
 	
 }

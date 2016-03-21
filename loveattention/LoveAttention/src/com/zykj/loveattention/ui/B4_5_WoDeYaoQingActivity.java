@@ -1,8 +1,5 @@
 package com.zykj.loveattention.ui;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,28 +15,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.media.QQShareContent;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.sso.SmsHandler;
-import com.umeng.socialize.sso.UMQQSsoHandler;
-import com.umeng.socialize.weixin.controller.UMWXHandler;
-import com.umeng.socialize.weixin.media.WeiXinShareContent;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.B4_5_YaoQingAdapter;
 import com.zykj.loveattention.base.BaseActivity;
+import com.zykj.loveattention.data.AppValue;
+import com.zykj.loveattention.data.UserInfo;
+import com.zykj.loveattention.data.YaoQingRen;
 import com.zykj.loveattention.utils.HttpUtils;
 import com.zykj.loveattention.utils.JsonUtils;
 import com.zykj.loveattention.utils.Share;
 import com.zykj.loveattention.utils.Tools;
+import com.zykj.loveattention.view.CircularImage;
 import com.zykj.loveattention.view.RequestDailog;
 import com.zykj.loveattention.view.XListView;
 
@@ -51,17 +45,21 @@ public class B4_5_WoDeYaoQingActivity extends BaseActivity {
 	private ImageView im_b45_back_btn;//返回
 	private XListView lv_yaoqing;
 	private B4_5_YaoQingAdapter yqadapter;
-	private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+//	private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 	private TextView tv_myyaoqingren;
 	private TextView tv_name;//昵称
 	private TextView tv_invitecode;//邀请码
-	private ImageView iv_invite;//邀请
+	private ImageView iv_invite;
+	private CircularImage touxiang ;//邀请
+	private TextView tv_zhijieyaoqing,tv_jianjieyaoqing;//直接邀请人数，间接邀请人数
 	
 	private RequestQueue mRequestQueue;
 	
 	private String ShareContent ;
 	private String ShareTitle;
 	private String ShareUrl ;
+	private List<YaoQingRen> yaoqingrenlist;
+	private String touxianga;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,6 +81,15 @@ public class B4_5_WoDeYaoQingActivity extends BaseActivity {
 						{
 							JSONObject data = response.getJSONObject("data");
 							Log.e("data", data+"");
+							try {
+								tv_zhijieyaoqing.setText(data.getString("directInvitation"));
+								tv_jianjieyaoqing.setText(data.getString("indirectInvitation"));
+							} catch (Exception e) {
+								
+							}
+							String invitationList = data.getString("invitationList");
+							yaoqingrenlist = JSONArray.parseArray(invitationList,YaoQingRen.class);
+							setAdapter();
 						}else {//失败,提示失败信息
 							String errdesc = status.getString("errdesc");
 							Toast.makeText(getApplicationContext(), errdesc, Toast.LENGTH_LONG).show();
@@ -101,7 +108,6 @@ public class B4_5_WoDeYaoQingActivity extends BaseActivity {
             }  
         });  
         mRequestQueue.add(jr);  
-		setAdapter();
 	}
 
 
@@ -115,24 +121,35 @@ public class B4_5_WoDeYaoQingActivity extends BaseActivity {
 	public void initView() {
 		im_b45_back_btn = (ImageView) findViewById(R.id.im_b45_back_btn);
 		iv_invite = (ImageView) findViewById(R.id.iv_invite);
+		touxiang = (CircularImage) findViewById(R.id.touxiang);
 		lv_yaoqing = (XListView) findViewById(R.id.lv_yaoqing);
 		tv_myyaoqingren = (TextView) findViewById(R.id.tv_myyaoqingren);
 		tv_name = (TextView) findViewById(R.id.tv_name);
 		tv_invitecode = (TextView) findViewById(R.id.tv_invitecode);
+		tv_zhijieyaoqing = (TextView) findViewById(R.id.tv_zhijieyaoqing);
+		tv_jianjieyaoqing = (TextView) findViewById(R.id.tv_jianjieyaoqing);
 		
 		tv_name.setText(getSharedPreferenceValue("name"));
 		tv_invitecode.setText("我的邀请码:  "+getSharedPreferenceValue("invitecode"));
+		
+		try {
+			touxianga = (getIntent().getStringExtra("touxianga"));
+			ImageLoader.getInstance().displayImage(AppValue.ImgUrl+touxianga, touxiang);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 		setListener(im_b45_back_btn,tv_myyaoqingren,iv_invite);
 	}
 	
 	public void setAdapter(){
-		for (int i = 0; i < 20; i++) {
-			Map<String, String> itemData = new HashMap<String, String>();
-			itemData.put("name", "小明");
-			data.add(itemData);
-		}
-		yqadapter = new B4_5_YaoQingAdapter(this, data);
+		
+//		for (int i = 0; i < 20; i++) {
+//			Map<String, String> itemData = new HashMap<String, String>();
+//			itemData.put("name", "小明");
+//			data.add(itemData);
+//		}
+		yqadapter = new B4_5_YaoQingAdapter(this, yaoqingrenlist);
 		lv_yaoqing.setAdapter(yqadapter);
 		lv_yaoqing.setPullLoadEnable(true);
 		lv_yaoqing.setPullRefreshEnable(true);

@@ -252,7 +252,11 @@
                 android:visibility="invisible" />
         </LinearLayout>
     </RelativeLayout>
-
+	<View
+        android:id="@+id/main_div_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#eee"/>
     <ListView
         android:id="@+id/list_fujin"
         android:layout_width="match_parent"

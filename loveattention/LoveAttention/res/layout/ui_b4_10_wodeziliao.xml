@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="#F3F5F5" >
+        android:background="#ED6D00" >
 
         <ImageView
             android:id="@+id/im_b410_back_btn"
@@ -16,14 +16,25 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/fanhuihui" />
+            android:background="@drawable/fanhui" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="我的资料"
-            android:textColor="#000"
+            android:textColor="#FFF"
+            android:textSize="18sp" />
+        
+        <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="保存"
+            android:textColor="#FFF"
             android:textSize="18sp" />
     </RelativeLayout>
 
@@ -47,7 +58,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -63,7 +74,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" >
 
-                    <ImageView
+                	<com.zykj.loveattention.view.CircularImage 
+                    	android:id="@+id/ci_touxiang"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
@@ -71,8 +83,8 @@
                         android:src="@drawable/touxiang" />
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
@@ -83,7 +95,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -96,32 +108,34 @@
                     android:textColor="#000" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_yonghuming"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" >
 
                     <ImageView
                         android:id="@+id/im_yhm"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/youjiantouhui" />
 
                     <TextView
+                        android:id="@+id/tv_yonghuming"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@id/im_yhm"
-                        android:text="yysadf" />
+                        android:text="用户名" />
                 </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -138,6 +152,7 @@
                     android:layout_height="fill_parent" >
 
                     <TextView
+                        android:id="@+id/tv_myyaoqingma"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -150,7 +165,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -163,19 +178,21 @@
                     android:textColor="#000" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_gexingqianming"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" >
 
                     <ImageView
                         android:id="@+id/im_gxqm"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/youjiantouhui" />
 
                     <TextView
+                        android:id="@+id/tv_gexingqianming"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -188,7 +205,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -206,14 +223,15 @@
 
                     <ImageView
                         android:id="@+id/im_xb"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/youjiantouhui" />
 
                     <TextView
+                        android:id="@+id/tv_xingbie"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -226,7 +244,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -244,14 +262,15 @@
 
                     <ImageView
                         android:id="@+id/im_csrq"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/youjiantouhui" />
 
                     <TextView
+                        android:id="@+id/tv_riqi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -264,7 +283,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -277,16 +296,26 @@
                     android:textColor="#000" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_changzhudi"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" >
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:id="@+id/im_b410s"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/youjiantouhui" />
+
+                    <TextView
+                        android:id="@+id/tv_changzhudi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/im_b410s"/>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -294,7 +323,7 @@
                 android:id="@+id/ll_shouhuodizhi"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -311,8 +340,8 @@
                     android:layout_height="fill_parent" >
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
@@ -323,7 +352,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -340,19 +369,27 @@
                     android:layout_height="fill_parent" >
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:id="@+id/im_sjh"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/youjiantouhui" />
+                    <TextView
+                        android:id="@+id/tv_shoujihao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/im_sjh"/>
                 </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -365,23 +402,33 @@
                     android:textColor="#000" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_youxiang"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" >
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:id="@+id/im_youxiang"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/youjiantouhui" />
+
+                    <TextView
+                        android:id="@+id/tv_youxiang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/im_youxiang"/>
                 </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -394,23 +441,33 @@
                     android:textColor="#000" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_weixin"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" >
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:id="@+id/im_weixin"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/youjiantouhui" />
+
+                    <TextView
+                        android:id="@+id/tv_weixin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/im_weixin"/>
                 </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="#FFF" >
 
                 <TextView
@@ -423,16 +480,26 @@
                     android:textColor="#000" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_qq"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" >
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:id="@+id/im_qq"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/youjiantouhui" />
+
+                    <TextView
+                        android:id="@+id/tv_qq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/im_qq"/>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -457,8 +524,8 @@
                     android:layout_height="fill_parent" >
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"

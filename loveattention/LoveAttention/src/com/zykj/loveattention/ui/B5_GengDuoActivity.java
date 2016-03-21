@@ -1,6 +1,7 @@
 package com.zykj.loveattention.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import com.zykj.loveattention.R;
 import com.zykj.loveattention.base.BaseActivity;
 import com.zykj.loveattention.utils.Tools;
 import com.zykj.loveattention.view.RequestDailog;
+import com.zykj.loveattention.view.UIDialog;
 
 /**
  * @author lss 2015年8月8日 更多
@@ -96,7 +98,9 @@ public class B5_GengDuoActivity extends BaseActivity {
 		switch (v.getId()) {
 		case R.id.rl_xinshouzhinan:
 			//新手指南
-			Tools.Notic(this, "新手指南：（内容正在编辑中）", null);
+			Intent intent = new Intent();
+			intent.setClass(this, B5_1_XinShouZhiNanActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.rl_shequgonggao:
 			Intent itsqgg = new Intent();
@@ -113,14 +117,17 @@ public class B5_GengDuoActivity extends BaseActivity {
 			}
 			break;
 		case R.id.rl_guanyuwomen://关于我们
-			Tools.Notic(this, "爱关注是以兴趣主题聚合志同道合者的互动平台，同好网友聚集在这里交流话题、展示自我、结交朋友。贴吧主题涵盖了娱乐、游戏、小说、地区、生活等各方面 ...", null);
+			Intent itgywm = new Intent();
+			itgywm.setClass(B5_GengDuoActivity.this, B5_4_AboutUsActivity.class);
+			startActivity(itgywm);
 			break;
 		case R.id.rl_jianchagengxin://检查更新
 			Tools.Notic(this, "目前已经是最新版本", null);
 			break;
 		case R.id.rl_changyongwentizhinan://常用问题指南
-			Tools.Notic(this, "常用问题指南：" +
-					"1，2，3，4", null);
+			Intent itcjwt = new Intent();
+			itcjwt.setClass(B5_GengDuoActivity.this, B5_6_ChangJianWenTiActivity.class);
+			startActivity(itcjwt);
 			break;
 		case R.id.rl_yijianfankui://意见反馈
 //			Tools.Notic(this, "意见反馈：" +
@@ -129,12 +136,23 @@ public class B5_GengDuoActivity extends BaseActivity {
 			startActivity(it4feedback);
 			break;
 		case R.id.rl_kefudianhua://客服电话
-			Tools.Notic(this, "客服电话：" +
-					"1，2，3，4", null);
+			// 传入服务， parse（）解析号码
+						Tools.Notic(this, "是否要打电话给："+"4000877567", new OnClickListener() {
+							
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								 Intent intent = new Intent(Intent.ACTION_CALL, Uri
+						                    .parse("tel:" + "4000877567"));
+						            // 通知activtity处理传入的call服务
+						        startActivity(intent);	
+							}
+						});
 			break;
 		case R.id.rl_woshishangjia://我是商家
-			Tools.Notic(this, "我是商家：" +
-					"1，2，3，4", null);
+			Intent itwssj = new Intent();
+			itwssj.setClass(B5_GengDuoActivity.this, B5_9_WoShiShangJiaActivity.class);
+			startActivity(itwssj);
 			break;
 		case R.id.rl_logout:
 			if (isLoged()) {
@@ -148,7 +166,7 @@ public class B5_GengDuoActivity extends BaseActivity {
 					}
 				});
 			}else {
-				Toast.makeText(this, "您未登陆", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "您未登录", Toast.LENGTH_LONG).show();
 			}
 			break;
 		default:

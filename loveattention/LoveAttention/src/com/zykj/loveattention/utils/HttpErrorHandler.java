@@ -1,8 +1,9 @@
 package com.zykj.loveattention.utils;
 
 import org.apache.http.Header;
+
 import android.text.TextUtils;
-import android.util.Log;
+
 import com.alibaba.fastjson.JSONObject;
 import com.zykj.loveattention.view.MyRequestDailog;
 

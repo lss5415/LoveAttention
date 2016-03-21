@@ -1,6 +1,5 @@
 package com.zykj.loveattention.ui;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,13 +9,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,8 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
-import com.google.gson.annotations.JsonAdapter;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.B4_3_KaQuanAdapter;
 import com.zykj.loveattention.base.BaseActivity;
@@ -91,10 +85,25 @@ public class B4_3_WoDeKaQuanActivity extends BaseActivity {
 									for (int i = 0; i < data.length(); i++) {
 										Map<String, String> map = new HashMap<String, String>();
 										JSONObject jsonObject = (JSONObject) data.get(i);
+										map.put("couponzhekou",jsonObject.getString("couponzhekou"));
 										map.put("couponname",jsonObject.getString("couponname"));
+										map.put("memberid",jsonObject.getString("memberid"));
+										map.put("state",jsonObject.getString("state"));
+										map.put("couponcolor",jsonObject.getString("couponcolor"));
+										map.put("couponcate",jsonObject.getString("couponcate"));
+										map.put("coupondetail",jsonObject.getString("coupondetail"));
+										map.put("receiveid",jsonObject.getString("receiveid"));
+										map.put("merchantid",jsonObject.getString("merchantid"));
+										map.put("cardprice",jsonObject.getString("cardprice"));
+										map.put("imgpath",jsonObject.getString("imgpath"));
+										map.put("overdue",jsonObject.getString("overdue"));
+										map.put("couponid",jsonObject.getString("couponid"));
 										map.put("name",jsonObject.getString("name"));
-										map.put("effecttime",jsonObject.getString("effecttime"));
+										map.put("couponcondition",jsonObject.getString("couponcondition"));
+										map.put("couponprice",jsonObject.getString("couponprice"));
 										map.put("couponintroduct",jsonObject.getString("couponintroduct"));
+										map.put("telephone",jsonObject.getString("telephone"));
+										map.put("effecttime",jsonObject.getString("effecttime"));
 										listdata.add(map);
 									}
 									Log.e("list", listdata.toString());

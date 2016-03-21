@@ -6,6 +6,7 @@ public class MerchantyhInfo {
 	private String couponid;  //
 	private String couponcate;  //
 	private String effecttime;  //
+	private String headportain;
 	
 	public String getCouponname() {
 		return couponname;
@@ -36,6 +37,12 @@ public class MerchantyhInfo {
 	}
 	public void setEffecttime(String effecttime) {
 		this.effecttime = effecttime;
+	}
+	public String getHeadportain() {
+		return headportain;
+	}
+	public void setHeadportain(String headportain) {
+		this.headportain = headportain;
 	}
 	
 }

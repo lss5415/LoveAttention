@@ -159,13 +159,13 @@
                             android:dividerHeight="-1dp">
                             
                         </com.zykj.loveattention.view.AutoListView>
-                        <View 
+                        <!-- <View 
                             android:layout_width="fill_parent"
                             android:layout_height="1dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
-                            android:background="#DADADA"/>
+                            android:background="#DADADA"/> -->
                         <TextView 
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -202,6 +202,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             android:layout_marginLeft="15dp"
+                            android:lineSpacingMultiplier="1.1"
                             android:textColor="#000"
                             android:text="商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍"/>
                     </LinearLayout>

@@ -1,6 +1,7 @@
 package com.zykj.loveattention.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -34,6 +35,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.zykj.loveattention.R;
+import com.zykj.loveattention.data.AppValue;
 import com.zykj.loveattention.utils.HttpUtils;
 import com.zykj.loveattention.utils.Tools;
 
@@ -92,7 +94,7 @@ public class B1_HomeShowView  extends FrameLayout {
 
 		initImageLoader(context);
 		//获取网络图片
-		HttpUtils.getFirstList(res_getSyList, "00","35","118");
+		HttpUtils.qwe(res_getSyList);
         
         if(isAutoPlay){
             startPlay();
@@ -257,12 +259,12 @@ public class B1_HomeShowView  extends FrameLayout {
         @Override
         public void onPageSelected(int pos) {
             // TODO Auto-generated method stub
-            
+//        	Toast.makeText(context, data.get(pos).get("objid")+data.get(pos).get("objtype"), Toast.LENGTH_LONG).show();
             currentItem = pos;
             for(int i=0;i < dotViewsList.size();i++){
                 if(i == pos){
                     ((View)dotViewsList.get(pos)).setBackgroundResource(R.drawable.a1_lbtshenhui2);
-                }else {
+                }else {	
                     ((View)dotViewsList.get(i)).setBackgroundResource(R.drawable.a1_lbtqianhui2);
                 }
             }
@@ -353,28 +355,26 @@ public class B1_HomeShowView  extends FrameLayout {
 			String error=null;
 			JSONObject datas=null;
 			try {
-				 datas = response.getJSONObject("datas");
-				 error = response.getString("error");
+				 datas = response.getJSONObject("data");
+				 error = response.getJSONObject("status").getString("succeed");
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
-			if (error==null)//成功
+			if (error.equals("1"))//成功
 			{
 				try {
-					org.json.JSONArray joba = datas.getJSONArray("slide");
+					org.json.JSONArray joba = datas.getJSONArray("rotationAdvertList");
 					imageUrls = new String[joba.length()];
 					for (int i = 0; i < joba.length(); i++) {						
 						JSONObject jsonItem = joba.getJSONObject(i);
-//						Map<String, String> map = new HashMap();
-//						map.put("pic_name", jsonItem.getString("pic_name"));
-//						map.put("pic_url", jsonItem.getString("pic_url"));
-//						map.put("color", jsonItem.getString("color"));
-//						map.put("pic_id", jsonItem.getString("pic_id"));
-//						map.put("pic_img", jsonItem.getString("pic_img"));
-//						data.add(map);
+						Map<String, String> map = new HashMap();
+						map.put("objid", jsonItem.getString("objid"));
+						map.put("objtype", jsonItem.getString("objtype"));
+						map.put("rid", jsonItem.getString("rid"));
+						data.add(map);
 						
-						imageUrls[i]=jsonItem.getString("pic_img");
+						imageUrls[i]=AppValue.ImgUrl+jsonItem.getString("imgpath");
 					}
 					initData();
 				} 

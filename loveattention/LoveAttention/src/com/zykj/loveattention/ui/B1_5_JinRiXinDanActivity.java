@@ -9,24 +9,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.CommonAdapter;
 import com.zykj.loveattention.adapter.ViewHolder;
 import com.zykj.loveattention.base.BaseActivity;
+import com.zykj.loveattention.data.AppValue;
 import com.zykj.loveattention.data.JinRiXinDan;
 import com.zykj.loveattention.utils.HttpErrorHandler;
 import com.zykj.loveattention.utils.HttpUtils;
-import com.zykj.loveattention.view.MyListView;
 import com.zykj.loveattention.view.XListView;
 import com.zykj.loveattention.view.XListView.IXListViewListener;
 /**
@@ -55,7 +53,7 @@ public class B1_5_JinRiXinDanActivity extends BaseActivity implements IXListView
 				RatingBar comment_rating_bar = holder.getView(R.id.comment_rating_bar);
 				comment_rating_bar.setRating(Float.parseFloat(jrxd.getStars()));
 				ImageView d2_img_layout = holder.getView(R.id.d2_img_layout);
-				ImageLoader.getInstance().displayImage(jrxd.getImgpath(), d2_img_layout);
+				ImageLoader.getInstance().displayImage(AppValue.ImgUrl+jrxd.getImgpath(), d2_img_layout);
 			}
 		};
 		initView();

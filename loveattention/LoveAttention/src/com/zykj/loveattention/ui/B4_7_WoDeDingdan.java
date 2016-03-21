@@ -1,19 +1,34 @@
 package com.zykj.loveattention.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.zykj.loveattention.R;
+import com.zykj.loveattention.adapter.B1_ShouYeAdapter;
 import com.zykj.loveattention.adapter.B4_7_OrderStatusAdapter;
 import com.zykj.loveattention.base.BaseActivity;
+import com.zykj.loveattention.utils.HttpUtils;
+import com.zykj.loveattention.utils.JsonUtils;
+import com.zykj.loveattention.utils.Tools;
 import com.zykj.loveattention.view.MyListView;
+import com.zykj.loveattention.view.RequestDailog;
 import com.zykj.loveattention.view.XListView.IXListViewListener;
 
 public class B4_7_WoDeDingdan extends BaseActivity implements IXListViewListener {
@@ -44,8 +59,10 @@ public class B4_7_WoDeDingdan extends BaseActivity implements IXListViewListener
     private static final int DAIPINGJIA  = 40;
 	
 	private MyListView listview;
-    B4_7_OrderStatusAdapter adapter;
-    List<Map<String, Object>> dataList = new ArrayList<Map<String,Object>>();
+	private B4_7_OrderStatusAdapter adapter;
+	private List<Map<String, String>> dataList = new ArrayList<Map<String,String>>();
+	private RequestQueue mRequestQueue;
+	private String json,type="0",state="1";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +70,8 @@ public class B4_7_WoDeDingdan extends BaseActivity implements IXListViewListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ui_b4_7_wodedingdan);
 		initView();
+		mRequestQueue = Volley.newRequestQueue(this);
+		DingDan();
 	}
 	@Override
 	public void onClick(View v) {
@@ -63,40 +82,54 @@ public class B4_7_WoDeDingdan extends BaseActivity implements IXListViewListener
 			this.finish();
 			break;
 		case R.id.tv_daodian://到店
+			type="0";
 			TAG_H0 = 101;
 			setHorizontalLine(tv_daodian,tv_songhuo);
 			setTextA();//设置不同模式下导航栏的显示
+			DingDan();
 			adapter = new B4_7_OrderStatusAdapter(this, dataList, status, null,TAG_H0);
 			listview.setAdapter(adapter);
 			break;
 		case R.id.tv_songhuo://送货上门
+			type="1";
 			TAG_H0 = 102;
 			setHorizontalLine(tv_songhuo,tv_daodian);
 			setTextB();
+			DingDan();
 			adapter = new B4_7_OrderStatusAdapter(this, dataList, status, null,TAG_H0);
 			listview.setAdapter(adapter);
 			break;
 		case R.id.ll_quanbudingdan://全部订单
+			state="-1";
 			setLine(v101,v102,v103,v104);
 			status = ALLORDER;
+			DingDan();
 			adapter = new B4_7_OrderStatusAdapter(this, dataList, status, null,TAG_H0);
 			listview.setAdapter(adapter);
 			break;
 		case R.id.ll_weifukuan://未付款
+			Map<String, String> mapp = new HashMap<String, String>();
+			state="0";
+			json = JsonUtils.toJson(mapp);
 			setLine(v102,v101,v103,v104);
 			status = WEIFUKUAN;
+			DingDan();
 			adapter = new B4_7_OrderStatusAdapter(this, dataList, status, null,TAG_H0);
 			listview.setAdapter(adapter);
 			break;
 		case R.id.ll_weixiaofei://未消费
+			state="1";
 			setLine(v103,v102,v101,v104);
 			status = WEIXIAOFEI;
+			DingDan();
 			adapter = new B4_7_OrderStatusAdapter(this, dataList, status, null,TAG_H0);
 			listview.setAdapter(adapter);
 			break;
 		case R.id.ll_daipingjia://待评价
+			state="2";
 			setLine(v104,v102,v103,v101);
 			status = DAIPINGJIA;
+			DingDan();
 			adapter = new B4_7_OrderStatusAdapter(this, dataList, 40, null,TAG_H0);
 			listview.setAdapter(adapter);
 			break;
@@ -105,14 +138,14 @@ public class B4_7_WoDeDingdan extends BaseActivity implements IXListViewListener
 		}
 	}
 	private void setTextB() {
-		tv_fukuan.setText("已付款");
-		tv_xiaofei.setText("未付款");
+		tv_fukuan.setText("未付款");
+		tv_xiaofei.setText("已付款");
 		tv_comment.setText("已收货");
 	}
 	private void setTextA() {
 		tv_fukuan.setText("未付款");
 		tv_xiaofei.setText("未消费");
-		tv_comment.setText("待评价");
+		tv_comment.setText("已消费");
 	}
 	private void setHorizontalLine(TextView tv1,TextView tv2) {
 		// TODO Auto-generated method stub
@@ -169,5 +202,76 @@ public class B4_7_WoDeDingdan extends BaseActivity implements IXListViewListener
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
 		
+	}
+	public void DingDan(){
+
+		Toast.makeText(this, "type  ="+type+"state  ="+state, Toast.LENGTH_LONG).show();
+		
+		RequestDailog.showDialog(this, "数据加载中，请稍后");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("memberid", getSharedPreferenceValue("id"));
+		map.put("type", type);
+		map.put("state", state);
+		map.put("pagenumber", "1");
+		map.put("pagesize", "10");
+		json = JsonUtils.toJson(map);
+		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
+				HttpUtils.url_order(json), null,
+				new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						RequestDailog.closeDialog();
+						JSONObject status;
+						try {
+							status = response.getJSONObject("status");
+							String succeed = status.getString("succeed");
+							if (succeed.equals("1")) // 成功
+							{
+								dataList.clear();
+								org.json.JSONArray array1 = response.getJSONArray("data");
+								for (int i = 0; i < array1.length(); i++) {
+									JSONObject jsonItem1 = array1.getJSONObject(i);
+									Map<String, String> map1 = new HashMap<String, String>();
+									map1.put("mname", jsonItem1.getString("mname"));
+									map1.put("userscore", jsonItem1.getString("userscore"));
+									map1.put("arrivescore", jsonItem1.getString("arrivescore"));
+									map1.put("ordernum", jsonItem1.getString("ordernum"));
+									map1.put("state", jsonItem1.getString("state"));
+									map1.put("goodlist", jsonItem1.getJSONArray("goodlist").toString());	
+									map1.put("maddress", jsonItem1.getString("maddress"));	
+									map1.put("payway", jsonItem1.getString("payway"));
+									map1.put("type", jsonItem1.getString("type"));
+									map1.put("confirmcode", jsonItem1.getString("confirmcode"));
+									map1.put("mtelephone", jsonItem1.getString("mtelephone"));
+									map1.put("id", jsonItem1.getString("id"));				
+									map1.put("mimgpath", jsonItem1.getString("mimgpath"));				
+									map1.put("price", jsonItem1.getString("price"));				
+									map1.put("goodsdetail", jsonItem1.getString("goodsdetail"));				
+									map1.put("datetime", jsonItem1.getString("datetime"));				
+									dataList.add(map1);
+								}
+								adapter.notifyDataSetChanged();
+//								syadapter = new B1_ShouYeAdapter(B1_ShouYeActivity.this, cnxhdata);
+//								lv_shouyelist.setAdapter(syadapter);
+							} else {// 失败,提示失败信息
+								String errdesc = status.getString("errdesc");
+								Toast.makeText(B4_7_WoDeDingdan.this,errdesc, Toast.LENGTH_LONG).show();
+							}
+						} catch (org.json.JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						RequestDailog.closeDialog();
+						Tools.Log("ErrorResponse=" + error.getMessage());
+						Toast.makeText(B4_7_WoDeDingdan.this, "网络连接失败，请重试",
+								Toast.LENGTH_LONG).show();
+					}
+				});
+		mRequestQueue.add(jr);
 	}
 }

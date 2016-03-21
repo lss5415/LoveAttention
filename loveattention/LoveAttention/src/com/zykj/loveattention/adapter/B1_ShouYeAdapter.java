@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zykj.loveattention.R;
+import com.zykj.loveattention.data.AppValue;
+import com.zykj.loveattention.utils.StringUtil;
 
 public class B1_ShouYeAdapter extends BaseAdapter {
 	private Context context;
@@ -69,11 +71,15 @@ public class B1_ShouYeAdapter extends BaseAdapter {
 //		ViewHolder.tv_a3_juli.setText(data.get(position).get("juli"));
 //		ViewHolder.comment_rating_bar.setRating(Float.parseFloat(data.get(position).get("store_desccredit")));
 //		ViewHolder.tv_a3_pinglunsum.setText(data.get(position).get("store_evaluate_count"));
-		ImageLoader.getInstance().displayImage((String)data.get(position).get("imgpath"), ViewHolder.d2_img_layout);
+		ImageLoader.getInstance().displayImage(AppValue.ImgUrl+(String)data.get(position).get("imgpath"), ViewHolder.d2_img_layout);
 		ViewHolder.d2_tv_title.setText(data.get(position).get("name"));
 		ViewHolder.tv_renjun.setText(data.get(position).get("perperson"));
 		ViewHolder.d2_tv_neirong.setText(data.get(position).get("remark"));
-		ViewHolder.comment_rating_bar.setRating(Float.parseFloat(data.get(position).get("stars")));
+		if (StringUtil.toStringOfObject(data.get(position).get("stars")).length()>0) {
+			ViewHolder.comment_rating_bar.setRating(Float.parseFloat(data.get(position).get("stars")));
+		}else {
+			
+		}
 //		ViewHolder.tv_juli.setText(data.get(position).get("merchantid"));
 		return convertView;
 	}

@@ -1,30 +1,34 @@
 package com.zykj.loveattention.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zykj.loveattention.R;
+import com.zykj.loveattention.data.AppValue;
+import com.zykj.loveattention.data.YaoQingRen;
 
 public class B4_5_YaoQingAdapter extends BaseAdapter {
 	private Context context;
-	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+//	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+	private List<YaoQingRen> yaoqingrenlist ;
 
-	public B4_5_YaoQingAdapter(Context context,List<Map<String, String>> data) {
+	public B4_5_YaoQingAdapter(Context context,List<YaoQingRen> yaoqingrenlist) {
 		this.context = context;
-		this.data = data;
+		this.yaoqingrenlist = yaoqingrenlist;
 	}
 	
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return data == null ? 0 : data.size();
+		return yaoqingrenlist == null ? 0 : yaoqingrenlist.size();
 	}
 
 	@Override
@@ -46,30 +50,28 @@ public class B4_5_YaoQingAdapter extends BaseAdapter {
 		if(convertView==null){
 			ViewHolder=new ViewHolder();
 			convertView=LinearLayout.inflate(context, R.layout.b4_5_yaoqingitem, null);
-//			ViewHolder.tv_shijian=(TextView) convertView.findViewById(R.id.tv_shijian);
-//			ViewHolder.tv_bianliang=(TextView) convertView.findViewById(R.id.tv_bianliang);
-//			ViewHolder.tv_miaoshu=(TextView) convertView.findViewById(R.id.tv_miaoshu);
-//			ViewHolder.tv_yue=(TextView) convertView.findViewById(R.id.tv_yue);
+			ViewHolder.im_headportain=(ImageView) convertView.findViewById(R.id.im_headportain);
+			ViewHolder.tv_name=(TextView) convertView.findViewById(R.id.tv_name);
+			ViewHolder.tv_invitenum=(TextView) convertView.findViewById(R.id.tv_invitenum);
+			ViewHolder.tv_intime=(TextView) convertView.findViewById(R.id.tv_intime);
+			ViewHolder.tv_mobile=(TextView) convertView.findViewById(R.id.tv_mobile);
 			convertView.setTag(ViewHolder);
 		}else{
 			ViewHolder=(ViewHolder) convertView.getTag();
 		}
-//		ViewHolder.tv_shijian.setText(data.get(position).get("shijian"));
-//		ViewHolder.tv_bianliang.setText(data.get(position).get("bianliang"));
-//		ViewHolder.tv_miaoshu.setText(data.get(position).get("miaoshu"));
-//		ViewHolder.tv_yue.setText(data.get(position).get("yue"));
-//		ImageLoader.getInstance().displayImage((String)data.get(position).get("store_label"), ViewHolder.im_a3_pic);
-//		ViewHolder.tv_a3_storename.setText(data.get(position).get("store_name"));
-//		ViewHolder.tv_a3_juli.setText(data.get(position).get("juli"));
-//		ViewHolder.comment_rating_bar.setRating(Float.parseFloat(data.get(position).get("store_desccredit")));
-//		ViewHolder.tv_a3_pinglunsum.setText(data.get(position).get("store_evaluate_count"));
+		ViewHolder.tv_name.setText(yaoqingrenlist.get(position).getName());
+		ViewHolder.tv_invitenum.setText("邀请"+yaoqingrenlist.get(position).getInviteNum()+"人");
+		ViewHolder.tv_intime.setText(yaoqingrenlist.get(position).getIntime());
+		ViewHolder.tv_mobile.setText(yaoqingrenlist.get(position).getMobile());
+		ImageLoader.getInstance().displayImage(AppValue.ImgUrl+yaoqingrenlist.get(position).getMobile(), ViewHolder.im_headportain);
 		return convertView;
 	}
 	
 	public final class ViewHolder {  
-//        public TextView tv_shijian;
-//        public TextView tv_bianliang;
-//        public TextView tv_miaoshu;
-//        public TextView tv_yue;
+		public ImageView im_headportain;
+        public TextView tv_name;
+        public TextView tv_invitenum;
+        public TextView tv_intime;
+        public TextView tv_mobile;
     }  
 }

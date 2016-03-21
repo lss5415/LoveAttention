@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zykj.loveattention.R;
+import com.zykj.loveattention.data.AppValue;
 
 public class B131GuangGaoList extends BaseAdapter {
 	private Context context;
@@ -57,7 +57,7 @@ public class B131GuangGaoList extends BaseAdapter {
 		}else{
 			ViewHolder=(ViewHolder) convertView.getTag();
 		}
-		ImageLoader.getInstance().displayImage((String)data.get(position).get("imgpath"), ViewHolder.im_sp);
+		ImageLoader.getInstance().displayImage(AppValue.ImgUrl+(String)data.get(position).get("imgpath"), ViewHolder.im_sp);
 		ViewHolder.tv_shangpinname.setText(data.get(position).get("name"));
 		ViewHolder.tv_price.setText(data.get(position).get("price"));
 		return convertView;

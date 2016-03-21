@@ -1,7 +1,5 @@
 package com.zykj.loveattention.ui;
 
-import com.zykj.loveattention.R;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+
+import com.zykj.loveattention.R;
 
 public class SideBar extends View {
 	// 触摸事件

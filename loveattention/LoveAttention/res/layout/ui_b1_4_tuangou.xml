@@ -33,29 +33,21 @@
         android:layout_height="45dp"
         android:background="#FFF" >
 
-        <LinearLayout
-            android:id="@+id/ll_shanghuleixing"
+        <TextView
+            android:id="@+id/tv_shanghuleixing"
             android:layout_width="0.0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/sellertype"
+            android:textColor="#ED6D00" />
 
-            <TextView
-                android:id="@+id/tv_shanghuleixing"
-                android:layout_width="0.0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/sellertype"
-                android:textColor="#ED6D00"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/arrowdown1"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/arrowdownyellow" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/arrowdown1"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/arrowdownyellow" />
 
         <View
             android:layout_width="5dip"
@@ -68,29 +60,21 @@
             android:background="#EEE"
             android:orientation="vertical" />
 
-        <LinearLayout
-            android:id="@+id/ll_quancheng"
+        <TextView
+            android:id="@+id/tv_quancheng"
             android:layout_width="0.0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/allcity"
+            android:textColor="#000" />
 
-            <TextView
-                android:id="@+id/tv_quancheng"
-                android:layout_width="0.0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/allcity"
-                android:textColor="#000"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/arrowdown2"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/arrowdowngrey" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/arrowdown2"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/arrowdowngrey" />
 
         <View
             android:layout_width="5dip"
@@ -103,29 +87,21 @@
             android:background="#EEE"
             android:orientation="vertical" />
 
-        <LinearLayout
-            android:id="@+id/ll_zhinengpaixu"
+        <TextView
+            android:id="@+id/tv_zhinengpaixu"
             android:layout_width="0.0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/smartsort"
+            android:textColor="#000" />
 
-            <TextView
-                android:id="@+id/tv_zhinengpaixu"
-                android:layout_width="0.0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/smartsort"
-                android:textColor="#000"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/arrowdown3"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/arrowdowngrey" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/arrowdown3"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/arrowdowngrey" />
 
         <View
             android:layout_width="5dip"
@@ -138,29 +114,21 @@
             android:background="#EEE"
             android:orientation="vertical" />
 
-        <LinearLayout
-            android:id="@+id/ll_shaixuan"
+        <TextView
+            android:id="@+id/tv_shaixuan"
             android:layout_width="0.0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/sift"
+            android:textColor="#000" />
 
-            <TextView
-                android:id="@+id/tv_shaixuan"
-                android:layout_width="0.0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/sift"
-                android:textColor="#000"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/arrowdown4"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/arrowdowngrey" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/arrowdown4"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/arrowdowngrey" />
 
         <View
             android:layout_width="5dip"
@@ -228,7 +196,11 @@
                 android:visibility="invisible" />
         </LinearLayout>
     </RelativeLayout>
-
+	<View
+        android:id="@+id/main_div_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#eee"/>
     <ListView
         android:id="@+id/list_fujin"
         android:layout_width="match_parent"

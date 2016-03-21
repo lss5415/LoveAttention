@@ -48,5 +48,12 @@
     <string name="cannot_find_location">无法获取当前位</string>
     
     <string name="no">取消</string>
-    
+ 
+    <string name="title_activity_all_category">AllCategoryActivity</string>
+    <string name="title_activity_b5_1__xin_shou_zhi_nan">B5_1_XinShouZhiNanActivity</string>
+    <string name="title_activity_b5_2__she_qu_gong_gao_detail">B5_2_SheQuGongGaoDetailActivity</string>
+    <string name="title_activity_b5_4__about_us">B5_4_AboutUsActivity</string>
+    <string name="title_activity_b5_6__chang_jian_wen_ti">B5_6_ChangJianWenTiActivity</string>
+    <string name="title_activity_b5_9__wo_shi_shang_jia">B5_9_WoShiShangJiaActivity</string>
+
 </resources>

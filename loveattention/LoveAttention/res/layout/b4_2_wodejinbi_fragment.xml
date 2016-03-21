@@ -14,7 +14,8 @@
             android:layout_height="100dp"
         	android:background="#FFF">
 
-            <ImageView
+            <com.zykj.loveattention.view.CircularImage
+                android:id="@+id/im_42touxiang"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="15dp"
@@ -57,6 +58,7 @@
 			        android:textColor="#000"
 			        android:text="XXXXXXXX"/>
 			    <TextView 
+			        android:id="@+id/tv_dangqianjifen1"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:textColor="#ED6D00"
@@ -73,23 +75,26 @@
             android:layout_marginTop="10dp"
             android:background="#E8E8E8">
             <TextView 
+                android:id="@+id/tv_lishizongjifen1"
                 android:layout_width="0.0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="历史总金币10"/>
             <TextView 
+                android:id="@+id/tv_duihuanjifen1"
                 android:layout_width="0.0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="兑换金币金币10"/>
             <TextView 
+                android:id="@+id/tv_tixianjifen1"
                 android:layout_width="0.0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="已体现金币10"/>
+                android:text="已提现金币10"/>
         </LinearLayout>
         
         <TextView 

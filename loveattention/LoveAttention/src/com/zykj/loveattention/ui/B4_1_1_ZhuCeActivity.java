@@ -98,7 +98,7 @@ public class B4_1_1_ZhuCeActivity extends BaseActivity {
 					map.put("invitecode", invite_code);
 					map.put("password", password);
 					String json = JsonUtils.toJson(map);
-					String URL = "http://115.28.208.196:8080/aigz/data/register?json="+json;
+					String URL = "http://115.28.67.86:8080/aigz/data/register?json="+json;
 					Tools.Log("json="+json);
 					JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,URL,null,new Response.Listener<JSONObject>() {  
 			            @Override  
@@ -109,7 +109,7 @@ public class B4_1_1_ZhuCeActivity extends BaseActivity {
 								String succeed = status.getString("succeed");
 								if (succeed.equals("1")) //成功
 								{
-									Toast.makeText(B4_1_1_ZhuCeActivity.this, "注册成功，请登陆", Toast.LENGTH_LONG).show();
+									Toast.makeText(B4_1_1_ZhuCeActivity.this, "注册成功，请登录", Toast.LENGTH_LONG).show();
 									B4_1_1_ZhuCeActivity.this.finish();
 								}else {//失败,提示失败信息
 									String errdesc = status.getString("errdesc");

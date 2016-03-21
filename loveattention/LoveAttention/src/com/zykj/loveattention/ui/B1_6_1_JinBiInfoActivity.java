@@ -1,7 +1,6 @@
 package com.zykj.loveattention.ui;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,9 +28,9 @@ import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.CommonAdapter;
 import com.zykj.loveattention.adapter.ViewHolder;
 import com.zykj.loveattention.base.BaseActivity;
+import com.zykj.loveattention.data.AppValue;
 import com.zykj.loveattention.data.Coupon;
 import com.zykj.loveattention.utils.AnimateFirstDisplayListener;
-import com.zykj.loveattention.utils.DateUtil;
 import com.zykj.loveattention.utils.HttpUtils;
 import com.zykj.loveattention.utils.ImageOptions;
 import com.zykj.loveattention.utils.StringUtil;
@@ -126,7 +125,7 @@ public class B1_6_1_JinBiInfoActivity extends BaseActivity implements OnItemClic
 			public void convert(ViewHolder holder, final Coupon coupon) {
 				if(!StringUtil.isEmpty(coupon.getCouponimage())){
 					ImageView imageView = holder.getView(R.id.d2_img_layout);
-					imageLoader.displayImage(coupon.getCouponimage(), imageView, ImageOptions.getOpstion(), new AnimateFirstDisplayListener());
+					imageLoader.displayImage(AppValue.ImgUrl+coupon.getCouponimage(), imageView, ImageOptions.getOpstion(), new AnimateFirstDisplayListener());
 				}
 				holder.setText(R.id.aci_name, coupon.getCouponname())
 						.setText(R.id.d2_tv_neirong, coupon.getCoupondetail())
@@ -134,7 +133,7 @@ public class B1_6_1_JinBiInfoActivity extends BaseActivity implements OnItemClic
 				holder.getView(R.id.aci_button).setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						Toast.makeText(B1_6_1_JinBiInfoActivity.this, coupon.getCouponid(), Toast.LENGTH_LONG).show();
+//						Toast.makeText(B1_6_1_JinBiInfoActivity.this, coupon.getCouponid(), Toast.LENGTH_LONG).show();
 					}
 				});
 			}
@@ -199,7 +198,9 @@ public class B1_6_1_JinBiInfoActivity extends BaseActivity implements OnItemClic
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Coupon coupon = coupons.get(position-1);
 		Toast.makeText(this, coupon.getCouponid(), Toast.LENGTH_LONG).show();
-		startActivity(new Intent(this, B1_6_2_YouHuiHuoDongActivity.class));
+		Intent cuit = new Intent(this, B1_6_2_YouHuiHuoDongActivity.class);
+		cuit.putExtra("couponid", coupon.getCouponid());
+		startActivity(cuit);
 	}
 
 	@Override
@@ -229,6 +230,6 @@ public class B1_6_1_JinBiInfoActivity extends BaseActivity implements OnItemClic
 	private void onLoad() {
 		list_jinbi.stopRefresh();
 		list_jinbi.stopLoadMore();
-		list_jinbi.setRefreshTime(DateUtil.dateToString(new Date(), "HH:mm:ss"));
+		list_jinbi.setRefreshTime();
 	}
 }

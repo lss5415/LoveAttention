@@ -34,6 +34,7 @@ import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.CommonAdapter;
 import com.zykj.loveattention.adapter.ViewHolder;
 import com.zykj.loveattention.base.BaseActivity;
+import com.zykj.loveattention.data.AppValue;
 import com.zykj.loveattention.utils.AnimateFirstDisplayListener;
 import com.zykj.loveattention.utils.HttpUtils;
 import com.zykj.loveattention.utils.ImageOptions;
@@ -106,7 +107,7 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity implements OnItem
 				            RadioButton radioButton = new RadioButton(B1_6_JinBiShangChengActivity.this);
 				            radioButton.setId(parent.get("cateid").getAsInt());
 				            radioButton.setText(parent.get("name").getAsString());
-				            radioButton.setTextSize(18f);
+				            radioButton.setTextSize(16f);
 				            radioButton.setPadding(20, 35, 20, 35);
 				            radioButton.setTextColor(getResources().getColorStateList(R.drawable.classify_text));
 				            radioButton.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -149,7 +150,7 @@ public class B1_6_JinBiShangChengActivity extends BaseActivity implements OnItem
 								holder.setText(R.id.classify_name, (String)children.get("name"));
 								if(!StringUtil.isEmpty((String)children.get("imgpath"))){
 									ImageView imageView = holder.getView(R.id.classify_image);
-									imageLoader.displayImage((String)children.get("imgpath"), imageView, 
+									imageLoader.displayImage(AppValue.ImgUrl+(String)children.get("imgpath"), imageView, 
 											ImageOptions.getOpstion(), new AnimateFirstDisplayListener());
 								}
 							}

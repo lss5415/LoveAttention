@@ -7,7 +7,7 @@
    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="#F3F5F5" >
+        android:background="#ED6D00" >
 
         <ImageView
             android:id="@+id/im_b410_21_back_btn"
@@ -15,23 +15,24 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/fanhuihui" />
+            android:background="@drawable/fanhui" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="新增地址"
-            android:textColor="#000"
+            android:text="地址"
+            android:textColor="#FFF"
             android:textSize="18sp" />
         <TextView
+            android:id="@+id/tv_queding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:text="确定"
-            android:textColor="#000"/>
+            android:textColor="#FFF"/>
     </RelativeLayout>
 	<LinearLayout 
 	    android:layout_width="fill_parent"
@@ -44,6 +45,7 @@
 	        android:textColor="#000"
 	        android:text="收货人姓名："/>
 	    <EditText 
+	        android:id="@+id/tv_name"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:padding="15dp"
@@ -61,10 +63,11 @@
 	        android:textColor="#000"
 	        android:text="联系方式："/>
 	    <EditText 
+	        android:id="@+id/tv_phone"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:padding="15dp"
-	        android:background="@null"/>
+	        android:background="@null"
+	        android:padding="15dp"/>
 	</LinearLayout>
 	<LinearLayout 
 	    android:layout_width="fill_parent"
@@ -77,11 +80,11 @@
 	        android:padding="15dp"
 	        android:textColor="#000"
 	        android:text="选择省份："/>
-	    <EditText 
+	    <TextView 
+	        android:id="@+id/tv_sheng"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:padding="15dp"
-	        android:background="@null"/>
+	        android:padding="15dp"/>
 	</LinearLayout>
 	<LinearLayout 
 	    android:layout_width="fill_parent"
@@ -94,11 +97,11 @@
 	        android:padding="15dp"
 	        android:textColor="#000"
 	        android:text="选择城市："/>
-	    <EditText 
+	    <TextView 
+	        android:id="@+id/tv_shi"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:padding="15dp"
-	        android:background="@null"/>
+	        android:padding="15dp"/>
 	</LinearLayout>
 	<LinearLayout 
 	    android:layout_width="fill_parent"
@@ -111,16 +114,17 @@
 	        android:padding="15dp"
 	        android:textColor="#000"
 	        android:text="选择县/区："/>
-	    <EditText 
+	    <TextView 
+	        android:id="@+id/tv_qu"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:padding="15dp"
-	        android:background="@null"/>
+	        android:padding="15dp"/>
 	</LinearLayout>
 	<LinearLayout 
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_marginTop="1dp"
+	    android:visibility="gone"
 	    android:background="#FFF">
 	    <TextView 
 	        android:layout_width="wrap_content"
@@ -129,6 +133,7 @@
 	        android:textColor="#000"
 	        android:text="选择街道："/>
 	    <EditText 
+	        android:id="@+id/tv_jiedao"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:padding="15dp"
@@ -146,6 +151,7 @@
 	        android:textColor="#000"
 	        android:text="详细地址："/>
 	    <EditText 
+	        android:id="@+id/tv_xiangxi"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:padding="15dp"

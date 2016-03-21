@@ -1,10 +1,7 @@
 package com.zykj.loveattention.utils;
 
 import android.app.Activity;
-import android.content.Context;
-import android.sax.StartElementListener;
 
-import com.android.volley.toolbox.Volley;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;

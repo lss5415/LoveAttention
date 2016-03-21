@@ -9,7 +9,7 @@
         android:id="@+id/rl_title"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="#F3F5F5" >
+        android:background="#ED6D00" >
 
         <ImageView
             android:id="@+id/b172_back"
@@ -17,7 +17,7 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/fanhuihui" />
+            android:src="@drawable/fanhui" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="翻菜单"
-            android:textColor="#000000"
+            android:textColor="#FFF"
             android:textSize="18sp" />
     </RelativeLayout>
 
@@ -35,7 +35,7 @@
         android:layout_height="fill_parent"
         android:layout_below="@id/rl_title" >
 
-        <LinearLayout
+       <LinearLayout
             android:id="@+id/ll_dibu"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
@@ -43,6 +43,7 @@
             android:background="#F3F5F5" >
 
             <TextView
+                android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -50,71 +51,88 @@
                 android:paddingBottom="10dp"
                 android:text="购物车还是空的" />
 
-            <LinearLayout
+            <LinearLayout 
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginRight="5dp"
-                android:gravity="right|center_vertical" >
-
-                <TextView
-                    android:id="@+id/tv_daodian"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_b47"
-                    android:gravity="center"
-                    android:text="到店"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/tv_songhuo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_b47_white"
-                    android:gravity="center"
-                    android:text="外送"
-                    android:textColor="@color/yellow" />
-                <TextView
-                    android:id="@+id/tv_daodian1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_b47_white"
-                    android:gravity="center"
-                    android:text="到店"
-                    android:textColor="@color/yellow" 
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/tv_songhuo1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_b47"
-                    android:gravity="center"
-                    android:text="外送"
-                    android:textColor="@color/white" 
-                    android:visibility="gone"/>
+                android:gravity="right">
+                
+            	<TextView 
+            	    android:id="@+id/tv_quzhifu"
+                	android:layout_width="100dp"
+                	android:layout_height="fill_parent"
+                	android:background="#FF0000"
+                	android:textColor="#FFFFFF"
+                	android:gravity="center"
+                	android:text="去支付"/>
             </LinearLayout>
-        </LinearLayout>
+        </LinearLayout> 
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_above="@id/ll_dibu" >
-
-            <ListView
+            <com.zykj.loveattention.view.MyListView
                 android:id="@+id/lv_fancaidan"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:dividerHeight="-1dp" >
-            </ListView>
-        </LinearLayout>
+                android:layout_marginBottom="50dp"
+                android:dividerHeight="-1dp" />
+            <LinearLayout 
+                android:id="@+id/ll_gwc"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="50dp"  
+                android:clickable="true"
+                android:visibility="gone"	
+                android:weightSum="3"
+                android:orientation="vertical">
+            	<LinearLayout 
+            	    android:layout_width="fill_parent"
+            	    android:layout_height="0.0dp"
+            	    android:background="#55EEEEEE"
+            	    android:layout_weight="1"/>
+                <LinearLayout 
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dp"
+            	    android:layout_weight="2"
+                    android:orientation="vertical">
+                    <RelativeLayout 
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:background="#EBEBEB">
+                        <TextView 
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="购物车"/>
+                        <TextView 
+                            android:id="@+id/tv_goodsnum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="共计0件商品"/>
+                    </RelativeLayout>
+                    <LinearLayout 
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="#FFF">
+					<com.zykj.loveattention.view.AutoListView
+	    				android:id="@+id/al_gouwulist"
+	    				android:layout_width="fill_parent"
+	    				android:layout_height="wrap_content"
+	    				android:dividerHeight="-1dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/im_xuanhaole"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/xuanhaolehui" />
+        android:src="@drawable/xuanhaolehui" /> 
 
 </RelativeLayout>

@@ -77,7 +77,7 @@ public class B4_1_DengLuActivity extends BaseActivity {
 			}else if (TextUtils.isEmpty(password)) {
 				Toast.makeText(this, "密码不能为空", Toast.LENGTH_LONG).show();
 			}else {
-				RequestDailog.showDialog(this, "正在登陆请稍后");
+				RequestDailog.showDialog(this, "正在登录请稍后");
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("username", username);
 //				map.put("mobile", username);
@@ -103,7 +103,7 @@ public class B4_1_DengLuActivity extends BaseActivity {
 									putSharedPreferenceValue("mobile", mobile);
 									putSharedPreferenceValue("invitecode", invitecode);
 									putSharedPreferenceValue("isLoged", "1");
-									Toast.makeText(B4_1_DengLuActivity.this, "登陆成功", Toast.LENGTH_LONG).show();
+									Toast.makeText(B4_1_DengLuActivity.this, "登录成功", Toast.LENGTH_LONG).show();
 									Intent itwode = new Intent(B4_1_DengLuActivity.this,B0_MainActivity.class);
 									startActivity(itwode);
 									

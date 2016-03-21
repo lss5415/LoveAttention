@@ -49,5 +49,9 @@ public class AppValue {
 	 * mob短信验证SECRE
 	 */
 	public static final String APP_SECRE = "834e08d5e03c143ab86af5ea85c5c249";
+	/**
+	 * 图片统一路径为：
+	 */
+	public static final String ImgUrl = "http://115.28.67.86:8080/aigz/upload/";
 
 }

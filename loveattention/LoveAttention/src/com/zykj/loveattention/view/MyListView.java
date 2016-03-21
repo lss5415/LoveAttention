@@ -8,8 +8,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.zykj.loveattention.view.XListView;
-
 /*
  *	 ______    ______    ______
  *	/\  __ \  /\  ___\  /\  ___\

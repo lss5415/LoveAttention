@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zykj.loveattention.R;
+import com.zykj.loveattention.data.AppValue;
 /**
  * b2和b3通用的适配器
  * 
@@ -69,7 +69,7 @@ public class B2_and_B3_Adapter  extends BaseAdapter {
 		}else{
 			ViewHolder=(ViewHolder) convertView.getTag();
 		}
-		ImageLoader.getInstance().displayImage("http://115.28.208.196:8080/aigz/"+(String)faxiandata.get(position).get("couponimage"), ViewHolder.d2_img_layout);
+		ImageLoader.getInstance().displayImage(AppValue.ImgUrl+(String)faxiandata.get(position).get("couponimage"), ViewHolder.d2_img_layout);
 		ViewHolder.d2_tv_title.setText(faxiandata.get(position).get("couponname"));
 //		ViewHolder.tv_jiage.setText(faxiandata.get(position).get("perperson"));
 		ViewHolder.d2_tv_neirong.setText(faxiandata.get(position).get("coupondetail"));

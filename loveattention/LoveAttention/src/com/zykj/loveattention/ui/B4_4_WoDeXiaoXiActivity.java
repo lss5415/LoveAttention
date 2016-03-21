@@ -2,77 +2,73 @@ package com.zykj.loveattention.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.zykj.loveattention.R;
+import com.zykj.loveattention.adapter.XiaoXiAdapter;
 import com.zykj.loveattention.base.BaseActivity;
+import com.zykj.loveattention.utils.HttpUtils;
+import com.zykj.loveattention.utils.JsonUtils;
 import com.zykj.loveattention.utils.ListViewSwipeGesture;
+import com.zykj.loveattention.utils.Tools;
+import com.zykj.loveattention.view.RequestDailog;
 
 /**
  * @author lss 2015年8月12日	我的消息
- *
+ *lv_gonggao
  */
 public class B4_4_WoDeXiaoXiActivity extends BaseActivity {
 	private ImageView im_b44_back_btn;//返回
 	private TextView tv_wodexiaoxi,tv_tuisongxiaoxi,tv_xitongxiaoxi;//我的，推送，系统
 	private ImageView b3_hongdi_wode,b3_hongdi_tuisong,b3_hongdi_xitong;//红底我的，推送，系统
-    private ArrayList<HashMap<String,String>> data=new ArrayList<HashMap<String, String>>();
+//    private ArrayList<HashMap<String,String>> data=new ArrayList<HashMap<String, String>>();
+	private List<Map<String, String>> listdata = new ArrayList<Map<String, String>>();
+	private List<Map<String, String>> listdata1 = new ArrayList<Map<String, String>>();
+	private List<Map<String, String>> listdata2 = new ArrayList<Map<String, String>>();
     private ListView lv_gonggao;
-    private BaseAdapter baseAdapter;
+//    private BaseAdapter baseAdapter;
+	private RequestQueue mRequestQueue;
+	private int pagenumber = 1;
+	private XiaoXiAdapter xxadapter;
+	private int xxstate=0;//0,1,2我的，推送，系统
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ui_b4_4_wodexiaoxi);
 		initView();
-		for (int i=0;i<20;i++){
-            HashMap<String,String> itemData=new HashMap<String, String>();
-            itemData.put("tv_gonggao","茂业商场大促销仅剩三天了！"+i);
-            data.add(itemData);
-        }
-        baseAdapter=new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return data.size();
-            }
-            @Override
-            public Object getItem(int position) {
-                return data.get(position);
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                if (convertView==null){
-                    LayoutInflater layoutInflater=getLayoutInflater();
-                    convertView=layoutInflater.inflate(R.layout.manager_group_list_item_parent,parent,false);
-                }
-                Map<String,String> itemData=(Map<String,String>)getItem(position);
-                TextView tv_gonggao=(TextView)convertView.findViewById(R.id.tv_gonggao);
-                tv_gonggao.setText(itemData.get("tv_gonggao").toString());
-                return convertView;
-            }
-        };
-        lv_gonggao.setAdapter(baseAdapter);
+		mRequestQueue = Volley.newRequestQueue(this);
+		XiaoXi();
+		XiaoXiList();
+        
+	}
+	public void XiaoXiList(){
+		xxadapter = new XiaoXiAdapter(B4_4_WoDeXiaoXiActivity.this, listdata);
+		lv_gonggao.setAdapter(xxadapter);
         final ListViewSwipeGesture touchListener = new ListViewSwipeGesture(
                 lv_gonggao, swipeListener, this);
         touchListener.SwipeType	=	ListViewSwipeGesture.Double;    //设置两个选项列表项的背景
         lv_gonggao.setOnTouchListener(touchListener);
 	}
-
 
 	public void initView() {
 		im_b44_back_btn = (ImageView) findViewById(R.id.im_b44_back_btn);
@@ -99,21 +95,24 @@ public class B4_4_WoDeXiaoXiActivity extends BaseActivity {
         	b3_hongdi_wode.setVisibility(View.VISIBLE);
         	setTextColor();
         	tv_wodexiaoxi.setTextColor(getResources().getColor(R.color.all_huang_color));
-        	
+        	xxstate = 0;
+        	XiaoXi();
         	break;
         case R.id.tv_tuisongxiaoxi:
         	setVisible();
         	b3_hongdi_tuisong.setVisibility(View.VISIBLE);
         	setTextColor();
         	tv_tuisongxiaoxi.setTextColor(getResources().getColor(R.color.all_huang_color));
-        	
+        	xxstate = 1;
+        	XiaoXi();
         	break;
         case R.id.tv_xitongxiaoxi:
         	setVisible();
         	b3_hongdi_xitong.setVisibility(View.VISIBLE);
         	setTextColor();
         	tv_xitongxiaoxi.setTextColor(getResources().getColor(R.color.all_huang_color));
-        	
+        	xxstate = 2;
+        	XiaoXi();
         	break;
         default:
         	break;
@@ -146,8 +145,8 @@ public class B4_4_WoDeXiaoXiActivity extends BaseActivity {
 	        public void HalfSwipeListView(int position) {
 	            // TODO Auto-generated method stub
 //	            System.out.println("<<<<<<<" + position);
-	            data.remove(position);
-	            baseAdapter.notifyDataSetChanged();
+	            listdata.remove(position);
+	            xxadapter.notifyDataSetChanged();
 	            Toast.makeText(B4_4_WoDeXiaoXiActivity.this,"删除", Toast.LENGTH_SHORT).show();
 	        }
 
@@ -169,10 +168,177 @@ public class B4_4_WoDeXiaoXiActivity extends BaseActivity {
 
 	        @Override
 	        public void OnClickListView(int position) {
-	            // TODO Auto-generated method stub
-
+	        	Intent intent = new Intent();
+	        	intent.setClass(B4_4_WoDeXiaoXiActivity.this,B5_2_SheQuGongGaoDetailActivity.class);
+	        	startActivity(intent);
 	        }
 
 	    };
+	    
+	    public void XiaoXi(){
+	    		RequestDailog.showDialog(this, "数据加载中，请稍后");
+	    		Map<String, String> map = new HashMap<String, String>();
+				map.put("memberid", getSharedPreferenceValue("id"));
+				map.put("pagenumber", pagenumber+"");
+				map.put("pagesize", "5");
+	    		String json = JsonUtils.toJson(map);
+	    		if (xxstate==0) {
+	    			JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
+		    				HttpUtils.url_mymessage(json), null,
+		    				new Response.Listener<JSONObject>() {
+		    					@Override
+		    					public void onResponse(JSONObject response) {
+		    						RequestDailog.closeDialog();
+		    						JSONObject status;
+		    						try {
+		    							status = response.getJSONObject("status");
+		    							String succeed = status.getString("succeed");
+		    							if (succeed.equals("1")) // 成功
+		    							{
+		    								listdata.clear();
+		    								JSONObject joba = response.getJSONObject("data");
+											JSONArray data = joba.getJSONArray("resultlist");
+//											Log.e("data", data+"");
+											for (int i = 0; i < data.length(); i++) {
+												Map<String, String> map = new HashMap<String, String>();
+												JSONObject jsonObject = (JSONObject) data.get(i);
+												map.put("createtime",jsonObject.getString("createtime"));
+												map.put("messageimg",jsonObject.getString("messageimg"));
+												map.put("messagecontent",jsonObject.getString("messagecontent"));
+												map.put("messageid",jsonObject.getString("messageid"));
+												map.put("messagetitle",jsonObject.getString("messagetitle"));
+												map.put("messagecate",jsonObject.getString("messagecate"));
+												map.put("state",jsonObject.getString("state"));
+												map.put("createuser",jsonObject.getString("createuser"));
+												listdata.add(map);
+											}
+											Log.e("list", listdata.toString());
+											xxadapter.notifyDataSetChanged();
+		    							} else {// 失败,提示失败信息
+		    								String errdesc = status.getString("errdesc");
+		    								Toast.makeText(B4_4_WoDeXiaoXiActivity.this,errdesc, Toast.LENGTH_LONG).show();
+		    							}
+		    						} catch (org.json.JSONException e) {
+		    							// TODO Auto-generated catch block
+		    							e.printStackTrace();
+		    						}
 
+		    					}
+		    				}, new Response.ErrorListener() {
+		    					@Override
+		    					public void onErrorResponse(VolleyError error) {
+		    						RequestDailog.closeDialog();
+		    						Tools.Log("ErrorResponse=" + error.getMessage());
+		    						Toast.makeText(B4_4_WoDeXiaoXiActivity.this, "网络连接失败，请重试",
+		    								Toast.LENGTH_LONG).show();
+		    					}
+		    				});
+		    		mRequestQueue.add(jr);
+				}else if(xxstate==1){
+	    			JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
+		    				HttpUtils.url_pushmessage(json), null,
+		    				new Response.Listener<JSONObject>() {
+		    					@Override
+		    					public void onResponse(JSONObject response) {
+		    						RequestDailog.closeDialog();
+		    						JSONObject status;
+		    						try {
+		    							status = response.getJSONObject("status");
+		    							String succeed = status.getString("succeed");
+		    							if (succeed.equals("1")) // 成功
+		    							{
+		    								listdata.clear();
+		    								JSONObject joba = response.getJSONObject("data");
+											JSONArray data = joba.getJSONArray("resultlist");
+//											Log.e("data", data+"");
+											for (int i = 0; i < data.length(); i++) {
+												Map<String, String> map = new HashMap<String, String>();
+												JSONObject jsonObject = (JSONObject) data.get(i);
+												map.put("createtime",jsonObject.getString("createtime"));
+												map.put("messageimg",jsonObject.getString("messageimg"));
+												map.put("messagecontent",jsonObject.getString("messagecontent"));
+												map.put("messageid",jsonObject.getString("messageid"));
+												map.put("messagetitle",jsonObject.getString("messagetitle"));
+												map.put("messagecate",jsonObject.getString("messagecate"));
+												map.put("state",jsonObject.getString("state"));
+												map.put("createuser",jsonObject.getString("createuser"));
+												listdata.add(map);
+											}
+											Log.e("list", listdata.toString());
+											xxadapter.notifyDataSetChanged();
+		    							} else {// 失败,提示失败信息
+		    								String errdesc = status.getString("errdesc");
+		    								Toast.makeText(B4_4_WoDeXiaoXiActivity.this,errdesc, Toast.LENGTH_LONG).show();
+		    							}
+		    						} catch (org.json.JSONException e) {
+		    							// TODO Auto-generated catch block
+		    							e.printStackTrace();
+		    						}
+
+		    					}
+		    				}, new Response.ErrorListener() {
+		    					@Override
+		    					public void onErrorResponse(VolleyError error) {
+		    						RequestDailog.closeDialog();
+		    						Tools.Log("ErrorResponse=" + error.getMessage());
+		    						Toast.makeText(B4_4_WoDeXiaoXiActivity.this, "网络连接失败，请重试",
+		    								Toast.LENGTH_LONG).show();
+		    					}
+		    				});
+		    		mRequestQueue.add(jr);
+				}else if(xxstate==2){
+	    			JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
+		    				HttpUtils.url_systemessage(json), null,
+		    				new Response.Listener<JSONObject>() {
+		    					@Override
+		    					public void onResponse(JSONObject response) {
+		    						RequestDailog.closeDialog();
+		    						JSONObject status;
+		    						try {
+		    							status = response.getJSONObject("status");
+		    							String succeed = status.getString("succeed");
+		    							if (succeed.equals("1")) // 成功
+		    							{
+		    								listdata.clear();
+		    								JSONObject joba = response.getJSONObject("data");
+											JSONArray data = joba.getJSONArray("resultlist");
+//											Log.e("data", data+"");
+											for (int i = 0; i < data.length(); i++) {
+												Map<String, String> map = new HashMap<String, String>();
+												JSONObject jsonObject = (JSONObject) data.get(i);
+												map.put("createtime",jsonObject.getString("createtime"));
+												map.put("messageimg",jsonObject.getString("messageimg"));
+												map.put("messagecontent",jsonObject.getString("messagecontent"));
+												map.put("messageid",jsonObject.getString("messageid"));
+												map.put("messagetitle",jsonObject.getString("messagetitle"));
+												map.put("messagecate",jsonObject.getString("messagecate"));
+												map.put("state",jsonObject.getString("state"));
+												map.put("createuser",jsonObject.getString("createuser"));
+												listdata.add(map);
+											}
+											Log.e("list", listdata.toString());
+											xxadapter.notifyDataSetChanged();
+		    							} else {// 失败,提示失败信息
+		    								String errdesc = status.getString("errdesc");
+		    								Toast.makeText(B4_4_WoDeXiaoXiActivity.this,errdesc, Toast.LENGTH_LONG).show();
+		    							}
+		    						} catch (org.json.JSONException e) {
+		    							// TODO Auto-generated catch block
+		    							e.printStackTrace();
+		    						}
+
+		    					}
+		    				}, new Response.ErrorListener() {
+		    					@Override
+		    					public void onErrorResponse(VolleyError error) {
+		    						RequestDailog.closeDialog();
+		    						Tools.Log("ErrorResponse=" + error.getMessage());
+		    						Toast.makeText(B4_4_WoDeXiaoXiActivity.this, "网络连接失败，请重试",
+		    								Toast.LENGTH_LONG).show();
+		    					}
+		    				});
+		    		mRequestQueue.add(jr);
+				}
+	    		
+	    }
 }

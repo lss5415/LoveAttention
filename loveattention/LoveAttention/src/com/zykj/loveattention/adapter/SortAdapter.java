@@ -2,9 +2,6 @@ package com.zykj.loveattention.adapter;
 
 import java.util.List;
 
-import com.zykj.loveattention.R;
-import com.zykj.loveattention.data.SortModel;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
+
+import com.zykj.loveattention.R;
+import com.zykj.loveattention.data.SortModel;
 
 public class SortAdapter extends BaseAdapter implements SectionIndexer{
 	private List<SortModel> list = null;
@@ -67,7 +67,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 			viewHolder.tvLetter.setVisibility(View.GONE);
 		}
 	
-		viewHolder.tvTitle.setText(this.list.get(position).getArea_name());
+		viewHolder.tvTitle.setText(this.list.get(position).getCityname());
 		
 		return view;
 

@@ -3,7 +3,6 @@ package com.zykj.loveattention.ui;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -109,7 +108,7 @@ public class B4_1_2_WangJiMiMaActivity extends BaseActivity {
 								String succeed = status.getString("succeed");
 								if (succeed.equals("1")) //成功
 								{
-									Toast.makeText(B4_1_2_WangJiMiMaActivity.this, "修改密码成功，请重新登陆", Toast.LENGTH_LONG).show();
+									Toast.makeText(B4_1_2_WangJiMiMaActivity.this, "修改密码成功，请重新登录", Toast.LENGTH_LONG).show();
 									B4_1_2_WangJiMiMaActivity.this.finish();
 								}else {//失败,提示失败信息
 									String errdesc = status.getString("errdesc");

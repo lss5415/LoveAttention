@@ -221,7 +221,7 @@ public class ListViewSwipeGesture implements OnTouchListener {
 		if (mViewWidth < 2) {
 			mViewWidth = mListView.getWidth();
 			smallWidth = mViewWidth / 7;
-			textwidth2 = mViewWidth / 3;
+			textwidth2 = mViewWidth / 4;
 			textwidth = textwidth2;
 			// 原版
 			// largewidth = textwidth+textwidth2;

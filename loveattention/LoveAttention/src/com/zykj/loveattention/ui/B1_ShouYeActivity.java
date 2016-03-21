@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONException;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,7 +32,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qr_codescan.MipcaActivityCapture;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.B1_ShouYeAdapter;
 import com.zykj.loveattention.base.BaseActivity;
@@ -51,7 +49,7 @@ import com.zykj.loveattention.view.RequestDailog;
 public class B1_ShouYeActivity extends BaseActivity {
 
 	private ImageView iv_erwei;// 扫描二维码
-	private ViewPager viewPager1;// 横向滚动的16个分类
+	private ViewPager viewPageryiliu;// 横向滚动的16个分类
 	private ArrayList<View> pageview;
 	private AutoListView lv_shouyelist;
 	private B1_ShouYeAdapter syadapter;
@@ -125,11 +123,17 @@ public class B1_ShouYeActivity extends BaseActivity {
 		mRequestQueue = Volley.newRequestQueue(this);
 		tv_cityname = (TextView) findViewById(R.id.tv_cityname);
 		if (getIntent().getStringExtra("cityname") == null) {
-			putSharedPreferenceValue("lng", "118.338501");
-			putSharedPreferenceValue("lat", "35.063786");
-			putSharedPreferenceValue("cityid", "235");
+//			putSharedPreferenceValue("lng", "118.338501");
+//			putSharedPreferenceValue("lat", "35.063786");
+//			putSharedPreferenceValue("cityid", "235");
 			// HttpUtils.getFirstList(res_getSyList, "235", "118.338501",
 			// "35.063786");
+
+			String lng = getSharedPreferenceValue("lng");
+			String lat = getSharedPreferenceValue("lat");
+			String cityid = getSharedPreferenceValue("cityid");
+			String cityname = getSharedPreferenceValue("cityname");
+			tv_cityname.setText(cityname);
 		} else {
 			cityname = getIntent().getStringExtra("cityname");
 			tv_cityname.setText(cityname);
@@ -139,6 +143,7 @@ public class B1_ShouYeActivity extends BaseActivity {
 			putSharedPreferenceValue("lng", lng);
 			putSharedPreferenceValue("lat", lat);
 			putSharedPreferenceValue("cityid", cityid);
+			putSharedPreferenceValue("cityname", cityname);
 			// HttpUtils.getFirstList(res_getSyList, cityid, lng, lat);
 		}
 		setAdapter();
@@ -154,7 +159,7 @@ public class B1_ShouYeActivity extends BaseActivity {
 		dotA = (ImageView) findViewById(R.id.dotA);
 		dotB = (ImageView) findViewById(R.id.dotB);
 
-		viewPager1 = (ViewPager) findViewById(R.id.viewPager);
+		viewPageryiliu = (ViewPager) findViewById(R.id.xiafangviewPager);
 		lv_shouyelist = (AutoListView) findViewById(R.id.lv_shouyelist);
 
 		tv_myDNA = (TextView) findViewById(R.id.tv_myDNA);
@@ -250,9 +255,8 @@ public class B1_ShouYeActivity extends BaseActivity {
 		};
 
 		// 绑定适配器
-		viewPager1.setAdapter(mPagerAdapter);
-		viewPager1
-				.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		viewPageryiliu.setAdapter(mPagerAdapter);
+		viewPageryiliu.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 					@Override
 					public void onPageSelected(int position) {
@@ -276,56 +280,14 @@ public class B1_ShouYeActivity extends BaseActivity {
 					@Override
 					public void onPageScrolled(int arg0, float arg1, int arg2) {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
 					public void onPageScrollStateChanged(int arg0) {
-						// TODO Auto-generated method stub
-
+						
 					}
 				});
-		/*
-		 * setListener(iv_erwei, et_sousuo, ll_meishi, ll_gouwu, ll_jiudian,
-		 * ll_liren, ll_qinzi, ll_xiuxianyule, ll_shouyirenshangmen,
-		 * ll_waimaiwaisong, ll_shenghuofuwu, ll_xiedianping, ll_wodedingdan,
-		 * ll_wodekaquan, ll_wodeqianbao, ll_wodeyaoqing, ll_woshishanghu,
-		 * ll_quanbufenlei, tv_myDNA, net_lay1, mobileshop_lay2, net_lay2,
-		 * mobileshop_lay3, rl_ditu,tv_cainixihuan,tv_tuijianshanghu);
-		 */
-		viewPager1.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-			
-			@Override
-			public void onPageSelected(int position) {
-				// TODO Auto-generated method stub
-				switch (position) {
-				case 0:
-					dotA.setImageResource(R.drawable.dot1);
-					dotB.setImageResource(R.drawable.dot0);
-					break;
-				case 1:
-					dotA.setImageResource(R.drawable.dot0);
-					dotB.setImageResource(R.drawable.dot1);
-					break;
-
-				default:
-					break;
-				}
-				
-			}
-			
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		
 		setListener(iv_erwei, et_sousuo,rl_sousuokuang,
 				 ll_meishi, ll_gouwu, ll_jiudian,ll_liren,
 	 				ll_qinzi, ll_xiuxianyule, ll_shouyirenshangmen,
@@ -345,7 +307,7 @@ public class B1_ShouYeActivity extends BaseActivity {
 					long arg3) {
 				Intent tuangou = new Intent(B1_ShouYeActivity.this,
 						B1_7_ShangJiaXiangQingActivity.class);
-				tuangou.putExtra("dpid", cnxhdata.get(arg2).get("merchantid"));
+				tuangou.putExtra("merchantid", cnxhdata.get(arg2).get("merchantid"));
 				startActivity(tuangou);
 			}
 		});
@@ -435,7 +397,7 @@ public class B1_ShouYeActivity extends BaseActivity {
 						B4_7_WoDeDingdan.class);
 				startActivity(itdingdan);
 			} else {
-				Toast.makeText(this, "您未登陆，请先登陆", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "您未登录，请先登录", Toast.LENGTH_LONG).show();
 			}
 			break;
 		case R.id.ll_wodekaquan:
@@ -446,7 +408,7 @@ public class B1_ShouYeActivity extends BaseActivity {
 						B4_3_WoDeKaQuanActivity.class);
 				startActivity(itkaquan);
 			} else {
-				Toast.makeText(this, "您未登陆，请先登陆", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "您未登录，请先登录", Toast.LENGTH_LONG).show();
 			}
 			break;
 
@@ -459,7 +421,7 @@ public class B1_ShouYeActivity extends BaseActivity {
 				itqianbao.putExtra("id", getSharedPreferenceValue("id"));
 				startActivity(itqianbao);
 			} else {
-				Toast.makeText(this, "您未登陆，请先登陆", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "您未登录，请先登录", Toast.LENGTH_LONG).show();
 			}
 			break;
 		case R.id.ll_wodeyaoqing:
@@ -470,7 +432,7 @@ public class B1_ShouYeActivity extends BaseActivity {
 						B4_5_WoDeYaoQingActivity.class);
 				startActivity(ityaoqing);
 			} else {
-				Toast.makeText(this, "您未登陆，请先登陆", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "您未登录，请先登录", Toast.LENGTH_LONG).show();
 			}
 			break;
 		case R.id.ll_woshishanghu:
@@ -478,14 +440,15 @@ public class B1_ShouYeActivity extends BaseActivity {
 
 			break;
 		case R.id.ll_quanbufenlei:
-			Toast.makeText(this, "全部分类", Toast.LENGTH_LONG).show();
-			Intent it4allclassification = new Intent(this,B1_1_allclassification.class);
+//			Toast.makeText(this, "全部分类", Toast.LENGTH_LONG).show();
+			Intent it4allclassification = new Intent(this,B1_AllCategoryActivity.class);
 			startActivity(it4allclassification);
 			break;
 		case R.id.tv_myDNA:
 			// Toast.makeText(this, "我的dna", Toast.LENGTH_LONG).show();
-			Intent intent2 = new Intent(this, B1_1_MyDNA.class);
-			startActivity(intent2);
+			Intent itdna = new Intent();
+			itdna.setClass(this, B1_1_MyDNA.class);
+			startActivityForResult(itdna, 0);
 			break;
 		case R.id.net_lay1:
 			// Toast.makeText(this, "广告定制", Toast.LENGTH_LONG).show();
@@ -513,7 +476,7 @@ public class B1_ShouYeActivity extends BaseActivity {
 		case R.id.rl_ditu:
 			Intent itmap = new Intent();
 			itmap.setClass(this, B1_01_MapActivity.class);
-			startActivity(itmap);
+			startActivityForResult(itmap, 0);
 			break;
 		case R.id.tv_cainixihuan:
 			tv_cainixihuan.setTextColor(Color.rgb(255, 0, 0));
@@ -561,6 +524,57 @@ public class B1_ShouYeActivity extends BaseActivity {
 				// Toast.LENGTH_LONG).show();
 			}
 			break;
+		case 0:
+			try {
+				cityname = data.getStringExtra("cityname");
+				tv_cityname.setText(cityname);
+				String cityid = data.getStringExtra("cityid");
+				String lng = data.getStringExtra("lng");
+				String lat = data.getStringExtra("lat");
+				putSharedPreferenceValue("cityname", cityname);
+				putSharedPreferenceValue("lng", lng);
+				putSharedPreferenceValue("lat", lat);
+				putSharedPreferenceValue("cityid", cityid);
+				if (getSharedPreferenceValue("tv_zj1").equals("")) {
+					putSharedPreferenceValue("tv_zj1", cityname);
+					putSharedPreferenceValue("tv_zj11", cityid);
+				}else {
+					if (getSharedPreferenceValue("tv_zj2").equals("")){
+						if (getSharedPreferenceValue("tv_zj1").equals(cityname)) {
+							
+						}else {
+							putSharedPreferenceValue("tv_zj2", cityname);
+							putSharedPreferenceValue("tv_zj22", cityid);
+						}
+					}else {
+						if (getSharedPreferenceValue("tv_zj3").equals("")){
+							if (getSharedPreferenceValue("tv_zj1").equals(cityname)) {
+								
+							}else if (getSharedPreferenceValue("tv_zj2").equals(cityname)) {
+								
+							}else {
+								putSharedPreferenceValue("tv_zj3", cityname);
+								putSharedPreferenceValue("tv_zj33", cityid);
+							}
+						}else {
+							if (getSharedPreferenceValue("tv_zj1").equals(cityname)) {
+								
+							}else if (getSharedPreferenceValue("tv_zj2").equals(cityname)) {
+								
+							}else if (getSharedPreferenceValue("tv_zj3").equals(cityname)) {
+								
+							}else {
+								putSharedPreferenceValue("tv_zj1", cityname);
+								putSharedPreferenceValue("tv_zj11", cityid);
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				
+			}
+			
+			break;
 		}
 	}
 
@@ -579,63 +593,17 @@ public class B1_ShouYeActivity extends BaseActivity {
 		}
 	}
 
-	public void GuangGao() {
-		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
-				HttpUtils.url_shouyeguanggao(), null,
-				new Response.Listener<JSONObject>() {
-					@Override
-					public void onResponse(JSONObject response) {
-						RequestDailog.closeDialog();
-						JSONObject status;
-						try {
-							status = response.getJSONObject("status");
-							String succeed = status.getString("succeed");
-							if (succeed.equals("1")) // 成功
-							{
-								JSONObject job = response.getJSONObject("data");
-								org.json.JSONArray array1 = job.getJSONArray("advertList");
-								net_title1.setText(array1.getJSONObject(0).getString("aname"));
-								net_subtitle1.setText(array1.getJSONObject(0).getString("adesc"));
-								ImageLoader.getInstance().displayImage(array1.getJSONObject(0).getString("imgpath"), net_img1);
-								
-								mobileshop_title2.setText(array1.getJSONObject(1).getString("aname"));
-								mobileshop_subtitle2.setText(array1.getJSONObject(1).getString("adesc"));
-								ImageLoader.getInstance().displayImage(array1.getJSONObject(1).getString("imgpath"), mobileshop_img2);
-								
-								net_title2.setText(array1.getJSONObject(2).getString("aname"));
-								net_subtitle2.setText(array1.getJSONObject(2).getString("adesc"));
-								ImageLoader.getInstance().displayImage(array1.getJSONObject(2).getString("imgpath"), net_img2);
-								
-								mobileshop_title3.setText(array1.getJSONObject(3).getString("aname"));
-								mobileshop_subtitle3.setText(array1.getJSONObject(3).getString("adesc"));
-								ImageLoader.getInstance().displayImage(array1.getJSONObject(3).getString("imgpath"), mobileshop_img3);
-								
-								
-							} else {// 失败,提示失败信息
-								String errdesc = status.getString("errdesc");
-								Toast.makeText(B1_ShouYeActivity.this,errdesc, Toast.LENGTH_LONG).show();
-							}
-						} catch (org.json.JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-					}
-				}, new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						RequestDailog.closeDialog();
-						Tools.Log("ErrorResponse=" + error.getMessage());
-						Toast.makeText(B1_ShouYeActivity.this, "网络连接失败，请重试",
-								Toast.LENGTH_LONG).show();
-					}
-				});
-		mRequestQueue.add(jr);
+	public void GuangGao() { 
 	}
 
 	public void HotmerChantInfo() {
+		RequestDailog.showDialog(this, "数据加载中，请稍后");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("latitude", getSharedPreferenceValue("lat"));
+		map.put("longitude", getSharedPreferenceValue("lng"));
+		String json = JsonUtils.toJson(map);
 		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
-				HttpUtils.url_hotmerchantinfo(), null,
+				HttpUtils.url_hotmerchantinfo(json), null,
 				new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
@@ -684,8 +652,13 @@ public class B1_ShouYeActivity extends BaseActivity {
 	}
 
 	public void GuessInfo() {
+		RequestDailog.showDialog(this, "数据加载中，请稍后");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("latitude", getSharedPreferenceValue("lat"));
+		map.put("longitude", getSharedPreferenceValue("lng"));
+		String json = JsonUtils.toJson(map);
 		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
-				HttpUtils.url_guessinfo(), null,
+				HttpUtils.url_guessinfo(json), null,
 				new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {

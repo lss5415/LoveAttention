@@ -10,9 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,19 +21,23 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.zykj.loveattention.R;
-import com.zykj.loveattention.utils.HttpUtils;
+import com.zykj.loveattention.ui.B1_4_TuanGouActivity;
+import com.zykj.loveattention.ui.DaoDianDingDanXiangQing;
+import com.zykj.loveattention.ui.WaiSongDingDanXiangQing;
 import com.zykj.loveattention.utils.Tools;
 import com.zykj.loveattention.view.RequestDailog;
 import com.zykj.loveattention.view.UIDialog;
 
 public class B4_7_OrderStatusAdapter extends BaseAdapter {
 	
-	List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 	private Activity c;
-	JSONArray extend_order_goods;
+	com.alibaba.fastjson.JSONArray array;
 	private int status=0;
 	String key;
 //  order_state 订单状态（全部订单:10,未付款:20,未消费:30,待评价:40）
@@ -54,7 +56,7 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
     B5_5_OrderStatuslistviewAdapter adapter;
     
 
-	public B4_7_OrderStatusAdapter(Activity c, List<Map<String, Object>> data,int status,String key,int TAG_H0 ) {
+	public B4_7_OrderStatusAdapter(Activity c, List<Map<String, String>> data,int status,String key,int TAG_H0 ) {
 		this.c = c;
 		this.data = data;
 		this.status = status;
@@ -65,8 +67,8 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-//		return data == null ? 0 : data.size();
-		return 3;
+		return data == null ? 0 : data.size();
+//		return 3;
 	}
 
 	@Override
@@ -91,10 +93,10 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.ui_b5_5_orderlist_list_items, null);
 
             viewHolder.tv_storename = (TextView) convertView.findViewById(R.id.tv_storename);
-            viewHolder.tv_orderprice = (TextView) convertView.findViewById(R.id.tv_orderprice);
-            viewHolder.tv_ordergoodsnumber = (TextView) convertView.findViewById(R.id.tv_ordergoodsnumber);
             viewHolder.tv_fanyong = (TextView) convertView.findViewById(R.id.tv_fanyong);
             viewHolder.btn_operate = (Button) convertView.findViewById(R.id.btn_operate);
+            viewHolder.btn_delete = (Button) convertView.findViewById(R.id.btn_delete);
+            viewHolder.tv_gongfu = (TextView) convertView.findViewById(R.id.tv_gongfu);
             viewHolder.listView = (ListView) convertView.findViewById(R.id.listview_goodslist);
             convertView.setTag(viewHolder);
         }
@@ -106,23 +108,29 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
         switch (status) {
 			case ALLORDER:
 				viewHolder.btn_operate.setVisibility(View.GONE);
+				viewHolder.btn_delete.setVisibility(View.GONE);
+				viewHolder.tv_gongfu.setVisibility(View.VISIBLE);
 				break;
 			case WEIFUKUAN:
-				if (TAG_H0 == 101) {
+//				if (TAG_H0 == 101) {
 					viewHolder.btn_operate.setText("去付款");
-				}else {
-					viewHolder.btn_operate.setText("确认收货");
-				}
+					viewHolder.btn_delete.setText("删除订单");
+//				}else {
+//					viewHolder.btn_operate.setText("确认收货");
+//				}
 				break;
 			case WEIXIAOFEI:
 				if (TAG_H0 == 101) {
-					viewHolder.btn_operate.setText("确认消费");
+					viewHolder.btn_operate.setText("退订（联系商家）");
+					viewHolder.btn_delete.setVisibility(View.GONE);
 				}else {
-					viewHolder.btn_operate.setText("去付款");
+					viewHolder.btn_operate.setText("退订（联系商家）");
+					viewHolder.btn_delete.setText("确认收货");
 				}
 				break;
 			case DAIPINGJIA:
-				viewHolder.btn_operate.setText("评价");
+				viewHolder.btn_operate.setText("去评价");
+				viewHolder.btn_delete.setText("删除订单");
 				break;
 	
 			default:
@@ -131,14 +139,12 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 //        pay_sn = data.get(position).get("pay_sn").toString();
 //        price = data.get(position).get("order_amount").toString();
 //        store_phone= data.get(position).get("store_phone").toString();
-//        viewHolder.tv_storename.setText(data.get(position).get("store_name").toString());//店铺名
-//        JSONArray extend_order_goods = (JSONArray) ((Map) data.get(position)).get("extend_order_goods");
-//        viewHolder.tv_ordergoodsnumber.setText("共有"+extend_order_goods.length()+"件商品");//订单中商品的数量
-//        viewHolder.tv_orderprice.setText("实付:￥"+price);
-        
+        viewHolder.tv_storename.setText(data.get(position).get("mname").toString());//店铺名
+        viewHolder.tv_gongfu.setText("共付： ￥"+data.get(position).get("price").toString());
 //        adapter = new B5_5_OrderStatuslistviewAdapter(c,extend_order_goods);
 //        viewHolder.listView.setAdapter(adapter);
-        adapter = new B5_5_OrderStatuslistviewAdapter(c,extend_order_goods);
+        array = JSON.parseArray(data.get(position).get("goodlist"));  
+        adapter = new B5_5_OrderStatuslistviewAdapter(c,array,data.get(position).get("datetime"));
         viewHolder.listView.setAdapter(adapter);
         
         //根据商品数的多少来确定评论显示的高度
@@ -162,7 +168,7 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 //        viewHolder.btn_paytheorder.setOnClickListener(new PaytheorderListener(position,pay_sn));
         
         //跳转到订单详情
-//        viewHolder.listView.setOnItemClickListener(new GetOrderDetail(position,data.get(position).get("order_id").toString(),status,pay_sn,store_phone,canBeComment,price,extend_order_goods));
+        viewHolder.listView.setOnItemClickListener(new GetOrderDetail(position,data,c));
         
 //        viewHolder.btn_tuihuanhuo.setOnClickListener(new TuiHuan(position,data.get(position).get("store_phone").toString()));
 //        viewHolder.btn_querenshouhuo.setOnClickListener(new QueRen(position,data.get(position).get("order_id").toString()));
@@ -254,30 +260,68 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 	}
 	/**
 	 * 跳转到订单详情
-	 * @author zyk
+	 * @author lss
 	 */
 	class GetOrderDetail implements ListView.OnItemClickListener {
 		int position;
-		String order_id;
-		String pay_sn;
-		String store_phone;
-		String canBeComment;
-		String price;
-		JSONArray extend_order_goods;
+		List<Map<String, String>> data;
+		Activity c;
 		int status;
-		public GetOrderDetail(int position,String order_id,int status,String pay_sn,String store_phone,String canBeComment,String price,JSONArray extend_order_goods) {
+		public GetOrderDetail(int position,List<Map<String, String>> data,Activity c) {
 			this.position = position;
-			this.order_id = order_id;
-			this.pay_sn = pay_sn;
-			this.status = status;
-			this.store_phone = store_phone;
-			this.canBeComment = canBeComment;
-			this.extend_order_goods = extend_order_goods;
-			this.price = price;
+			this.data = data;
+			this.c = c;
 		}
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
+			String statenum = data.get(position).get("state").toString();
+			String typenum = data.get(position).get("type").toString();
+			if (typenum.equals("0")) {//到店
+				if (statenum.equals("0")) {//0-未付款
+					Toast.makeText(c, "未付款", Toast.LENGTH_LONG).show();
+					Intent jiudian = new Intent(c, DaoDianDingDanXiangQing.class);
+					jiudian.putExtra("state", "0");
+					c.startActivity(jiudian);
+				} else if (statenum.equals("1")){//1-未消费 
+					Toast.makeText(c, "未消费", Toast.LENGTH_LONG).show();
+					Intent jiudian = new Intent(c, DaoDianDingDanXiangQing.class);
+					jiudian.putExtra("state", "1");
+					c.startActivity(jiudian);
+				}else if (statenum.equals("2")){//2-已消费
+					Toast.makeText(c, "已消费", Toast.LENGTH_LONG).show();
+					Intent jiudian = new Intent(c, DaoDianDingDanXiangQing.class);
+					jiudian.putExtra("state", "2");
+					c.startActivity(jiudian);
+				}else{
+					Toast.makeText(c, "到店特殊情况", Toast.LENGTH_LONG).show();
+					Intent jiudian = new Intent(c, DaoDianDingDanXiangQing.class);
+					jiudian.putExtra("state", "3");
+					c.startActivity(jiudian);
+				}
+			}else{//外送
+				if (statenum.equals("0")) {//0-未付款
+					Toast.makeText(c, "未付款1", Toast.LENGTH_LONG).show();
+					Intent jiudian = new Intent(c, WaiSongDingDanXiangQing.class);
+					jiudian.putExtra("state", "0");
+					c.startActivity(jiudian);
+				} else if (statenum.equals("1")){//1-已付款
+					Toast.makeText(c, "已付款", Toast.LENGTH_LONG).show();
+					Intent jiudian = new Intent(c, WaiSongDingDanXiangQing.class);
+					jiudian.putExtra("state", "1");
+					c.startActivity(jiudian);
+				}else if (statenum.equals("2")){//2-已收货
+					Toast.makeText(c, "已收货", Toast.LENGTH_LONG).show();
+					Intent jiudian = new Intent(c, WaiSongDingDanXiangQing.class);
+					jiudian.putExtra("state", "2");
+					c.startActivity(jiudian);
+				}else{
+					Toast.makeText(c, "外送特殊情况", Toast.LENGTH_LONG).show();
+					Intent jiudian = new Intent(c, WaiSongDingDanXiangQing.class);
+					jiudian.putExtra("state", "3");
+					c.startActivity(jiudian);
+				}
+			}
 			// TODO Auto-generated method stub
 //			Intent intent_to_detail  = new Intent(c,B5_5_OrderDetail.class);
 //			intent_to_detail.putExtra("order_id", order_id);
@@ -398,12 +442,12 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 	private static class ViewHolder
     {
         TextView tv_storename;
-        TextView tv_orderprice;
-        TextView tv_ordergoodsnumber;
         TextView tv_fanyong;
         //评价＋确认消费＋付款＋
         Button btn_operate;//取消订单
         ListView listView;
+        Button btn_delete;//删除订单
+        TextView tv_gongfu;//共支付
     }
 	
 	/**

@@ -7,9 +7,10 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import android.R.color;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,10 +35,14 @@ import com.android.volley.toolbox.Volley;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.B2_FuJin_Adapter;
 import com.zykj.loveattention.adapter.B2_TextSizeAdapter;
-import com.zykj.loveattention.adapter.B2_and_B3_Adapter;
+import com.zykj.loveattention.adapter.FirstClassAdapter;
+import com.zykj.loveattention.adapter.SecondClassAdapter;
 import com.zykj.loveattention.base.BaseActivity;
+import com.zykj.loveattention.data.FirstClassItem;
+import com.zykj.loveattention.data.SecondClassItem;
 import com.zykj.loveattention.utils.HttpUtils;
 import com.zykj.loveattention.utils.JsonUtils;
+import com.zykj.loveattention.utils.ScreenUtils;
 import com.zykj.loveattention.utils.Tools;
 import com.zykj.loveattention.view.RequestDailog;
 
@@ -45,7 +51,8 @@ import com.zykj.loveattention.view.RequestDailog;
  *
  */
 public class B2_FuJinActivity extends BaseActivity {
-	
+
+	private Context mContext = B2_FuJinActivity.this;
 	public ImageButton map_btn;// 地图按钮
 	public ImageButton search_it;// 搜索按钮
 	public LinearLayout ll_all;//全部商家
@@ -66,7 +73,7 @@ public class B2_FuJinActivity extends BaseActivity {
 	private List<HashMap<String, String>> shopClass;//商户类型
 	private B2_TextSizeAdapter b2tsa;
     private ListView pList;
-    private PopupWindow popupWindow;
+    private PopupWindow popupWindow,popupWindow1;
 	private int pagesize = 5;//每页数量
 	private int pagenumber = 1;//当前页
 	private String districtid = "0";//地区ID
@@ -74,6 +81,12 @@ public class B2_FuJinActivity extends BaseActivity {
 	private int orderType = 0;//智能排序  1.人气 2.口碑 3.离我最近 4.人均最高 5.人均最低 
 	private int searchType = 0;//筛选  1.卡卷 2.免预约 3.节假日可用
 	private String isRebate = "1";//返佣商家 1.全部 2.返佣商家 
+    /**左侧和右侧两个ListView*/
+    private ListView leftLV, rightLV;
+    /**左侧一级分类的数据*/
+    private List<FirstClassItem> firstList;
+    /**右侧二级分类的数据*/
+    private List<SecondClassItem> secondList;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,6 +94,7 @@ public class B2_FuJinActivity extends BaseActivity {
 		mRequestQueue = Volley.newRequestQueue(this);
 		initUI();
         initPop();
+        initData();
 		setListener(map_btn,search_it,ll_all,ll_some,tv_shanghuleixing,tv_quancheng,tv_zhinengpaixu,tv_shaixuan);//绑定点击事件
 	}
 	
@@ -126,6 +140,92 @@ public class B2_FuJinActivity extends BaseActivity {
         }
 		requestData();
     }
+
+    /**
+     * 管理店铺(分类、排序)
+     */
+
+    private void initPopup() {
+        popupWindow1 = new PopupWindow(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
+        leftLV = (ListView) view.findViewById(R.id.pop_listview_left);
+        rightLV = (ListView) view.findViewById(R.id.pop_listview_right);
+
+        popupWindow1.setContentView(view);
+        popupWindow1.setBackgroundDrawable(new PaintDrawable());
+        popupWindow1.setFocusable(true);
+
+        popupWindow1.setHeight(ScreenUtils.getScreenH(this) * 2 / 3);
+        popupWindow1.setWidth(ScreenUtils.getScreenW(this));
+
+        popupWindow1.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+
+                leftLV.setSelection(0);
+                rightLV.setSelection(0);
+            }
+        });
+
+
+        //为了方便扩展，这里的两个ListView均使用BaseAdapter.如果分类名称只显示一个字符串，建议改为ArrayAdapter.
+        //加载一级分类
+        final FirstClassAdapter firstAdapter = new FirstClassAdapter(this, firstList);
+        leftLV.setAdapter(firstAdapter);
+
+        //加载左侧第一行对应右侧二级分类
+        secondList = new ArrayList<SecondClassItem>();
+        secondList.addAll(firstList.get(0).getSecondList());
+        final SecondClassAdapter secondAdapter = new SecondClassAdapter(this, secondList);
+        rightLV.setAdapter(secondAdapter);
+
+        //左侧ListView点击事件
+        leftLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //二级数据
+                List<SecondClassItem> list2 = firstList.get(position).getSecondList();
+                //如果没有二级类，则直接跳转
+                if (list2 == null || list2.size() == 0) {
+                    popupWindow1.dismiss();
+
+                    int firstId = firstList.get(position).getId();
+                    String selectedName = firstList.get(position).getName();
+                    handleResult(firstId, -1, selectedName);
+                    return;
+                }
+
+                FirstClassAdapter adapter = (FirstClassAdapter) (parent.getAdapter());
+                //如果上次点击的就是这一个item，则不进行任何操作
+                if (adapter.getSelectedPosition() == position){
+                    return;
+                }
+
+                //根据左侧一级分类选中情况，更新背景色
+                adapter.setSelectedPosition(position);
+                adapter.notifyDataSetChanged();
+
+                //显示右侧二级分类
+                updateSecondListView(list2, secondAdapter);
+            }
+        });
+
+        //右侧ListView点击事件
+        rightLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //关闭popupWindow，显示用户选择的分类
+                popupWindow1.dismiss();
+
+                int firstPosition = firstAdapter.getSelectedPosition();
+                int firstId = firstList.get(firstPosition).getId();
+                int secondId = firstList.get(firstPosition).getSecondList().get(position).getId();
+                String selectedName = firstList.get(firstPosition).getSecondList().get(position)
+                        .getName();
+                handleResult(firstId, secondId, selectedName);
+            }
+        });
+    }
     
 	@Override
 	public void onClick(View v) {
@@ -138,7 +238,9 @@ public class B2_FuJinActivity extends BaseActivity {
 			startActivity(mapIntent);
 			break;
 		case R.id.search_it:
-			Toast.makeText(this, "search", Toast.LENGTH_LONG).show();
+			Intent intent_sousuo = new Intent();
+			intent_sousuo.setClass(B2_FuJinActivity.this, B1_sousuo.class);
+			startActivity(intent_sousuo);
 			break;
 		case R.id.ll_all:
 			line1.setVisibility(View.VISIBLE);
@@ -165,23 +267,7 @@ public class B2_FuJinActivity extends BaseActivity {
 			b2_quancheng.setVisibility(View.INVISIBLE);
 			b2_zhinengpaixu.setVisibility(View.INVISIBLE);
 			b2_shaixuan.setVisibility(View.INVISIBLE);
-			
-			//商户类型
-			/*b2tsa = new B4_TextSizeAdapter(B2_FuJinActivity.this, shopClass);
-			pList.setAdapter(b2tsa);
-            pList.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long viewId) {
-					key = 0;order = 0;curpage = 1;keyword = "";
-	                if(popupWindow.isShowing()){
-	                    popupWindow.dismiss();
-	                }
-	                sc_id = shopClass.get(position).get("sc_id");
-	    			requestData();
-				}
-			});
-            popupWindow.showAsDropDown(v);
-			*/
+			tab1OnClick();
 			break;
 		case R.id.tv_quancheng:
 			tv_shanghuleixing.setTextColor(android.graphics.Color.BLACK);
@@ -304,12 +390,11 @@ public class B2_FuJinActivity extends BaseActivity {
 		map.put("categoryid", categoryid);
 		map.put("longitude", "2000");
 		map.put("latitude", "3000");
-		map.put("distance", "1");
+		map.put("distance", "0");
 		map.put("orderType", String.valueOf(orderType));
 		map.put("searchType", String.valueOf(searchType));
 		map.put("isRebate", isRebate);
 		json = JsonUtils.toJson(map);
-
 		
 		// 发现中活动
 		HuoDong();
@@ -422,5 +507,77 @@ public class B2_FuJinActivity extends BaseActivity {
 						});
 				mRequestQueue.add(jr);
 			}
-	
+
+
+			
+			//顶部第一个标签的点击事件
+		    private void tab1OnClick() {
+		        if (popupWindow1.isShowing()) {
+		            popupWindow1.dismiss();
+		        } else {
+		            popupWindow1.showAsDropDown(findViewById(R.id.main_div_line));
+		            popupWindow1.setAnimationStyle(-1);
+		        }
+		    }
+			
+		    //刷新右侧ListView
+		    private void updateSecondListView(List<SecondClassItem> list2,SecondClassAdapter secondAdapter) {
+		        secondList.clear();
+		        secondList.addAll(list2);
+		        secondAdapter.notifyDataSetChanged();
+		    }
+
+		    //处理点击结果
+		    private void handleResult(int firstId, int secondId, String selectedName){
+		        String text = "first id:" + firstId + ",second id:" + secondId;
+//		        Toast.makeText(B2_FuJinActivity.this, text, Toast.LENGTH_SHORT).show();
+				districtid = firstId+"";
+				categoryid = secondId+"";
+		        requestData();
+		    }
+		    
+		    private void initData() {
+		    		RequestDailog.showDialog(mContext, "数据加载中，请稍后...");
+		    		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
+		    				HttpUtils.url_allcategorynew(), null,
+		    				new Response.Listener<JSONObject>() {
+		    					@Override
+		    					public void onResponse(JSONObject response) {
+		    						RequestDailog.closeDialog();
+		    						JSONObject status;
+		    						try {
+		    							status = response.getJSONObject("status");
+		    							String succeed = status.getString("succeed");
+		    							if (succeed.equals("1")) // 成功
+		    							{		    								
+		    								org.json.JSONArray arrayq = response.getJSONArray("data");
+		    								firstList = new ArrayList<FirstClassItem>();
+		    								firstList = JSONArray.parseArray(arrayq.toString(), FirstClassItem.class);
+		    								initPopup();
+		    								
+		    							} else {// 失败,提示失败信息
+		    								String errdesc = status.getString("errdesc");
+		    								Toast.makeText(mContext,errdesc, Toast.LENGTH_LONG).show();
+		    							}
+		    						} catch (org.json.JSONException e) {
+		    							// TODO Auto-generated catch block
+		    							e.printStackTrace();
+		    						}
+
+		    					}
+		    				}, new Response.ErrorListener() {
+		    					@Override
+		    					public void onErrorResponse(VolleyError error) {
+		    						RequestDailog.closeDialog();
+		    						Tools.Log("ErrorResponse=" + error.getMessage());
+		    						Toast.makeText(mContext, "网络连接失败，请重试",
+		    								Toast.LENGTH_LONG).show();
+		    					}
+		    				});
+		    		mRequestQueue.add(jr);
+//		        
+		    }
+			
+			
+			
 }

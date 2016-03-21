@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/body_cont_bg"
     android:orientation="vertical" >
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -15,7 +15,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:text="店铺名称" />
+            android:text="店铺名称"
+            android:textColor="#000"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_fanyong"
@@ -25,12 +27,13 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:text="返佣 ¥10.00"
-            android:textColor="@color/yellow" />
-
+            android:textColor="@color/yellow"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <View
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
+        android:background="#EEE"
         android:layout_height="1dp" />
 
     <ListView
@@ -40,51 +43,46 @@
         android:dividerHeight="-1dp" >
     </ListView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white" >
-
-        <TextView
-            android:id="@+id/tv_ordergoodsnumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tv_orderprice"
-            android:layout_alignBottom="@+id/tv_orderprice"
-            android:layout_marginRight="27dp"
-            android:layout_toLeftOf="@+id/tv_orderprice"
-            android:text="共X件商品" />
-
-        <TextView
-            android:id="@+id/tv_orderprice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="14dp"
-            android:text="实付:￥00.00" />
-
-    </RelativeLayout>
-<View
+    <View
         android:layout_width="wrap_content"
         android:layout_height="1dp" />
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:gravity="center_vertical|right"
         android:background="@color/white" >
-
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginRight="10dp"
+            android:background="#f00"
+            android:textColor="@color/white" />
         <Button
             android:id="@+id/btn_operate"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/btn_b47"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:background="#FF8700"
             android:textColor="@color/white" />
-    </RelativeLayout>
+        <TextView 
+            android:id="@+id/tv_gongfu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            android:textColor="#ED6D00"
+            android:text="共付：￥0.00"/>
+    </LinearLayout>
 
     <View
         android:layout_width="wrap_content"
-        android:layout_height="3dp" />
+        android:layout_height="5dp" 
+        android:background="#EEE"/>
 
 </LinearLayout>

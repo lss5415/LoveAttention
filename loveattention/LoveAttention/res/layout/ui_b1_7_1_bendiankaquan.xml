@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="#F3F5F5"
+        android:background="#ED6D00"
         android:orientation="horizontal" >
 
         <ImageView
@@ -16,16 +16,16 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:background="#F3F5F5"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/fanhuihui" />
+            android:src="@drawable/fanhui" />
 
         <TextView
             android:id="@+id/coupon_title"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
+            android:layout_marginRight="50dp"
             android:gravity="center"
-            android:textColor="#000000"
+            android:textColor="#FFF"
             android:text="我在本店的卡券"/>
     </LinearLayout>
 

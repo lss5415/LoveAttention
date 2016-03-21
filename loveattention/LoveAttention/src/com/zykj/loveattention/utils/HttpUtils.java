@@ -1,6 +1,10 @@
 package com.zykj.loveattention.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import android.content.Context;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -13,11 +17,13 @@ import com.loopj.android.http.RequestParams;
  */
 
 public class HttpUtils {
-	public static final String base_url = "http://115.28.208.196:8080/aigz/";
+//	public static final String base_url = "http://115.28.208.196:8080/aigz/";
+	public static final String base_url = "http://115.28.67.86:8080/aigz/";
 	private static AsyncHttpClient client = new AsyncHttpClient(); // 实例话对象
 	static {
 		client.setTimeout(5000); // 设置链接超时，如果不设置，默认为15s
 		client.setMaxRetriesAndTimeout(3, 5000);
+		client.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 		// client.setEnableRedirects(true);
 	}
 	public static void initClient(Context c) {
@@ -43,7 +49,7 @@ public class HttpUtils {
 	}
 	
 	/**
-	 * 2.登陆
+	 * 2.登录
 	 * 
 	 * @param res
 	 * @param username（用户名），password（密码）
@@ -55,15 +61,33 @@ public class HttpUtils {
 	}
 	
 	/**
+	 * 2-a.上传，更新头像
+	 * 
+	 * @param res
+	 * @param memberid（用户名），imgsrc （图片）
+	 */
+	public static void update(AsyncHttpResponseHandler res, String memberid,File imgsrc ) {
+		RequestParams params = new RequestParams();
+		try {
+			params.put("memberid", memberid);
+			params.put("imgsrc",imgsrc);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // Upload a File
+		String url = base_url + "data/uploadHeadportain";
+		client.post(url, params, res);
+	}
+	
+	/**
 	 * 3.城市列表（热门）
 	 * 
 	 * @param res
 	 * @param 
 	 */
-	public static String url_city() {
-		String url = null;
-		url = base_url + "data/city";
-		return url;
+	public static void getCityList(AsyncHttpResponseHandler res) {
+		String url = base_url + "data/city";
+		client.get(url, res);
 	}
 	
 	/**
@@ -202,6 +226,18 @@ public class HttpUtils {
 	}
 	
 	/**
+	 * 15.当面立即付款
+	 * 
+	 * @param res
+	 * @param 
+	 */
+	public static String url_payOrder(String json) {
+		String url = null;
+		url = base_url + "data/payOrder?json="+json;
+		return url;
+	}
+	
+	/**
 	 * 15.我的收藏删除
 	 * 
 	 * @param res
@@ -283,6 +319,18 @@ public class HttpUtils {
 	public static String url_addressinfo(String json) {
 		String url = null;
 		url = base_url + "data/addressinfo?json="+json;
+		return url;
+	}
+	
+	/**
+	 * 获取省市县接口
+	 * 
+	 * @param res
+	 * @param 
+	 */
+	public static String url_getcitylist(String json) {
+		String url = null;
+		url = base_url + "data/citylist?json="+json;
 		return url;
 	}
 	
@@ -394,13 +442,24 @@ public class HttpUtils {
 	}
 	
 	/**
+	 * 常见问题
+	 * @param json
+	 * @return
+	 */
+	public static String url_question(String json) {
+		String url = null;
+		url = base_url + "data/question?json="+json;
+		return url;
+	}
+	
+	/**
 	 * 31.更多-公告
 	 * 
 	 * @param res
 	 */
-	public static String url_gonggaolist() {
+	public static String url_gonggaolist(String json) {
 		String url = null;
-		url = base_url + "data/announce";
+		url = base_url + "data/announce?json=" +json;
 		return url;
 	}
 	
@@ -451,6 +510,10 @@ public class HttpUtils {
 		url = base_url + "data/advertList";
 		return url;
 	}
+	public static void qwe(AsyncHttpResponseHandler res) {
+		String url = base_url + "data/advertList";
+		client.get(url, res);
+	}
 	
 	/**
 	 * 36.首页-轮播广告详情页
@@ -494,9 +557,9 @@ public class HttpUtils {
 	 * @param res
 	 * @param 
 	 */
-	public static String url_hotmerchantinfo() {
+	public static String url_hotmerchantinfo(String json) {
 		String url = null;
-		url = base_url + "data/hotmerchantinfo";
+		url = base_url + "data/hotmerchantinfo?json="+json;
 		return url;
 	}
 	
@@ -506,9 +569,9 @@ public class HttpUtils {
 	 * @param res
 	 * @param 
 	 */
-	public static String url_guessinfo() {
+	public static String url_guessinfo(String json) {
 		String url = null;
-		url = base_url + "data/guessinfo";
+		url = base_url + "data/guessinfo?json="+json;
 		return url;
 	}
 	
@@ -535,7 +598,50 @@ public class HttpUtils {
 		url = base_url + "data/goodmoreComment?json="+json;
 		return url;
 	}
+	/**
+	 * 42.商家评论分页查询
+	 * 
+	 * @param res
+	 * @param 
+	 */
+	public static String url_merchantmoreComment(String json) {
+		String url = null;
+		url = base_url + "data/merchantmoreComment?json="+json;
+		return url;
+	}
 	
+	
+	
+	/**
+	 * 搜索结果
+	 * @return
+	 */
+	public static String url_shouyesousuo() {
+		String url = null;
+		url = base_url + "data/searchRecord";
+		return url;
+	}
+	
+	/**
+	 * 全部分类
+	 * @return
+	 */
+	public static String url_allcategory() {
+		String url = null;
+		url = base_url + "data/categoryinfo";
+		Log.d("----", "url =  " + url);
+		return url;
+	}
+	/**
+	 * 全部分类1
+	 * @return
+	 */
+	public static String url_allcategorynew() {
+		String url = null;
+		url = base_url + "data/categoryinfoNew";
+		Log.d("----", "url =  " + url);
+		return url;
+	}
 	/**
 	 * 43.商家详情优惠活动
 	 * 
@@ -617,7 +723,16 @@ public class HttpUtils {
 		url = base_url + "data/announceBatchDel?json="+json;
 		return url;
 	}
-	
+	/**
+	 * 关于我们
+	 * @param json
+	 * @return
+	 */
+	public static String url_about() {
+		String url = null;
+		url = base_url + "data/about";
+		return url;
+	}
 	/**
 	 * 49.我的订单详情 
 	 * 
@@ -652,16 +767,15 @@ public class HttpUtils {
 		url = base_url + "mdata/minviteconfirm?json="+json;
 		return url;
 	}
-	
 	/**
-	 * 52.商家 我的关注 我的邀请 我的预约 个人资料
+	 * 52-b.获取用户资料
 	 * 
 	 * @param res
-	 * @param 
+	 * @param memberid（用户id）
 	 */
 	public static String url_memberdetail(String json) {
 		String url = null;
-		url = base_url + "mdata/memberdetail?json="+json;
+		url = base_url + "data/memberdetail?json="+json;
 		return url;
 	}
 	
@@ -875,9 +989,9 @@ public class HttpUtils {
 	 * @param res
 	 * @param 
 	 */
-	public static String url_adverttailor() {
+	public static String url_adverttailor(String json) {
 		String url = null;
-		url = base_url + "data/adverttailor";
+		url = base_url + "data/adverttailor?json="+json;
 		return url;
 	}
 	
@@ -890,6 +1004,13 @@ public class HttpUtils {
 	public static String url_advertdetail(String json) {
 		String url = null;
 		url = base_url + "data/advertdetail?json="+json;
+		return url;
+	}
+	
+	public static String url_sousuojieguo(String json) {
+		String url = null;
+		url = base_url + "data/searchList?json="+json;
+		Log.d("----", "url = " + url);
 		return url;
 	}
 	
@@ -1170,6 +1291,18 @@ public class HttpUtils {
 	}
 	
 	/**
+	 * 105.购物车 购物车 点击删除
+	 * 
+	 * @param res
+	 * @param 
+	 */
+	public static String shoppingCartDel(String json) {
+		String url = null;
+		url = base_url + "data/shoppingCartDel?json="+json;
+		return url;
+	}
+	
+	/**
 	 * 106.订单确认收货 
 	 * 
 	 * @param res
@@ -1361,6 +1494,54 @@ public class HttpUtils {
 		return url;
 	}
 	
+	/**
+	 * 122.保存dna
+	 * 
+	 * @param res
+	 * @param 
+	 */
+	public static String url_saveDna(String json) {
+		String url = null;
+		url = base_url + "data/saveDna?json="+json;
+		return url;
+	}
+	
+	/**
+	 * 123.商家产品列表
+	 * 
+	 * @param res
+	 * @param 
+	 */
+	public static String url_goodsList(String json) {
+		String url = null;
+		url = base_url + "data/goodsList?json="+json;
+		return url;
+	}
+	
+	/**
+	 * 124.商家优惠活动
+	 * 
+	 * @param res
+	 * @param 
+	 */
+	public static String url_merchantCouponList(String json) {
+		String url = null;
+		url = base_url + "data/merchantCouponList?json="+json;
+		return url;
+	}
+	
+	/**
+	 * 125.购物车批量生成订单
+	 * 
+	 * @param res
+	 * @param 
+	 */
+	public static String url_ShoppingCartToorder(String json) {
+		String url = null;
+		url = base_url + "data/shoppingcarttoorder?json="+json;
+		return url;
+	}
+	
 	
 	
 	
@@ -1379,28 +1560,6 @@ public class HttpUtils {
 	
 	public static final String base_url1 = "http://115.28.21.137/mobile/";
 	/**
-	 * 3获取首页信息
-	 * 
-	 * @param res
-	 */
-	public static void getFirstList(AsyncHttpResponseHandler res,String city_id ,String lng ,String lat) {
-		String url = null;
-		url = base_url1 + "index.php?act=index"+"&city_id="+city_id+"&lng="+lng+"&lat="+lat;
-		RequestParams requestParams  = new RequestParams();
-		requestParams.put("city_id", city_id);
-		requestParams.put("lng", lng);
-		requestParams.put("lat", lat);
-		client.post(url,requestParams,res);
-	}
-	/**
-	 *  城市列表
-	 * @param goods_id 商品编号
-	 * @param
-	 */
-	public static void getCityList(AsyncHttpResponseHandler res) {
-		String url = base_url1 + "index.php?act=area&op=city_list";
-		client.get(url, res);
-	}/**
 	 *  城市定位
 	 * @param goods_id 商品编号
 	 * @param

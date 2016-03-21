@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="80dp">
         <ImageView 
-            android:id="@+id/im_shangpintu"
+            android:id="@+id/b172imgpath"
             android:layout_width="85dp"
             android:layout_height="70dp"
             android:layout_marginLeft="10dp"
@@ -17,11 +17,12 @@
         <LinearLayout 
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_toRightOf="@id/im_shangpintu"
+            android:layout_toRightOf="@id/b172imgpath"
             android:layout_margin="5dp"
             android:layout_marginRight="60dp"
             android:orientation="vertical">
             <TextView 
+                android:id="@+id/b172name"
                 android:layout_width="wrap_content"
                 android:layout_height="0.0dp"
                 android:layout_weight="1"
@@ -29,6 +30,7 @@
                 android:textColor="#000"
                 android:text="草莓蛋糕"/>
             <TextView 
+                android:id="@+id/b172remark"
                 android:layout_width="wrap_content"
                 android:layout_height="0.0dp"
                 android:layout_weight="1"
@@ -42,12 +44,14 @@
                 android:layout_weight="1">
                 
             <TextView 
+                android:id="@+id/b172price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textColor="#EA4614"
                 android:text="￥20.00"/>
             <TextView 
+                android:id="@+id/b172oldprice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -56,6 +60,7 @@
             </LinearLayout>
         </LinearLayout>
         <RelativeLayout 
+            android:id="@+id/rl_b172addcar"
             android:layout_width="50dp"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true">

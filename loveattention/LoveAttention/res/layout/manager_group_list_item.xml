@@ -22,6 +22,8 @@
                 android:text="阿根廷球迷"
                 android:layout_centerVertical="true"
                 android:textColor="#000000"
+                android:singleLine="true"
+                android:layout_marginRight="50dp"
                 android:layout_marginLeft="10dp"
                 android:textSize="15dp" />
             

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,6 +56,7 @@ public class B1_3_1_GuangGaoInfoActivity extends BaseActivity {
 	private PickDialog pickDialog;//答题弹出框
 	private ArrayList<String> listdati=new ArrayList<String>();//答题选项
 	private String timu;//题目
+	private String isfocus,merchantid;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,7 +64,7 @@ public class B1_3_1_GuangGaoInfoActivity extends BaseActivity {
 		Intent intent = getIntent();   
 		//获取数据   
 		advertid = intent.getStringExtra("advertid");  
-		memberid = getSharedPreferenceValue("memberid");
+		memberid = getSharedPreferenceValue("id");
 		mRequestQueue = Volley.newRequestQueue(this);
 		Advertdetail();
 		initView();
@@ -90,14 +93,27 @@ public class B1_3_1_GuangGaoInfoActivity extends BaseActivity {
 			this.finish();
 			break;
 		case R.id.tv_fenxiang:
-			// 首先在您的Activity中添加如下成员变量
-			final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
-			// 设置分享内容
-			mController.setShareContent("友盟社会化组件（SDK）让移动应用快速整合社交分享功能，http://www.umeng.com/social");
-			// 设置分享图片, 参数2为图片的url地址
-			mController.setShareMedia(new UMImage(B1_3_1_GuangGaoInfoActivity.this,"http://www.umeng.com/images/pic/banner_module_social.png"));
-			mController.getConfig().removePlatform( SHARE_MEDIA.RENREN, SHARE_MEDIA.DOUBAN);
-			mController.openShare(B1_3_1_GuangGaoInfoActivity.this, false);
+			if (isfocus.endsWith("0")) {
+				new AlertDialog.Builder(v.getContext()).setTitle("温馨提示")
+				.setMessage("请先关注才能进行分享和答题")
+				.setPositiveButton("关注", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+						GuanZhu();
+					}
+				})
+				.setNegativeButton("取消", null).show();
+			}else {
+				// 首先在您的Activity中添加如下成员变量
+				final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
+				// 设置分享内容
+				mController.setShareContent("友盟社会化组件（SDK）让移动应用快速整合社交分享功能，http://www.umeng.com/social");
+				// 设置分享图片, 参数2为图片的url地址
+				mController.setShareMedia(new UMImage(B1_3_1_GuangGaoInfoActivity.this,"http://www.umeng.com/images/pic/banner_module_social.png"));
+				mController.getConfig().removePlatform( SHARE_MEDIA.RENREN, SHARE_MEDIA.DOUBAN);
+				mController.openShare(B1_3_1_GuangGaoInfoActivity.this, false);
+			}
 			break;
 		case R.id.tv_dati:
 			pickDialog=new PickDialog(B1_3_1_GuangGaoInfoActivity.this, timu, new PickDialogListener() {
@@ -174,6 +190,8 @@ public class B1_3_1_GuangGaoInfoActivity extends BaseActivity {
 							if (succeed.equals("1")) // 成功
 							{
 								JSONObject job = response.getJSONObject("data");
+								isfocus = job.getString("isfocus");
+								merchantid = job.getString("merchantid");
 								String otherimgpath = job.getString("otherimgpath");
 								String[] a = otherimgpath.split(",");
 								ImageLoader.getInstance().displayImage(job.getString("mainimgpath"), im_mainimgpath);
@@ -243,6 +261,44 @@ public class B1_3_1_GuangGaoInfoActivity extends BaseActivity {
 					}
 				});
 		mRequestQueue.add(jr);
+	}
+	
+	//关注
+	private void GuanZhu(){
+		RequestDailog.showDialog(this, "正在加载，请稍后");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("memberid", getSharedPreferenceValue("id"));
+		map.put("objid", advertid);
+		String jsonmerchantid = JsonUtils.toJson(map);
+//		HttpUtils.getMerChantDetailInfo(jsonmerchantid);
+		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,HttpUtils.url_attentionAdd(jsonmerchantid),null,new Response.Listener<JSONObject>() {  
+            @Override  
+            public void onResponse(JSONObject response) {  
+	            	RequestDailog.closeDialog();
+					try {
+						JSONObject jobsj = response.getJSONObject("status");
+						if (jobsj.getString("errdesc").equals("关注成功")) {
+							isfocus = "1";
+							Toast.makeText(B1_3_1_GuangGaoInfoActivity.this, "关注成功", Toast.LENGTH_LONG).show();
+						}
+//						else {
+//							Toast.makeText(B1_3_1_GuangGaoInfoActivity.this, "已取消关注", Toast.LENGTH_LONG).show();
+//						}
+						
+					} catch (org.json.JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+            }  
+        },new Response.ErrorListener() {  
+            @Override  
+            public void onErrorResponse(VolleyError error) {  
+            	RequestDailog.closeDialog();
+                Tools.Log("ErrorResponse="+error.getMessage());
+            }  
+        });  
+        mRequestQueue.add(jr);  
+		
 	}
 
 }

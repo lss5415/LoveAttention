@@ -20,7 +20,8 @@ public class B1_7_1_BenDianKaQuan extends BaseActivity {
 	private ImageView img_b171back;//返回
 	private ListView list_kaquan;
 	private B1_7_1_BenDiKaQuanAdapter kaquanadapter;
-	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+	private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+	
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

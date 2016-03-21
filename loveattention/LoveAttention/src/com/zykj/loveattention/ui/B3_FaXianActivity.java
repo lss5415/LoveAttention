@@ -1,13 +1,13 @@
 package com.zykj.loveattention.ui;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,7 +27,6 @@ import com.android.volley.toolbox.Volley;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.B2_and_B3_Adapter;
 import com.zykj.loveattention.base.BaseActivity;
-import com.zykj.loveattention.utils.DateUtil;
 import com.zykj.loveattention.utils.HttpUtils;
 import com.zykj.loveattention.utils.JsonUtils;
 import com.zykj.loveattention.utils.Tools;
@@ -81,18 +80,17 @@ public class B3_FaXianActivity extends BaseActivity implements IXListViewListene
 		list_huodong.setPullLoadEnable(true);
 		list_huodong.setPullRefreshEnable(true);
 //		list_huodong.setXListViewListener(this, 0);
-		list_huodong.setRefreshTime(DateUtil.dateToString(new Date(), "HH:mm:ss"));
+		list_huodong.setRefreshTime();
 		RequestDailog.showDialog(this, "正在加载数据，请稍后");
 		list_huodong.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-//				String goodsid = data.get(arg2-1).get("goods_id");	
-//				Intent intent = new Intent();
-//				intent.putExtra("goods_id", goodsid);
-//				intent.setClass(B5_10_MyCollection.this,Sp_GoodsInfoActivity.class);
-//				startActivity(intent);				
+					int position, long arg3) {
+				String goodsid = faxiandata.get(position-1).get("couponid");
+				Intent cuit = new Intent(B3_FaXianActivity.this, B1_6_2_YouHuiHuoDongActivity.class);
+				cuit.putExtra("couponid", goodsid);
+				startActivity(cuit);
 			}
 		});
 		lng = getSharedPreferenceValue("lng");
@@ -282,6 +280,6 @@ public class B3_FaXianActivity extends BaseActivity implements IXListViewListene
 		private void onLoad() {
 			list_huodong.stopRefresh();
 			list_huodong.stopLoadMore();
-			list_huodong.setRefreshTime(DateUtil.dateToString(new Date(), "HH:mm:ss"));
+			list_huodong.setRefreshTime();
 		}
 }

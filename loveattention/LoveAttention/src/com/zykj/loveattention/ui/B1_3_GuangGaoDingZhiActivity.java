@@ -24,9 +24,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.adapter.B1_3_GuangGaoDingZhiAdapter;
-import com.zykj.loveattention.adapter.B1_ShouYeAdapter;
 import com.zykj.loveattention.base.BaseActivity;
 import com.zykj.loveattention.utils.HttpUtils;
+import com.zykj.loveattention.utils.JsonUtils;
 import com.zykj.loveattention.utils.Tools;
 import com.zykj.loveattention.view.RequestDailog;
 
@@ -89,8 +89,13 @@ public class B1_3_GuangGaoDingZhiActivity extends BaseActivity {
 	}
 
 	public void Adverttailor() {
+		RequestDailog.showDialog(this, "数据加载中，请稍后");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("pagenumber", "1");
+		map.put("pagesize", "10");
+		String json = JsonUtils.toJson(map);
 		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
-				HttpUtils.url_adverttailor(), null,
+				HttpUtils.url_adverttailor(json), null,
 				new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {

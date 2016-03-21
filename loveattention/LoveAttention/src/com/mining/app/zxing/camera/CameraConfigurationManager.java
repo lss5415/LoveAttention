@@ -16,6 +16,9 @@
 
 package com.mining.app.zxing.camera;
 
+import java.lang.reflect.Method;
+import java.util.regex.Pattern;
+
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Camera;
@@ -23,9 +26,6 @@ import android.os.Build;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-
-import java.lang.reflect.Method;
-import java.util.regex.Pattern;
 
 final class CameraConfigurationManager {
 
@@ -78,7 +78,7 @@ final class CameraConfigurationManager {
     //modify here
     
 //    camera.setDisplayOrientation(90);
-    //¼æÈÝ2.1
+    //ï¿½ï¿½ï¿½ï¿½2.1
     setDisplayOrientation(camera, 90);
     camera.setParameters(parameters);
   }

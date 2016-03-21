@@ -6,7 +6,7 @@
 <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="#F3F5F5" >
+        android:background="#ED6D00" >
 
         <ImageView
             android:id="@+id/im_b43s_back_btn"
@@ -14,7 +14,7 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/fanhuihui" />
+            android:background="@drawable/fanhui" />
 
         <TextView
             android:id="@+id/top_title"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="代金券"
-            android:textColor="#000"
+            android:textColor="#FFF"
             android:textSize="18sp" />
 		<ImageView 
 		    android:id="@+id/iv_share"
@@ -45,10 +45,15 @@
             android:orientation="vertical" >
 
             <RelativeLayout
+                android:id="@+id/rl_background"
                 android:layout_width="fill_parent"
                 android:layout_height="180dp"
                 android:background="#F9861F" >
-
+				<ImageView 
+				    android:id="@+id/im_kaquanstate"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_alignParentRight="true"/>
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="10dp"
@@ -65,14 +70,14 @@
                         android:layout_height="0.0dp"
                         android:layout_weight="5" >
 
-                        <ImageView
+                	<com.zykj.loveattention.view.CircularImage 
                             android:id="@+id/im_touxiang"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_alignParentLeft="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
-                            android:src="@drawable/quantouxiang" />
+                            android:src="@drawable/zhanweitu" />
 
                         <TextView
                             android:id="@+id/tv_diyongquan"
@@ -93,8 +98,7 @@
                             android:layout_marginRight="16dp"
                             android:layout_marginTop="30dp"
                             android:text="距离500米"
-                            android:textColor="#FFF"
-                            android:textSize="18sp" />
+                            android:textColor="#FFF" />
 
                         <TextView
                             android:id="@+id/tv_kaquanname"
@@ -138,6 +142,7 @@
                 android:layout_height="180dp" 
                 android:background="#FFF">
 				<ImageView
+				    android:id="@+id/im_erweima"
                     android:layout_width="155dp"
                     android:layout_height="170dp"
                     android:layout_centerInParent="true"
@@ -159,7 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="15dp"
                     android:text="优惠详情"
                     android:textColor="#000000" />
 
@@ -168,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/my_header_arror" />
             </RelativeLayout>
             <RelativeLayout
@@ -203,7 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="15dp"
                     android:text="使用须知"
                     android:textColor="#000000" />
 
@@ -212,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/my_header_arror" />
             </RelativeLayout>
             <RelativeLayout
@@ -246,7 +251,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="15dp"
                     android:text="适合门店  （人民广场店）"
                     android:textColor="#000000" />
 
@@ -255,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/my_header_arror" />
             </RelativeLayout>
 
@@ -279,14 +284,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="15dp"
                         android:text="英图咖啡"
                         android:textColor="#000000" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
                         android:text="临沂市兰山区红旗路1号"
                         android:textColor="#000000"
@@ -304,8 +309,8 @@
                         android:background="#EEE"/>
                     <ImageView 
                         android:id="@+id/iv_call"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_centerInParent="true"
                         android:src="@drawable/dianhua"/>
                 </RelativeLayout>
