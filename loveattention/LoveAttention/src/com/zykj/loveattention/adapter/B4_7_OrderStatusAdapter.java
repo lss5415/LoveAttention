@@ -1,6 +1,7 @@
 package com.zykj.loveattention.adapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,22 +28,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.ui.B1_4_TuanGouActivity;
+import com.zykj.loveattention.ui.B4_7_WoDeDingdan;
 import com.zykj.loveattention.ui.DaoDianDingDanXiangQing;
 import com.zykj.loveattention.ui.WaiSongDingDanXiangQing;
+import com.zykj.loveattention.utils.HttpUtils;
+import com.zykj.loveattention.utils.JsonUtils;
 import com.zykj.loveattention.utils.Tools;
 import com.zykj.loveattention.view.RequestDailog;
 import com.zykj.loveattention.view.UIDialog;
 
 public class B4_7_OrderStatusAdapter extends BaseAdapter {
 	
-	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+	private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 	private Activity c;
-	com.alibaba.fastjson.JSONArray array;
+	private com.alibaba.fastjson.JSONArray array;
 	private int status=0;
-	String key;
+	private String key;
 //  order_state 订单状态（全部订单:10,未付款:20,未消费:30,待评价:40）
     private static final int ALLORDER    = 10;
     private static final int WEIFUKUAN   = 20;
@@ -48,12 +61,13 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
     
     private int TAG_H0  = 0;
 	
-	String price,pay_sn,store_phone,canBeComment;                                     //订单金额
+    private String price,pay_sn,store_phone,canBeComment;                                     //订单金额
     private static final String CHANNEL_WECHAT = "wx";//通过微信支付
     private static final String CHANNEL_ALIPAY = "alipay";//通过支付宝支付
     private static final int REQUEST_CODE_PAYMENT = 1;
     
-    B5_5_OrderStatuslistviewAdapter adapter;
+    private B5_5_OrderStatuslistviewAdapter adapter;
+	private RequestQueue mRequestQueue;
     
 
 	public B4_7_OrderStatusAdapter(Activity c, List<Map<String, String>> data,int status,String key,int TAG_H0 ) {
@@ -62,6 +76,7 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 		this.status = status;
 		this.key = key;
 		this.TAG_H0 = TAG_H0;
+		mRequestQueue = Volley.newRequestQueue(c);
 	}
 
 	@Override
@@ -84,7 +99,7 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup arg2) {
+	public View getView(final int position, View convertView, ViewGroup arg2) {
 		ViewHolder viewHolder = null;
         if (null == convertView)
         {
@@ -115,6 +130,19 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 //				if (TAG_H0 == 101) {
 					viewHolder.btn_operate.setText("去付款");
 					viewHolder.btn_delete.setText("删除订单");
+					viewHolder.btn_operate.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View arg0) {
+//							Toast.makeText(c, "未付款内的去付款", Toast.LENGTH_LONG).show();
+						}
+					});
+					viewHolder.btn_delete.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View arg0) {
+//							Toast.makeText(c, "未付款内的删除订单", Toast.LENGTH_LONG).show();	
+							DelDingDan(position);
+						}
+					});
 //				}else {
 //					viewHolder.btn_operate.setText("确认收货");
 //				}
@@ -127,10 +155,38 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 					viewHolder.btn_operate.setText("退订（联系商家）");
 					viewHolder.btn_delete.setText("确认收货");
 				}
+				viewHolder.btn_operate.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+//						Toast.makeText(c, "未消费内的退订（联系商家）", Toast.LENGTH_LONG).show();
+						TuiDing(position);
+					}
+				});
+				viewHolder.btn_delete.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+//						Toast.makeText(c, "确认收货", Toast.LENGTH_LONG).show();
+						QueRenShouHuo(position);
+					}
+				});
 				break;
 			case DAIPINGJIA:
 				viewHolder.btn_operate.setText("去评价");
 				viewHolder.btn_delete.setText("删除订单");
+				viewHolder.btn_operate.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+//						Toast.makeText(c, "去评价", Toast.LENGTH_LONG).show();
+						
+					}
+				});
+				viewHolder.btn_delete.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+//						Toast.makeText(c, "已收货的删除订单", Toast.LENGTH_LONG).show();
+						DelDingDan(position);
+					}
+				});
 				break;
 	
 			default:
@@ -258,6 +314,7 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 		}
 		
 	}
+	
 	/**
 	 * 跳转到订单详情
 	 * @author lss
@@ -336,46 +393,12 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 		}
 		
 	}
-	/**
-	 * 退换货
-	 * @author zyk
-	 */
-//	class TuiHuan implements View.OnClickListener {
-//		int position;
-//		String phone;
-//		public TuiHuan(int position,String phone) {
-//			this.position = position;
-//			this.phone = phone;
-//		}
-//		@Override
-//		public void onClick(View v) {
-//			UIDialog.ForTwoBtn(c, new String[] { "店铺电话:"+phone,"取消" }, new OnClickListener() {
-//				@Override
-//				public void onClick(View v) {
-//					// TODO Auto-generated method stub
-//					switch (v.getId()) {
-//					case R.id.dialog_modif_1:// 给店家打电话
-//						UIDialog.closeDialog();
-//						 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
-//			                // 通知activtity处理传入的call服务
-//			             c.startActivity(intent);
-//						break;
-//					case R.id.dialog_modif_2:// 取消
-//						UIDialog.closeDialog();
-//						break;
-//
-//					default:
-//						break;
-//					}
-//				}
-//			});
-//		}
-//		
-//	}
-	/**
+	
+   /*
+	*//**
 	 * 确认订单
 	 * @author zyk
-	 */
+	 *//*
 	class QueRen implements View.OnClickListener {
 		int position;
 		String order_id;
@@ -398,10 +421,10 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 		}
 		
 	}
-	/**
+	*//**
 	 * 评价订单
 	 * @author zyk
-	 */
+	 *//*
 	class PingJia implements View.OnClickListener {
 		int position;
 		JSONArray extend_order_goods;
@@ -422,22 +445,7 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 //			c.startActivity(intent_comment);
 		}
 		
-	}
-	/**
-	 * 删除订单
-	 * @author zyk
-	 */
-	class DeleteTheOrder implements View.OnClickListener {
-		String order_id;
-		public DeleteTheOrder(String order_id) {
-			this.order_id = order_id;
-		}
-		@Override
-		public void onClick(View v) {
-//			HttpUtils.deleteTheOrder(res_deleteTheOrder, key, order_id);
-		}
-		
-	}
+	}*/
 
 	private static class ViewHolder
     {
@@ -449,42 +457,6 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
         Button btn_delete;//删除订单
         TextView tv_gongfu;//共支付
     }
-	
-	/**
-	 * 删除订单
-	 */
-	JsonHttpResponseHandler res_cancelOrder = new JsonHttpResponseHandler()
-	{
-
-		@Override
-		public void onSuccess(int statusCode, Header[] headers,
-				JSONObject response) {
-			// TODO Auto-generated method stub
-			super.onSuccess(statusCode, headers, response);
-			RequestDailog.closeDialog();
-			Tools.Log("取消订单="+response);
-			String error=null;
-			JSONObject datas=null;
-			try {
-				 datas =response.getJSONObject("datas");
-				 error = response.getString("error");
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (error==null)//成功
-			{
-				Tools.Notic(c, "取消成功,请刷新该页面查看剩余订单", null);
-			}
-			else//失败 
-			{
-				Tools.Log("res_Points_error="+error);
-				Tools.Notic(c, "取消失败,请重试", null);
-//				Tools.Notic(B5_MyActivity.this, error+"", null);
-			}
-			
-		}
-	};
 	/**
 	 * 付款
 	 */
@@ -525,91 +497,143 @@ public class B4_7_OrderStatusAdapter extends BaseAdapter {
 		
 		
 	};
-	/**
-	 * 订单确认收货
-	 */
-	JsonHttpResponseHandler res_receiveGoods = new JsonHttpResponseHandler()
-	{
-		
-		@Override
-		public void onSuccess(int statusCode, Header[] headers,JSONObject response) {
-			// TODO Auto-generated method stub
-			super.onSuccess(statusCode, headers, response);
-			RequestDailog.closeDialog();
-			Log.e("确认收货", response+"");
-			String error=null;
-			JSONObject datas=null;
-			try {
-				datas = response.getJSONObject("datas");
-				error = datas.getString("error");
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (error==null)//成功
-			{
-				Tools.Notic(c, "您已经确认收货", new OnClickListener() {
-					
-					@Override
-					public void onClick(View arg0) {
-						// TODO Auto-generated method stub
-						c.finish();
-					}
-				});
-			}
-			else//失败 
-			{
-				Tools.Log("res_Points_error="+error+"");
-				Tools.Notic(c, error+"", null);
-			}
-			
-		}
-		
-		
-	};
 	
 	/**
 	 * 删除订单
 	 */
-	JsonHttpResponseHandler res_deleteTheOrder = new JsonHttpResponseHandler()
-	{
-		
-		@Override
-		public void onSuccess(int statusCode, Header[] headers,JSONObject response) {
-			// TODO Auto-generated method stub
-			super.onSuccess(statusCode, headers, response);
-			RequestDailog.closeDialog();
-			Log.e("删除订单", response+"");
-			String error=null;
-			JSONObject datas=null;
-			try {
-				datas = response.getJSONObject("datas");
-				error = datas.getString("error");
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	public void DelDingDan(final int position){
+		final String orderid = data.get(position).get("id").toString();
+		new AlertDialog.Builder(c).setTitle("确认")
+		.setMessage("确认删除么？").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				ShanChuDingDan(orderid,position);
 			}
-			if (error==null)//成功
-			{
-				Tools.Notic(c, "您已经删除订单", new OnClickListener() {
-					
+		})
+		.setNeutralButton("取消", null).show();	
+	}
+
+	/**
+	 * 删除订单
+	 */
+	public void ShanChuDingDan(String orderid,final int position){
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("orderid", orderid);
+		String json = JsonUtils.toJson(map);
+		json = JsonUtils.toJson(map);
+		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
+				HttpUtils.url_orderdel(json), null,
+				new Response.Listener<JSONObject>() {
 					@Override
-					public void onClick(View arg0) {
-						// TODO Auto-generated method stub
-						c.finish();
+					public void onResponse(JSONObject response) {
+						JSONObject status;
+						try {
+							status = response.getJSONObject("status");
+							String succeed = status.getString("succeed");
+							if (succeed.equals("1")) // 成功
+							{
+								Toast.makeText(c,"订单删除成功", Toast.LENGTH_LONG).show();
+								data.remove(position);
+								B4_7_OrderStatusAdapter.this.notifyDataSetChanged();
+							} else {// 失败,提示失败信息
+								String errdesc = status.getString("errdesc");
+								Toast.makeText(c,errdesc, Toast.LENGTH_LONG).show();
+							}
+						} catch (org.json.JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						Tools.Log("ErrorResponse=" + error.getMessage());
+						Toast.makeText(c, "网络连接失败，请重试",
+								Toast.LENGTH_LONG).show();
 					}
 				});
-			}
-			else//失败 
-			{
-				Tools.Notic(c, error+"", null);
-			}
+		mRequestQueue.add(jr);
+	}
+
+	/**
+	 * 退订（联系商家）
+	 */
+	public void TuiDing(final int position){
+		final String mtelephone = data.get(position).get("mtelephone").toString();
+		new AlertDialog.Builder(c).setTitle("提示")
+		.setMessage("确认要联系商家？").setPositiveButton("确认", new DialogInterface.OnClickListener() {
 			
-		}
-		
-		
-	};
-	
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				Intent intent = new Intent(Intent.ACTION_DIAL);
+				Uri data = Uri.parse("tel:" + mtelephone);
+				intent.setData(data);
+				c.startActivity(intent);
+			}
+		})
+		.setNeutralButton("取消", null).show();	
+	}
+
+	/**
+	 * 确认收货
+	 */
+	public void QueRenShouHuo(final int position){
+		final String orderid = data.get(position).get("id").toString();
+		new AlertDialog.Builder(c).setTitle("提示")
+		.setMessage("确认收货？").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				QueRenShouHuo(orderid,position);
+			}
+		})
+		.setNeutralButton("取消", null).show();	
+	}
+
+	/**
+	 * 确认订单
+	 */
+	public void QueRenShouHuo(String orderid,final int position){
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("orderid", orderid);
+		String json = JsonUtils.toJson(map);
+		json = JsonUtils.toJson(map);
+		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
+				HttpUtils.url_confirmReceive(json), null,
+				new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						JSONObject status;
+						try {
+							status = response.getJSONObject("status");
+							String succeed = status.getString("succeed");
+							if (succeed.equals("1")) // 成功
+							{
+								Toast.makeText(c,"订单已收货", Toast.LENGTH_LONG).show();
+								data.remove(position);
+								B4_7_OrderStatusAdapter.this.notifyDataSetChanged();
+							} else {// 失败,提示失败信息
+								String errdesc = status.getString("errdesc");
+								Toast.makeText(c,errdesc, Toast.LENGTH_LONG).show();
+							}
+						} catch (org.json.JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						Tools.Log("ErrorResponse=" + error.getMessage());
+						Toast.makeText(c, "网络连接失败，请重试",
+								Toast.LENGTH_LONG).show();
+					}
+				});
+		mRequestQueue.add(jr);
+	}
 //	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //
 //        //支付页面返回处理

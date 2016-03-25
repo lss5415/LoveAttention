@@ -8,6 +8,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
@@ -68,6 +69,7 @@ public class B1_4_TuanGouActivity extends BaseActivity {
 	private int pagesize = 5;//每页数量
 	private int pagenumber = 1;//当前页
 	private String districtid = "0";//地区ID
+	private String myfirstId = "0";
 	private String categoryid = "0";//分类id
 	private int orderType = 0;//智能排序  1.人气 2.口碑 3.离我最近 4.人均最高 5.人均最低 
 	private int searchType = 0;//筛选  1.卡卷 2.免预约 3.节假日可用
@@ -360,7 +362,9 @@ public class B1_4_TuanGouActivity extends BaseActivity {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("pagenumber", String.valueOf(pagenumber));
 		map.put("pagesize", String.valueOf(pagesize));
-		map.put("districtid", districtid);
+		map.put("districtid", "0");
+		map.put("firstid", myfirstId);
+		map.put("cityid", "2760");
 		map.put("categoryid", categoryid);
 		map.put("longitude", "2000");
 		map.put("latitude", "3000");
@@ -374,8 +378,18 @@ public class B1_4_TuanGouActivity extends BaseActivity {
 		HuoDong();
 		fujinAdapter = new B2_FuJin_Adapter(this,fujindata);
 		list_fujin.setAdapter(fujinAdapter);
-//		RequestDailog.showDialog(this, "正在加载数据，请稍后");
-//		HttpUtils.getStoreList(curpage == 1?res_getStoresList:res_getMoreStoreList, HttpUtils.iterateParams(params));
+
+		list_fujin.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				Intent tuangou = new Intent(B1_4_TuanGouActivity.this,
+						B1_7_ShangJiaXiangQingActivity.class);
+				tuangou.putExtra("merchantid", fujindata.get(position).get("merchantid"));
+				startActivity(tuangou);
+			}
+		});
 	}
 	
 	//发现中活动
@@ -504,7 +518,8 @@ public class B1_4_TuanGouActivity extends BaseActivity {
 		    //处理点击结果
 		    private void handleResult(int firstId, int secondId, String selectedName){
 		        String text = "first id:" + firstId + ",second id:" + secondId;
-				districtid = firstId+"";
+//				districtid = firstId+"";
+		        myfirstId = firstId+"";
 				categoryid = secondId+"";
 		        requestData();
 		    }

@@ -76,6 +76,7 @@ public class B1_7_3_XiangQingActivity extends BaseActivity implements IXListView
 		lv_tuwen = (MyListView) findViewById(R.id.lv_tuwen);
 //		pinglunlist = getIntent().getParcelableArrayListExtra("pinglunlist");
 		isgoods = getIntent().getStringExtra("isgoods");
+
 		if (isgoods.equals("0")) {//商家内评论
 			merchantid = getIntent().getStringExtra("merchantid");
 		}else {//商品内评论
@@ -172,14 +173,14 @@ public class B1_7_3_XiangQingActivity extends BaseActivity implements IXListView
 
 	private void requestData() {
 		/** 商家详情优惠活动 */
-		RequestDailog.showDialog(this, "正在加载，请稍后");
+//		RequestDailog.showDialog(this, "正在加载，请稍后");
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("merchantid", merchantid);
 		String json = JsonUtils.toJson(map);
 		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,HttpUtils.url_merchantResource(json),null,new Response.Listener<JSONObject>() {  
             @Override  
             public void onResponse(JSONObject response) {  
-	            	RequestDailog.closeDialog();
+//	            	RequestDailog.closeDialog();
 	            	try {
 	            		data.clear();
 						JSONObject jobsj = response.getJSONObject("data");
@@ -223,7 +224,7 @@ public class B1_7_3_XiangQingActivity extends BaseActivity implements IXListView
 		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,HttpUtils.url_merchantmoreComment(json),null,new Response.Listener<JSONObject>() {  
             @Override  
             public void onResponse(JSONObject response) {  
-	            	RequestDailog.closeDialog();
+//	            	RequestDailog.closeDialog();
 	            	try {
 	            		JSONObject status = response.getJSONObject("status");
 						String succeed = status.getString("succeed");

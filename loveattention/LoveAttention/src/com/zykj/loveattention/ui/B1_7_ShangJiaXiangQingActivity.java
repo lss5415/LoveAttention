@@ -214,8 +214,9 @@ public class B1_7_ShangJiaXiangQingActivity extends BaseActivity {
 			this.finish();
 			break;
 		case R.id.rl_youhuiquan:
-//			Intent yhq = new Intent(B1_7_ShangJiaXiangQingActivity.this, B1_7_1_BenDianKaQuan.class);
-//			startActivity(yhq);
+			Intent yhq = new Intent(B1_7_ShangJiaXiangQingActivity.this, B1_7_1_BenDianKaQuan.class);
+			yhq.putExtra("merchantid", merchantid);
+			startActivity(yhq);
 			break;
 		case R.id.tv_fancaidan:
 			Intent fcd = new Intent(B1_7_ShangJiaXiangQingActivity.this, B1_7_2_FanCaiDanActivity.class);
@@ -270,6 +271,7 @@ public class B1_7_ShangJiaXiangQingActivity extends BaseActivity {
 		case R.id.tv_tuwen:
 			Intent tuwen = new Intent(B1_7_ShangJiaXiangQingActivity.this, B1_7_3_XiangQingActivity.class);
 			tuwen.putExtra("leixing", "图文介绍");
+			tuwen.putExtra("isgoods", "0");
 			tuwen.putParcelableArrayListExtra("pinglunlist", pinglunlist);
 			tuwen.putExtra("merchantid", merchantid);
 			startActivity(tuwen);

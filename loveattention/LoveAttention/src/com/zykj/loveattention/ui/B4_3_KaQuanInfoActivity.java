@@ -1,6 +1,12 @@
 package com.zykj.loveattention.ui;
 
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +22,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
@@ -28,10 +40,13 @@ import com.zxing.encoding.EncodingHandler;
 import com.zykj.loveattention.R;
 import com.zykj.loveattention.base.BaseActivity;
 import com.zykj.loveattention.data.AppValue;
+import com.zykj.loveattention.utils.HttpUtils;
+import com.zykj.loveattention.utils.JsonUtils;
 import com.zykj.loveattention.utils.Share;
 import com.zykj.loveattention.utils.Tools;
 import com.zykj.loveattention.view.CircularImage;
 import com.zykj.loveattention.view.RGBLuminanceSource;
+import com.zykj.loveattention.view.RequestDailog;
 
 /**
  * @author lss 2015年8月12日	卡券详情
@@ -58,58 +73,88 @@ public class B4_3_KaQuanInfoActivity extends BaseActivity {
 	
 	private String ShareContent ;
 	private String ShareTitle;
-	private String ShareUrl ;
-	
-	private String couponname,name,effecttime,couponintroduct,state,overdue;//卡券名，商家名，有效时间,使用须知，state--卡券使用状态(0未使用,1已使用,3已过期,4未支付)
-	private String imgpath,couponcolor,telephone,couponid;
+	private String ShareUrl,couponid;
+	private RequestQueue mRequestQueue;
+	private String couponname,name,effecttime,imgpath,couponcolor,couponintroduct,telephone;
+//	private String couponname,name,effecttime,,state,overdue;//卡券名，商家名，有效时间,使用须知，state--卡券使用状态(0未使用,1已使用,3已过期,4未支付)
+//	private String ,couponcolor,;
 	private CircularImage im_touxiang;
 	private int isShow = 0;
 	private int isShow_s = 0;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ui_b43_kaquaninfo);
+		mRequestQueue = Volley.newRequestQueue(this);
 		initView();
 		initShare();
 		getIntentData();
 		ErWeiMa();//生成二维码
-		setData();
 	}
-
-
-	private void setData() {
-		// TODO Auto-generated method stub
-		tv_diyongquan.setText(name);
-		tv_kaquanname.setText(couponname);
-		tv_effectivetime.setText("有效期："+effecttime);
-		ImageLoader.getInstance().displayImage(AppValue.ImgUrl+imgpath, im_touxiang);
-		rl_background.setBackgroundColor(Color.parseColor(couponcolor));
-	}
-
 
 	private void getIntentData() {
 		Intent intent = getIntent();
 		Bundle bundle = intent.getBundleExtra("data");
-		couponname = bundle.getString("couponname");
-		name = bundle.getString("name");
-		effecttime = bundle.getString("effecttime");
-		imgpath = bundle.getString("imgpath");
-		couponcolor = bundle.getString("couponcolor");
-		telephone = bundle.getString("telephone");
 		couponid = bundle.getString("couponid");
-		couponintroduct = bundle.getString("couponintroduct");
-		
-		overdue = bundle.getString("overdue");
-		if (overdue.equals("0")) {//overdue--是否过期(0未过期，1过期)
-			state = bundle.getString("state");
-			if (state.equals("0")) {//state--卡券使用状态(0未使用,1已使用,3已过期,4未支付)
-			}else if (state.equals("1")) {
-				im_kaquanstate.setImageResource(R.drawable.yishiyong);
-			}else if (state.equals("3")) {
-				im_kaquanstate.setImageResource(R.drawable.guoqi);
-			}
-		}else {
-			im_kaquanstate.setImageResource(R.drawable.guoqi);
-		}
+
+		Map<String , String > map = new HashMap<String, String>();
+		map.put("couponid", couponid);
+		map.put("invitecode", getSharedPreferenceValue("invitecode"));
+		map.put("longitude", getSharedPreferenceValue("lng"));
+		map.put("latitude", getSharedPreferenceValue("lat"));
+		String json = JsonUtils.toJson(map);
+		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,HttpUtils.url_coupondetail(json),null,new Response.Listener<JSONObject>() {  
+            @Override  
+            public void onResponse(JSONObject response) {  
+	            	RequestDailog.closeDialog();
+					try {
+						JSONObject status = response.getJSONObject("status");
+						String succeed = status.getString("succeed");
+						Log.e("data", response+"");
+						if (succeed.equals("1")) //成功
+						{
+							JSONObject data = response.getJSONObject("data");
+							couponname = data.getString("couponname");
+							name = data.getString("name");
+							effecttime = data.getString("effecttime");
+							imgpath = data.getString("couponimage");
+							couponcolor = data.getString("couponcolor");
+							couponintroduct = data.getString("couponintroduct");
+							telephone = data.getString("telephone");
+							tv_diyongquan.setText(name);
+							tv_kaquanname.setText(couponname);
+							tv_effectivetime.setText("有效期："+effecttime);
+							ImageLoader.getInstance().displayImage(AppValue.ImgUrl+imgpath, im_touxiang);
+							rl_background.setBackgroundColor(Color.parseColor(couponcolor));
+						}else {//失败,提示失败信息
+							String errdesc = status.getString("errdesc");
+							Toast.makeText(getApplicationContext(), errdesc, Toast.LENGTH_LONG).show();
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+            }  
+        },new Response.ErrorListener() {  
+            @Override  
+            public void onErrorResponse(VolleyError error) {  
+            	RequestDailog.closeDialog();
+                Tools.Log("ErrorResponse="+error.getMessage());
+                Toast.makeText(getApplicationContext(), "网络连接失败，请重试", Toast.LENGTH_LONG).show();
+            }  
+        });  
+        mRequestQueue.add(jr);
+//		overdue = bundle.getString("overdue");
+//		if (overdue.equals("0")) {//overdue--是否过期(0未过期，1过期)
+//			state = bundle.getString("state");
+//			if (state.equals("0")) {//state--卡券使用状态(0未使用,1已使用,3已过期,4未支付)
+//			}else if (state.equals("1")) {
+//				im_kaquanstate.setImageResource(R.drawable.yishiyong);
+//			}else if (state.equals("3")) {
+//				im_kaquanstate.setImageResource(R.drawable.guoqi);
+//			}
+//		}else {
+//			im_kaquanstate.setImageResource(R.drawable.guoqi);
+//		}
 //		Log.e("data1", "couponname="+couponname+"name="+name+"effecttime="+effecttime);
 		
 	}

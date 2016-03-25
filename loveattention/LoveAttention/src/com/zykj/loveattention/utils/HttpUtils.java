@@ -250,6 +250,18 @@ public class HttpUtils {
 	}
 	
 	/**
+	 * 17.删除订单
+	 * 
+	 * @param res
+	 * @param 
+	 */
+	public static String url_orderdel(String json) {
+		String url = null;
+		url = base_url + "data/orderdel?json="+json;
+		return url;
+	}
+	
+	/**
 	 * 16。我的预约
 	 * 
 	 * @param res

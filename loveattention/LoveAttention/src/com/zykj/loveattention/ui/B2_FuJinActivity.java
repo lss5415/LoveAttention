@@ -73,10 +73,11 @@ public class B2_FuJinActivity extends BaseActivity {
 	private List<HashMap<String, String>> shopClass;//商户类型
 	private B2_TextSizeAdapter b2tsa;
     private ListView pList;
-    private PopupWindow popupWindow,popupWindow1;
+    private PopupWindow popupWindow,popupWindow1,popupWindow2;
 	private int pagesize = 5;//每页数量
 	private int pagenumber = 1;//当前页
 	private String districtid = "0";//地区ID
+	private String myfirstId = "0";
 	private String categoryid = "0";//分类id
 	private int orderType = 0;//智能排序  1.人气 2.口碑 3.离我最近 4.人均最高 5.人均最低 
 	private int searchType = 0;//筛选  1.卡卷 2.免预约 3.节假日可用
@@ -386,7 +387,9 @@ public class B2_FuJinActivity extends BaseActivity {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("pagenumber", String.valueOf(pagenumber));
 		map.put("pagesize", String.valueOf(pagesize));
-		map.put("districtid", districtid);
+		map.put("districtid", "0");
+		map.put("firstid", myfirstId);
+		map.put("cityid", "2760");
 		map.put("categoryid", categoryid);
 		map.put("longitude", "2000");
 		map.put("latitude", "3000");
@@ -400,8 +403,17 @@ public class B2_FuJinActivity extends BaseActivity {
 		HuoDong();
 		fujinAdapter = new B2_FuJin_Adapter(this,fujindata);
 		list_fujin.setAdapter(fujinAdapter);
-//		RequestDailog.showDialog(this, "正在加载数据，请稍后");
-//		HttpUtils.getStoreList(curpage == 1?res_getStoresList:res_getMoreStoreList, HttpUtils.iterateParams(params));
+		list_fujin.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				Intent tuangou = new Intent(B2_FuJinActivity.this,
+						B1_7_ShangJiaXiangQingActivity.class);
+				tuangou.putExtra("merchantid", fujindata.get(position).get("merchantid"));
+				startActivity(tuangou);
+			}
+		});
 	}
 	
 	//发现中活动
@@ -508,8 +520,6 @@ public class B2_FuJinActivity extends BaseActivity {
 				mRequestQueue.add(jr);
 			}
 
-
-			
 			//顶部第一个标签的点击事件
 		    private void tab1OnClick() {
 		        if (popupWindow1.isShowing()) {
@@ -519,7 +529,7 @@ public class B2_FuJinActivity extends BaseActivity {
 		            popupWindow1.setAnimationStyle(-1);
 		        }
 		    }
-			
+		    
 		    //刷新右侧ListView
 		    private void updateSecondListView(List<SecondClassItem> list2,SecondClassAdapter secondAdapter) {
 		        secondList.clear();
@@ -531,7 +541,8 @@ public class B2_FuJinActivity extends BaseActivity {
 		    private void handleResult(int firstId, int secondId, String selectedName){
 		        String text = "first id:" + firstId + ",second id:" + secondId;
 //		        Toast.makeText(B2_FuJinActivity.this, text, Toast.LENGTH_SHORT).show();
-				districtid = firstId+"";
+//				districtid = firstId+"";
+		        myfirstId = firstId+"";
 				categoryid = secondId+"";
 		        requestData();
 		    }
@@ -578,6 +589,45 @@ public class B2_FuJinActivity extends BaseActivity {
 //		        
 		    }
 			
-			
+		   /* private void initData1() {
+	    		RequestDailog.showDialog(mContext, "数据加载中，请稍后...");
+	    		Map<String, String> map = new HashMap<String, String>();
+	    		map.put("citynum", "2760");
+	    		String json = JsonUtils.toJson(map);
+	    		JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,
+	    				HttpUtils.url_getcitylist(json), null,
+	    				new Response.Listener<JSONObject>() {
+	    					@Override
+	    					public void onResponse(JSONObject response) {
+	    						RequestDailog.closeDialog();
+	    						JSONObject status;
+	    						try {
+	    							status = response.getJSONObject("status");
+	    							String succeed = status.getString("succeed");
+	    							if (succeed.equals("1")) // 成功
+	    							{		    								
+	    								arycity = response.getJSONArray("data");
+	    								
+	    							} else {// 失败,提示失败信息
+	    								String errdesc = status.getString("errdesc");
+	    								Toast.makeText(mContext,errdesc, Toast.LENGTH_LONG).show();
+	    							}
+	    						} catch (org.json.JSONException e) {
+	    							// TODO Auto-generated catch block
+	    							e.printStackTrace();
+	    						}
+
+	    					}
+	    				}, new Response.ErrorListener() {
+	    					@Override
+	    					public void onErrorResponse(VolleyError error) {
+	    						RequestDailog.closeDialog();
+	    						Tools.Log("ErrorResponse=" + error.getMessage());
+	    						Toast.makeText(mContext, "网络连接失败，请重试",
+	    								Toast.LENGTH_LONG).show();
+	    					}
+	    				});
+	    		mRequestQueue.add(jr);
+	    }*/
 			
 }

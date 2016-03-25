@@ -166,9 +166,14 @@ public class ShangPinInfoActivity extends BaseActivity {
 		case R.id.tv_tuwen:
 //			Intent tuwen = new Intent(ShangPinInfoActivity.this, B1_7_3_XiangQingActivity.class);
 //			tuwen.putExtra("leixing", "图文介绍");
-//			tuwen.putParcelableArrayListExtra("pinglunlist", pinglunlist);
+////			tuwen.putParcelableArrayListExtra("pinglunlist", pinglunlist);
 //			tuwen.putExtra("merchantid", goodsid);
 //			startActivity(tuwen);
+			Intent pingjiaa = new Intent(ShangPinInfoActivity.this, B1_7_3_XiangQingActivity.class);
+			pingjiaa.putExtra("leixing", "用户评价");
+			pingjiaa.putExtra("isgoods", "1");
+			pingjiaa.putExtra("goodsid", goodsid);
+			startActivity(pingjiaa);
 			break;
 		case R.id.im_shoucang:
 //			ShouCang();

@@ -66,12 +66,12 @@ public class B4_3_KaQuanAdapter extends BaseAdapter {
 		String couponname = data.get(position).get("couponname");
 		String name = data.get(position).get("name");
 		String effecttime = data.get(position).get("effecttime");
-		String couponintroduct = data.get(position).get("couponintroduct");
-		String state = data.get(position).get("state");
-		String overdue = data.get(position).get("overdue");
-		String imgpath = data.get(position).get("imgpath");
-		String couponcolor = data.get(position).get("couponcolor");
-		String telephone = data.get(position).get("telephone");
+//		String couponintroduct = data.get(position).get("couponintroduct");
+//		String state = data.get(position).get("state");
+//		String overdue = data.get(position).get("overdue");
+//		String imgpath = data.get(position).get("imgpath");
+//		String couponcolor = data.get(position).get("couponcolor");
+//		String telephone = data.get(position).get("telephone");
 		String couponid = data.get(position).get("couponid");
 //		ViewHolder.rl_shang.setBackgroundColor(android.graphics.Color.parseColor("#F39292"));
 		//生成一个随机的背景色
@@ -80,7 +80,7 @@ public class B4_3_KaQuanAdapter extends BaseAdapter {
 		ViewHolder.tv_temai.setText(name);
 		ViewHolder.tv_youxiaoqi.setText("有效期："+effecttime);
 		
-		convertView.setOnClickListener(new getDetail(couponname, name, effecttime,couponintroduct,state,overdue,imgpath,couponcolor,telephone,couponid));
+		convertView.setOnClickListener(new getDetail(couponid));
 		return convertView;
 	}
 	/**
@@ -89,32 +89,33 @@ public class B4_3_KaQuanAdapter extends BaseAdapter {
 	 *
 	 */
 	class getDetail implements View.OnClickListener {
-		String couponname,name,effecttime,couponintroduct,state,overdue,imgpath,couponcolor,telephone,couponid;
-		public getDetail(String couponname,String name,String effecttime,String couponintroduct,String state,String overdue,String imgpath,String couponcolor,String telephone,String couponid) {
-			this.couponname = couponname;//卡券名
-			this.name = name;//店家名
-			this.effecttime = effecttime;//有效时间
-			this.couponintroduct = couponintroduct;//使用须知
-			this.state = state;//卡券状态
-			this.overdue = overdue;
-			this.imgpath = imgpath;
-			this.couponcolor = couponcolor;
-			this.telephone = telephone;
+//		String couponname,name,effecttime,couponintroduct,state,overdue,imgpath,couponcolor,telephone,couponid;
+		String couponid;
+		public getDetail(String couponid) {
+//			this.couponname = couponname;//卡券名
+//			this.name = name;//店家名
+//			this.effecttime = effecttime;//有效时间
+//			this.couponintroduct = couponintroduct;//使用须知
+//			this.state = state;//卡券状态
+//			this.overdue = overdue;
+//			this.imgpath = imgpath;
+//			this.couponcolor = couponcolor;
+//			this.telephone = telephone;
 			this.couponid = couponid;
 		}
 		@Override
 		public void onClick(View arg0) {
 			Intent itkaquan1 = new Intent(context, B4_3_KaQuanInfoActivity.class);
 			Bundle bundle = new Bundle();
-			bundle.putString("couponname", couponname);
-			bundle.putString("name", name);
-			bundle.putString("effecttime", effecttime);
-			bundle.putString("couponintroduct", couponintroduct);
-			bundle.putString("state", state);
-			bundle.putString("overdue", overdue);
-			bundle.putString("imgpath", imgpath);
-			bundle.putString("couponcolor", couponcolor);
-			bundle.putString("telephone", telephone);
+//			bundle.putString("couponname", couponname);
+//			bundle.putString("name", name);
+//			bundle.putString("effecttime", effecttime);
+//			bundle.putString("couponintroduct", couponintroduct);
+//			bundle.putString("state", state);
+//			bundle.putString("overdue", overdue);
+//			bundle.putString("imgpath", imgpath);
+//			bundle.putString("couponcolor", couponcolor);
+//			bundle.putString("telephone", telephone);
 			bundle.putString("couponid", couponid);
 			itkaquan1.putExtra("data",bundle);
 			context.startActivity(itkaquan1);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:background="#EDEDF7"
     android:orientation="vertical" >
 
@@ -28,11 +28,9 @@
             android:textColor="#FFF"
             android:text="我在本店的卡券"/>
     </LinearLayout>
-
 	<ListView
         android:id="@+id/list_kaquan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="-1dp" >
-    </ListView>	
+        android:layout_height="match_parent"
+        android:dividerHeight="-1dp" />
 </LinearLayout>
